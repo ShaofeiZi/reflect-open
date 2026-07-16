@@ -18,6 +18,7 @@ import { useGraph } from '@/providers/graph-provider'
 import { useSettings } from '@/providers/settings-provider'
 import { routeForPath, routesEqual } from '@/routing/route'
 import { useRouter } from '@/routing/router'
+import { useTranslation } from 'react-i18next'
 import { SidebarPinnedRowPreview } from './sidebar-pinned-row-preview'
 
 interface SidebarSortablePinnedRowProps {
@@ -27,6 +28,7 @@ interface SidebarSortablePinnedRowProps {
 export const SidebarSortablePinnedRow = memo(function SidebarSortablePinnedRow({
   note,
 }: SidebarSortablePinnedRowProps): ReactElement {
+  const { t } = useTranslation()
   const { route } = useRouter()
   const navigateNoteLink = useNoteLinkNavigation()
   const { settings } = useSettings()
@@ -59,7 +61,7 @@ export const SidebarSortablePinnedRow = memo(function SidebarSortablePinnedRow({
       void openNativeContextMenu({
         items: [
           {
-            text: 'Unpin Note',
+            text: t('sidebar.unpin-note'),
             action: () => {
               updatePinnedNotesCache(queryClient, graph.root, (current) =>
                 current?.filter((pinnedNote) => pinnedNote.path !== note.path),
@@ -72,10 +74,10 @@ export const SidebarSortablePinnedRow = memo(function SidebarSortablePinnedRow({
           },
         ],
       }).catch((cause: unknown) => {
-        startOperation('Opening note menu').fail(errorMessage(cause))
+        startOperation(t('sidebar.opening-note-menu')).fail(errorMessage(cause))
       })
     },
-    [graph, note.path, queryClient],
+    [graph, note.path, queryClient, t],
   )
 
   return (

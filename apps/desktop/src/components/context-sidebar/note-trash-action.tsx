@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { errorMessage, isDaily } from '@reflect/core'
 import { Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -26,6 +27,7 @@ interface NoteTrashActionProps {
  * enforces the same rule before touching disk.
  */
 export function NoteTrashAction({ path }: NoteTrashActionProps): ReactElement | null {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const { navigate } = useRouter()
   const [confirmingTrash, setConfirmingTrash] = useState(false)
@@ -41,7 +43,7 @@ export function NoteTrashAction({ path }: NoteTrashActionProps): ReactElement | 
     if (generation === undefined) {
       return
     }
-    const operation = startOperation('Trashing note')
+    const operation = startOperation(t('contextSidebar.trashing-note'))
     setIsTrashing(true)
     setError(null)
     try {
@@ -69,25 +71,25 @@ export function NoteTrashAction({ path }: NoteTrashActionProps): ReactElement | 
           <Trash2 size={14} aria-hidden />
         </span>
         <span className="min-w-0 flex-1 truncate text-xs font-medium transition-colors duration-100 group-hover:text-destructive">
-          Trash note
+          {t('contextSidebar.trash-note')}
         </span>
       </button>
 
       <Dialog open={confirmingTrash} onOpenChange={(open) => !isTrashing && setConfirmingTrash(open)}>
         <DialogContent>
-          <DialogTitle>Trash this note?</DialogTitle>
+          <DialogTitle>{t('contextSidebar.trash-confirm-title')}</DialogTitle>
           <DialogDescription>
-            It moves to your system Trash, where you can restore it.
+            {t('contextSidebar.trash-confirm-description')}
           </DialogDescription>
           {error !== null ? <p className="text-sm text-destructive">{error}</p> : null}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="ghost" disabled={isTrashing}>
-                Cancel
+                {t('contextSidebar.cancel')}
               </Button>
             </DialogClose>
             <Button variant="destructive" disabled={isTrashing} onClick={() => void onTrash()}>
-              Trash note
+              {t('contextSidebar.trash-note')}
             </Button>
           </DialogFooter>
         </DialogContent>

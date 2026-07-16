@@ -9,6 +9,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import { errorMessage, type GraphInfo } from '@reflect/core'
 import { isRecordingSupported, useAudioRecorder } from '@/hooks/use-audio-recorder'
 import { useAudioMemoPipeline } from '@/hooks/use-audio-memo-pipeline'
@@ -63,17 +64,6 @@ const AudioMemoContext = createContext<AudioMemoContextValue | null>(null)
 /** Auto-stop cap: bounds the transcription payload (Gemini inlines base64). */
 const MAX_DURATION_MS = 10 * 60_000
 
-const NO_PROVIDER_REASON = 'Add an OpenAI or Gemini model in Settings to record audio memos'
-const UNSUPPORTED_REASON = 'Audio recording is not supported on this platform'
-
-/** Same macOS check as `hasMacosTitleBarOverlay` — settings paths differ per OS. */
-function micDeniedMessage(): string {
-  const isMac = typeof navigator !== 'undefined' && navigator.userAgent.includes('Macintosh')
-  return isMac
-    ? 'Microphone access was denied. Allow it in System Settings → Privacy & Security → Microphone.'
-    : 'Microphone access was denied. Allow microphone access for Reflect in your system settings.'
-}
-
 interface AudioMemoProviderProps {
   graph: GraphInfo
   children: ReactNode
@@ -83,6 +73,7 @@ export function AudioMemoProvider({ graph, children }: AudioMemoProviderProps): 
   // Keep the settings subscription alive at the provider (matches the
   // pipeline hook's own read), so the mic enables the moment a key is added.
   useSettings()
+  const { t } = useTranslation()
   const { collapsed, toggleSidebar } = useSidebar()
 
   /** True from the stop click until the recorder hands over the blob. */
@@ -130,13 +121,17 @@ export function AudioMemoProvider({ graph, children }: AudioMemoProviderProps): 
     try {
       await startRecorder()
     } catch (cause) {
+      const isMac =
+        typeof navigator !== 'undefined' && navigator.userAgent.includes('Macintosh')
       pipeline.reportError(
         cause instanceof DOMException && cause.name === 'NotAllowedError'
-          ? micDeniedMessage()
+          ? isMac
+            ? t('common.audio-memo.mic-denied-macos')
+            : t('common.audio-memo.mic-denied-other')
           : errorMessage(cause),
       )
     }
-  }, [supported, pipeline, toggleSidebar, startRecorder])
+  }, [supported, pipeline, toggleSidebar, startRecorder, t])
 
   const stopAndSave = useCallback(async (): Promise<void> => {
     if (stoppingRef.current) {
@@ -230,9 +225,9 @@ export function AudioMemoProvider({ graph, children }: AudioMemoProviderProps): 
             : 'idle'
 
   const unavailableReason = !supported
-    ? UNSUPPORTED_REASON
+    ? t('common.audio-memo.unsupported-platform')
     : !pipeline.hasTranscriptionConfig
-      ? NO_PROVIDER_REASON
+      ? t('common.audio-memo.no-provider-reason')
       : null
 
   const value = useMemo<AudioMemoContextValue>(

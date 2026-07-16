@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CloudOff, CloudUpload } from 'lucide-react'
 import { ShortcutKeys } from '@/components/shortcut-keys'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -24,6 +25,7 @@ interface NoteGistActionProps {
  * index. Failures and success state surface through the operations status line.
  */
 export function NoteGistAction({ path, keybinding = null }: NoteGistActionProps): ReactElement | null {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const connected = useGithubConnected()
   const row = useNoteRow(path)
@@ -68,15 +70,15 @@ export function NoteGistAction({ path, keybinding = null }: NoteGistActionProps)
 
   const isBusy = isPublishing || isUnpublishing
   const label = isUnpublishing
-    ? 'Unpublishing…'
+    ? t('contextSidebar.unpublishing')
     : isPublishing
-    ? 'Publishing…'
+    ? t('contextSidebar.publishing')
     : published
-      ? 'Unpublish link'
-      : 'Share with private link'
+      ? t('contextSidebar.unpublish-link')
+      : t('contextSidebar.share-private-link')
   const tooltip = published
-    ? 'Delete the private GitHub gist for this note'
-    : 'Creates a secret GitHub gist and copies its private link'
+    ? t('contextSidebar.unpublish-tooltip')
+    : t('contextSidebar.publish-tooltip')
   const Icon = published ? CloudOff : CloudUpload
 
   return (

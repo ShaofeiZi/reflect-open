@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { parseConflictMarkers, type ConflictSide } from '@reflect/core'
 import { cn } from '@/lib/utils'
 
@@ -67,6 +68,7 @@ interface ConflictSideViewProps {
 }
 
 function ConflictSideView({ side, tone }: ConflictSideViewProps): ReactElement {
+  const { t } = useTranslation()
   const tones = SIDE_TONES[tone]
   return (
     <div className={cn('px-3 py-2', tones.block, tone === 'theirs' && 'border-t border-border')}>
@@ -77,7 +79,7 @@ function ConflictSideView({ side, tone }: ConflictSideViewProps): ReactElement {
       {side.text.length > 0 ? (
         <pre className="whitespace-pre-wrap">{side.text}</pre>
       ) : (
-        <p className="text-xs text-text-muted italic">Empty on this side</p>
+        <p className="text-xs text-text-muted italic">{t('common.conflict.empty-side')}</p>
       )}
     </div>
   )

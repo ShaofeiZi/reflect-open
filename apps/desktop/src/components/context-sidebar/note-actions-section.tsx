@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Lock } from 'lucide-react'
 import { PinIcon } from '@/components/icons/pin-icon'
 import { useNoteRow } from '@/hooks/use-note-row'
@@ -37,20 +38,24 @@ export function NoteActionsSection({
   path,
   showTrash = false,
 }: NoteActionsSectionProps): ReactElement {
+  const { t } = useTranslation()
   const isPinned = usePinnedNotes().some((note) => note.path === path)
   const noteRow = useNoteRow(path)
   const isPrivate = noteRow?.isPrivate ?? false
   const { applyOptimisticPin, invalidateOptimisticPin } = useOptimisticPinToggle(path, noteRow)
 
   return (
-    <SidebarSection storageKey="note-actions" title="Note actions">
+    <SidebarSection storageKey="note-actions" title={t('contextSidebar.note-actions')}>
       <NoteToggleAction
         path={path}
         indexActive={isPinned}
         toggle={toggleNotePinned}
         icon={<PinIcon width={20} height={20} />}
-        labels={{ active: 'Un-pin this note', inactive: 'Pin this note' }}
-        failureLabel="Updating pin"
+        labels={{
+          active: t('contextSidebar.unpin-note'),
+          inactive: t('contextSidebar.pin-note'),
+        }}
+        failureLabel={t('contextSidebar.updating-pin')}
         keybinding={PIN_KEYBINDING}
         applyOptimistic={applyOptimisticPin}
         onFailure={invalidateOptimisticPin}
@@ -61,12 +66,12 @@ export function NoteActionsSection({
         toggle={toggleNotePrivate}
         icon={<Lock size={14} aria-hidden />}
         labels={{
-          active: 'Unlock note',
-          inactive: 'Lock note',
+          active: t('contextSidebar.unlock-note'),
+          inactive: t('contextSidebar.lock-note'),
         }}
-        failureLabel="Updating privacy"
+        failureLabel={t('contextSidebar.updating-privacy')}
         keybinding={PRIVATE_KEYBINDING}
-        tooltip="Locks this note out of AI. Backup and sync still include it."
+        tooltip={t('contextSidebar.lock-note-tooltip')}
       />
       <NoteGistAction path={path} keybinding={GIST_KEYBINDING} />
       {showTrash ? <NoteTrashAction path={path} /> : null}

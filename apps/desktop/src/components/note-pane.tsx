@@ -1,4 +1,5 @@
 import { memo, useCallback, useMemo, useRef, useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { ExitBoundaryHandler } from '@meowdown/core'
 import { detectConflictMarkers, isDaily, isTemplatePath, untitledNoteSeed } from '@reflect/core'
 import { BacklinksPanel } from '@/components/backlinks-panel'
@@ -121,6 +122,7 @@ export function NotePaneComponent({
 }: NotePaneProps): ReactElement {
   const { graph } = useGraph()
   const { settings } = useSettings()
+  const { t } = useTranslation()
   const generation = graph?.generation ?? null
   const dailyNote = isDaily(path)
   // Templates rename via file operations only (settings, or outside the app):
@@ -243,7 +245,7 @@ export function NotePaneComponent({
           className,
         )}
       >
-        Loading note…
+        {t('common.note.loading')}
       </div>
     )
   }
@@ -259,7 +261,7 @@ export function NotePaneComponent({
           className,
         )}
       >
-        Couldn’t open {path}: {document.error}
+        {t('common.note.couldnt-open', { path, error: document.error })}
       </div>
     )
   }
@@ -294,19 +296,19 @@ export function NotePaneComponent({
   )
 
   return (
-    <div className={cn('relative', className)} aria-label={`Editing ${path}`}>
+    <div className={cn('relative', className)} aria-label={t('common.aria.editing', { path })}>
       <div className={gutterClassName}>
         {document.error !== null ? (
           <InlineAlert tone="error" className="mb-4">
-            Saving failed: {document.error}. Your edits are kept in the editor and the next
-            successful save will persist them.
+            {t('common.note.save-failed', { error: document.error })}
           </InlineAlert>
         ) : null}
 
         {saveError !== null ? (
           <InlineAlert tone="error" className="mb-4">
-            Couldn’t save the {saveError.kind === 'image' ? 'pasted image' : 'file'}:{' '}
-            {saveError.message}. It was not added to the note.
+            {saveError.kind === 'image'
+              ? t('common.note.couldnt-save-image', { message: saveError.message })
+              : t('common.note.couldnt-save-file', { message: saveError.message })}
           </InlineAlert>
         ) : null}
 
@@ -363,7 +365,7 @@ export function NotePaneComponent({
         onSlashMenuSearch={onSlashMenuSearch}
         // Daily notes carry no title semantics (the date is their subject),
         // so an empty leading H1 there is just an empty heading.
-        {...(dailyNote ? {} : { titlePlaceholder: 'Untitled' })}
+        {...(dailyNote ? {} : { titlePlaceholder: t('common.note.untitled') })}
         // `reflect-note-surface` opts this primary editor into the reading
         // text size (Settings → Editor); compact MarkdownView previews that
         // also carry `reflect-editor` keep their own context size.

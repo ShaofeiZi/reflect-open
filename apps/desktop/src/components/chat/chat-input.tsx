@@ -1,4 +1,5 @@
 import { useMemo, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ArrowUp, Plus, Square, X } from 'lucide-react'
 import { ShortcutKeys } from '@/components/shortcut-keys'
 import {
@@ -53,6 +54,7 @@ export function ChatInput(): ReactElement {
     stop,
     newChat,
   } = useChatSession()
+  const { t } = useTranslation()
   const streaming = status === 'streaming'
   const empty = draft.trim() === '' && attachments.length === 0
 
@@ -94,7 +96,7 @@ export function ChatInput(): ReactElement {
                 </AttachmentMedia>
                 <AttachmentActions className="!top-0 !right-0 -translate-y-1/2 translate-x-1/2">
                   <AttachmentAction
-                    aria-label={`Remove ${attachment.name}`}
+                    aria-label={t('chat.remove-attachment', { name: attachment.name })}
                     className="size-4 rounded-full border border-border bg-surface p-0 text-text-muted hover:text-text"
                     onClick={() => removeAttachment(attachment.id)}
                   >
@@ -126,8 +128,8 @@ export function ChatInput(): ReactElement {
             event.preventDefault()
             void attachImages(files)
           }}
-          placeholder="Ask about your notes…"
-          aria-label="Chat message"
+          placeholder={t('chat.placeholder')}
+          aria-label={t('chat.message-aria-label')}
           rows={2}
           autoFocus
           /* Opts out of the global :focus-visible outline (styles/index.css);
@@ -146,11 +148,11 @@ export function ChatInput(): ReactElement {
             }}
           >
             <SelectTrigger
-              aria-label="Model"
+              aria-label={t('chat.model-aria-label')}
               size="sm"
               className="w-auto max-w-64 border-none bg-transparent text-xs text-text-muted shadow-none"
             >
-              <SelectValue placeholder="Choose a model" />
+              <SelectValue placeholder={t('chat.choose-model')} />
             </SelectTrigger>
             <SelectContent>
               {groups.map((group) => (

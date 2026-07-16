@@ -54,6 +54,8 @@ const GRAPH_SWITCH_COMMANDS: AppCommand[] = Array.from({ length: 9 }, (_, index)
   return {
     id: `graph.switch${position}`,
     title: `Switch to graph ${position}`,
+    titleKey: 'commands.switch-to-graph',
+    titleParams: { position },
     keywords: ['graph', 'workspace', 'switch', 'recent'],
     keybinding: `Meta-${position}`,
     run: (context) => context.switchGraph(index),
@@ -65,6 +67,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'nav.today',
     title: 'Go to today',
+    titleKey: 'commands.go-to-today',
     keywords: ['daily', 'now'],
     keybinding: 'Mod-d',
     // ⌘D is a capture gesture, not just navigation: the arrival asks the
@@ -77,6 +80,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'nav.allNotes',
     title: 'All notes',
+    titleKey: 'commands.all-notes',
     keywords: ['notes', 'list', 'browse', 'library'],
     keybinding: 'Mod-Shift-a',
     run: (context) => context.navigate({ kind: 'allNotes', tag: null }),
@@ -84,6 +88,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'nav.tasks',
     title: 'Tasks',
+    titleKey: 'commands.tasks',
     keywords: ['todo', 'todos', 'checklist', 'checkbox', 'open'],
     keybinding: 'Mod-t',
     run: (context) => context.navigate({ kind: 'tasks' }),
@@ -91,6 +96,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'note.new',
     title: 'New note',
+    titleKey: 'commands.new-note',
     keywords: ['create'],
     keybinding: 'Mod-n',
     run: openNewNote,
@@ -98,6 +104,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'note.openInNewWindow',
     title: 'Open note in new window',
+    titleKey: 'commands.open-note-in-new-window',
     keywords: ['window', 'duplicate', 'pop out'],
     keybinding: 'Mod-Shift-o',
     // `notePath` follows the focused day inside the daily stream. Converting
@@ -114,6 +121,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'chat.open',
     title: 'Chat',
+    titleKey: 'commands.chat',
     keywords: ['ai', 'assistant', 'copilot', 'ask'],
     keybinding: 'Mod-j',
     run: (context) => context.navigate({ kind: 'chat' }),
@@ -121,6 +129,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'chat.new',
     title: 'New chat',
+    titleKey: 'commands.new-chat',
     keywords: ['ai', 'assistant', 'copilot', 'conversation'],
     keybinding: 'Mod-Shift-n',
     run: (context) => {
@@ -133,18 +142,21 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'history.back',
     title: 'Back',
+    titleKey: 'commands.back',
     keybinding: 'Mod-[',
     run: (context) => context.back(),
   },
   {
     id: 'history.forward',
     title: 'Forward',
+    titleKey: 'commands.forward',
     keybinding: 'Mod-]',
     run: (context) => context.forward(),
   },
   {
     id: 'palette.open',
     title: 'Search…',
+    titleKey: 'commands.search',
     keywords: ['find', 'open'],
     keybinding: 'Mod-k',
     run: (context) => context.openPalette(),
@@ -152,6 +164,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'note.togglePin',
     title: 'Pin or unpin note',
+    titleKey: 'commands.pin-or-unpin-note',
     keywords: ['pinned', 'favorite', 'bookmark', 'sidebar'],
     // The original app's pin shortcut. Flips the `pinned` frontmatter flag of
     // the note the current route edits; on search/settings there is no such
@@ -179,6 +192,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'note.togglePrivate',
     title: 'Mark or un-mark note as private',
+    titleKey: 'commands.mark-or-unmark-note-as-private',
     keywords: ['privacy', 'lock', 'secret', 'hide', 'ai'],
     // Flips the `private` frontmatter flag — the hard block on sending the
     // note's content to AI or any other external service — of the note the
@@ -205,6 +219,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'note.publishGist',
     title: 'Share with private link',
+    titleKey: 'commands.share-with-private-link',
     keywords: ['gist', 'github', 'share', 'publish', 'private link', 'export'],
     // Publishes the body of the note the current route edits to a secret
     // GitHub gist (republishing to the same gist thereafter) and copies the
@@ -223,6 +238,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'note.attachFile',
     title: 'Attach file…',
+    titleKey: 'commands.attach-file',
     keywords: ['upload', 'attachment', 'import', 'pdf', 'document', 'insert'],
     // Native file picker → copies into the graph's `assets/` → a markdown
     // link per file at the caret (the keyboard-native twin of dropping a
@@ -233,6 +249,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'note.copyDeepLink',
     title: 'Copy deep link',
+    titleKey: 'commands.copy-deep-link',
     keywords: ['url', 'share', 'clipboard', 'reflect://', 'address'],
     // The original app's copy-link shortcut. Copies a `reflect://` address for
     // the note the current route edits — id-shaped so it survives renames,
@@ -251,6 +268,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'note.random',
     title: 'Open random note',
+    titleKey: 'commands.open-random-note',
     keywords: ['shuffle', 'serendipity'],
     run: async (context) => {
       const path = await randomNotePath()
@@ -262,6 +280,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'template.insert',
     title: 'Insert template…',
+    titleKey: 'commands.insert-template',
     keywords: ['snippet', 'boilerplate', 'stamp'],
     // Inserts into the note the current route edits (the focused stream day on
     // daily views); on screens with no note there is nothing to insert into.
@@ -277,12 +296,14 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'template.new',
     title: 'New template',
+    titleKey: 'commands.new-template',
     keywords: ['template', 'snippet', 'boilerplate', 'create'],
     run: (context) => context.openTemplateCreate(),
   },
   {
     id: 'audioMemo.toggle',
     title: 'Record audio memo',
+    titleKey: 'commands.record-audio-memo',
     keywords: ['voice', 'mic', 'dictate', 'transcribe', 'speech', 'capture'],
     keybinding: 'Mod-Shift-r',
     run: (context) => context.toggleAudioMemo(),
@@ -290,12 +311,14 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'theme.toggle',
     title: 'Toggle theme',
+    titleKey: 'commands.toggle-theme',
     keywords: ['dark', 'light', 'appearance'],
     run: (context) => context.toggleTheme(),
   },
   {
     id: 'sidebar.toggle',
     title: 'Toggle sidebar',
+    titleKey: 'commands.toggle-sidebar',
     keywords: ['collapse', 'expand', 'navigation', 'focus'],
     keybinding: 'Mod-\\',
     run: (context) => context.toggleSidebar(),
@@ -303,6 +326,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'settings.open',
     title: 'Open settings',
+    titleKey: 'commands.open-settings',
     keywords: ['preferences', 'config', 'options'],
     keybinding: 'Mod-,',
     run: (context) => context.navigate({ kind: 'settings' }),
@@ -310,6 +334,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'shortcuts.show',
     title: 'Keyboard shortcuts',
+    titleKey: 'commands.keyboard-shortcuts',
     keywords: ['cheat', 'sheet', 'keys', 'bindings', 'hotkeys', 'help'],
     keybinding: 'Mod-/',
     run: (context) => context.openShortcuts(),
@@ -317,6 +342,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'semantic.enable',
     title: 'Enable semantic search',
+    titleKey: 'commands.enable-semantic-search',
     keywords: ['embeddings', 'ai', 'similar', 'model'],
     // Downloads the local model (~90MB) — deliberately opt-in, never
     // automatic: the first network fetch is the user's call. Persisting the
@@ -328,6 +354,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'index.rebuild',
     title: 'Rebuild search index',
+    titleKey: 'commands.rebuild-search-index',
     keywords: ['reindex', 'refresh'],
     run: async (context) => {
       const generation = context.generation()
@@ -340,6 +367,7 @@ const APP_COMMANDS: AppCommand[] = [
   {
     id: 'dev.toggleDevtools',
     title: 'Developer tools',
+    titleKey: 'commands.developer-tools',
     keywords: ['devtools', 'inspector', 'debug', 'console', 'inspect', 'web inspector'],
     // The web inspector ships in every build (see `src-tauri/src/devtools.rs`),
     // so users can always debug. Plain-browser dev has no native shell — and its

@@ -17,15 +17,17 @@ import { displayNoteTitle } from '@/lib/note-title-display'
 import { useSettings } from '@/providers/settings-provider'
 import { routeForPath, routesEqual } from '@/routing/route'
 import { useRouter } from '@/routing/router'
+import { useTranslation } from 'react-i18next'
 import { SidebarPinnedRowPreview } from './sidebar-pinned-row-preview'
 import { SidebarSortablePinnedRow } from './sidebar-sortable-pinned-row'
 
 /**
  * The sidebar's Pinned section (the Mac app's "Pinned notes" shelf):
  * every pinned note, shelf-ordered, above the Recents feed. Hidden entirely
- * while nothing is pinned — an empty shelf is sidebar noise, not an affordance.
+ * while nothing is pinned \u2014 an empty shelf is sidebar noise, not an affordance.
  */
 export function SidebarPinned(): ReactElement | null {
+  const { t } = useTranslation()
   const pinned = usePinnedNotes()
   const reorder = useReorderPinnedNotes(pinned)
   const { settings } = useSettings()
@@ -59,9 +61,9 @@ export function SidebarPinned(): ReactElement | null {
   return (
     // px-6.5 starts the section's text at the nav rows' icon edge (the nav's
     // px-4 plus each row's px-2.5).
-    <section aria-label="Pinned notes" className="px-6.5">
+    <section aria-label={t('sidebar.pinned-notes')} className="px-6.5">
       <h2 className="pt-4 text-2xs font-medium leading-5 tracking-wide text-text-muted">
-        Pinned notes
+        {t('sidebar.pinned-notes')}
       </h2>
       <DndContext
         sensors={sensors}

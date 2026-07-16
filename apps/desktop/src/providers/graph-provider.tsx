@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import { homeDir, join } from '@tauri-apps/api/path'
 import { open } from '@tauri-apps/plugin-dialog'
 import {
@@ -138,6 +139,7 @@ export function GraphProvider({
   const [indexing, setIndexing] = useState(false)
   const [indexGeneration, setIndexGeneration] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const { t } = useTranslation()
   // Monotonic open token: only the most recent open may commit `graph`/`status`,
   // so overlapping opens (double-click, StrictMode remount) can't finish out of
   // order and leave us on a graph the user didn't pick last.
@@ -382,7 +384,7 @@ export function GraphProvider({
       const result = await open({
         directory: true,
         multiple: false,
-        title: 'Choose a graph folder',
+        title: t('common.graph.choose-folder'),
         ...(await pickerDefaultPath(recents.length > 0)),
       })
       selected = typeof result === 'string' ? result : null
@@ -393,7 +395,7 @@ export function GraphProvider({
     if (selected) {
       await openRecent(selected)
     }
-  }, [openRecent, recents])
+  }, [openRecent, recents, t])
 
   const closeActiveGraph = useCallback(async (): Promise<void> => {
     ++openSeq.current

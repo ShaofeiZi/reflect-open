@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Plus } from 'lucide-react'
 import type { CalendarEvent } from '@reflect/core'
 import { formatTimeOfDay } from '@/lib/dates'
@@ -21,6 +22,7 @@ interface DailyEventsSectionProps {
  * events — an empty box would just advertise an absent feature.
  */
 export function DailyEventsSection({ date }: DailyEventsSectionProps): ReactElement | null {
+  const { t } = useTranslation()
   const { settings } = useSettings()
   useCalendarChangeInvalidation(settings.calendarEnabled)
   const events = useDayEvents(date)
@@ -31,14 +33,14 @@ export function DailyEventsSection({ date }: DailyEventsSectionProps): ReactElem
   }
 
   return (
-    <SidebarSection storageKey="events" title="Events">
+    <SidebarSection storageKey="events" title={t('contextSidebar.events')}>
       <ul className="space-y-1">
         {events.map((event) => (
           <li key={`${event.id}-${event.startsAt}`}>
             <button
               type="button"
               onClick={() => setPendingEvent(event)}
-              title="Add to daily note"
+              title={t('contextSidebar.add-to-daily-note')}
               className="group flex w-full items-center gap-2 rounded-md px-3 py-1 leading-5 text-text-secondary transition-colors duration-100 hover:bg-surface-hover hover:text-text"
             >
               <span className="min-w-0 flex-1 truncate text-left text-xs font-medium">

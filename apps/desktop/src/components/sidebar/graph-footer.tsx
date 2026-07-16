@@ -26,6 +26,7 @@ import { isMainWindow } from '@/lib/windows/window-role'
 import { useGraph } from '@/providers/graph-provider'
 import { useSync, type BackupState } from '@/providers/sync-provider'
 import { useRouter } from '@/routing/router'
+import { useTranslation } from 'react-i18next'
 
 const MENU_ITEM_CLASS = 'gap-2 px-2 py-1.5 text-[13px] text-text-secondary'
 const SETTINGS_BINDING = keybindingFor('settings.open')
@@ -40,17 +41,20 @@ function graphSwitchBindingFor(index: number): string | null {
  * pulsing accent dot while backing up, amber when offline with queued
  * changes, red when backup needs attention. Detail lives in Settings.
  */
-function backupDot(backup: BackupState): { className: string; label: string } | null {
+function backupDot(
+  backup: BackupState,
+  t: (key: string) => string,
+): { className: string; label: string } | null {
   if (backup.phase !== 'connected' || backup.status.state === 'idle') {
     return null
   }
   switch (backup.status.state) {
     case 'syncing':
-      return { className: 'bg-accent motion-safe:animate-pulse', label: 'Backing up' }
+      return { className: 'bg-accent motion-safe:animate-pulse', label: t('sidebar.backing-up') }
     case 'offline':
-      return { className: 'bg-amber-500', label: 'Backup waiting for a connection' }
+      return { className: 'bg-amber-500', label: t('sidebar.backup-waiting') }
     case 'error':
-      return { className: 'bg-red-500', label: 'Backup failed — see Settings' }
+      return { className: 'bg-red-500', label: t('sidebar.backup-failed') }
   }
 }
 
@@ -68,12 +72,13 @@ interface GraphFooterProps {
 }
 
 export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement {
+  const { t } = useTranslation()
   const { recents, indexing, openRecent, chooseGraph } = useGraph()
   const { colorFor, setColor } = useGraphColors()
   const currentColor = colorFor(graph.root) ?? DEFAULT_GRAPH_COLOR
   const { backup } = useSync()
   const { route } = useRouter()
-  const dot = backupDot(backup)
+  const dot = backupDot(backup, t)
   const settingsActive = route.kind === 'settings'
 
   return (
@@ -107,7 +112,7 @@ export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement 
                 ) : null}
                 {indexing ? (
                   <span role="status" className="sr-only">
-                    Indexing
+                    {t('sidebar.indexing')}
                   </span>
                 ) : null}
               </Button>
@@ -115,7 +120,7 @@ export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement 
           </TooltipTrigger>
           <TooltipContent>{graph.root}</TooltipContent>
         </Tooltip>
-        <DropdownMenuContent aria-label="Switch graph" side="top" sideOffset={6}>
+        <DropdownMenuContent aria-label={t('sidebar.switch-graph')} side="top" sideOffset={6}>
           {recents.map((recent, index) => {
             const current = recent.root === graph.root
             const binding = graphSwitchBindingFor(index)
@@ -147,9 +152,9 @@ export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement 
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className={MENU_ITEM_CLASS}>
               <GraphSwatch color={currentColor} className="size-3.5 rounded" />
-              <span className="min-w-0 flex-1 truncate">Graph color</span>
+              <span className="min-w-0 flex-1 truncate">{t('sidebar.graph-color')}</span>
             </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent aria-label="Graph color">
+            <DropdownMenuSubContent aria-label={t('sidebar.graph-color')}>
               {GRAPH_COLOR_OPTIONS.map((option) => (
                 <DropdownMenuItem
                   key={option.id}
@@ -174,7 +179,7 @@ export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement 
             className={MENU_ITEM_CLASS}
           >
             <LocateFixed aria-hidden strokeWidth={1.75} className="size-3.5 shrink-0" />
-            <span className="min-w-0 flex-1 truncate">Reveal graph in Finder</span>
+            <span className="min-w-0 flex-1 truncate">{t('sidebar.reveal-graph-in-finder')}</span>
           </DropdownMenuItem>
           {/* Graph switching re-roots every window; note windows hide it. */}
           {isMainWindow() ? (
@@ -183,7 +188,7 @@ export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement 
               className={MENU_ITEM_CLASS}
             >
               <FolderOpen aria-hidden strokeWidth={1.75} className="size-3.5 shrink-0" />
-              <span className="min-w-0 flex-1 truncate">Open another graph…</span>
+              <span className="min-w-0 flex-1 truncate">{t('sidebar.open-another-graph')}</span>
             </DropdownMenuItem>
           ) : null}
           <DropdownMenuItem
@@ -191,7 +196,7 @@ export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement 
             className={MENU_ITEM_CLASS}
           >
             <Settings aria-hidden strokeWidth={1.75} className="size-3.5 shrink-0" />
-            <span className="min-w-0 flex-1 truncate">User settings</span>
+            <span className="min-w-0 flex-1 truncate">{t('sidebar.user-settings')}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -201,7 +206,7 @@ export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement 
             type="button"
             variant="ghost"
             size="icon-sm"
-            aria-label="Open settings"
+            aria-label={t('sidebar.open-settings')}
             aria-current={settingsActive ? 'page' : undefined}
             onClick={() => void runCommand('settings.open', context)}
             className={cn(
@@ -215,7 +220,7 @@ export function GraphFooter({ graph, context }: GraphFooterProps): ReactElement 
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          Settings {SETTINGS_BINDING && <ShortcutKeys binding={SETTINGS_BINDING} />}
+          {t('sidebar.settings')} {SETTINGS_BINDING && <ShortcutKeys binding={SETTINGS_BINDING} />}
         </TooltipContent>
       </Tooltip>
     </div>

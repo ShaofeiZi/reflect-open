@@ -1,4 +1,5 @@
 import { useEffect, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useUpdate } from '@/providers/update-provider'
 
@@ -18,25 +19,26 @@ function runToastAction(action: () => Promise<void>): void {
 /** Mirrors the auto-update lifecycle into the global Sonner notification surface. */
 export function UpdateToast(): ReactElement | null {
   const { state, install, restart } = useUpdate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     switch (state.phase) {
       case 'available':
-        toast.message('Update available', {
+        toast.message(t('common.update.available'), {
           id: UPDATE_TOAST_ID,
-          description: `Reflect ${state.version} is ready to install.`,
+          description: t('common.update.available-desc', { version: state.version }),
           duration: PERSISTENT_TOAST_MS,
           ...NON_DISMISSIBLE_UPDATE_OPTIONS,
           action: {
-            label: 'Install',
+            label: t('common.update.install'),
             onClick: () => runToastAction(install),
           },
         })
         break
       case 'downloading':
-        toast.loading('Downloading update', {
+        toast.loading(t('common.update.downloading'), {
           id: UPDATE_TOAST_ID,
-          description: state.percent !== null ? `${state.percent}%` : 'Preparing…',
+          description: state.percent !== null ? `${state.percent}%` : t('common.update.preparing'),
           duration: PERSISTENT_TOAST_MS,
           // Sonner merges options into the existing toast by id, so the
           // "Install" action from the `available` phase persists unless we
@@ -48,26 +50,26 @@ export function UpdateToast(): ReactElement | null {
         })
         break
       case 'ready':
-        toast.success('Update ready', {
+        toast.success(t('common.update.ready'), {
           id: UPDATE_TOAST_ID,
-          description: `Reflect ${state.version} will finish updating after restart.`,
+          description: t('common.update.ready-desc', { version: state.version }),
           duration: PERSISTENT_TOAST_MS,
           ...NON_DISMISSIBLE_UPDATE_OPTIONS,
           action: {
-            label: 'Restart',
+            label: t('common.update.restart'),
             onClick: () => runToastAction(restart),
           },
         })
         break
       case 'error':
         if (state.during === 'install') {
-          toast.error('Update failed', {
+          toast.error(t('common.update.failed'), {
             id: UPDATE_TOAST_ID,
             description: state.message,
             duration: PERSISTENT_TOAST_MS,
             ...NON_DISMISSIBLE_UPDATE_OPTIONS,
             action: {
-              label: 'Retry install',
+              label: t('common.update.retry-install'),
               onClick: () => runToastAction(install),
             },
           })
@@ -79,7 +81,7 @@ export function UpdateToast(): ReactElement | null {
         toast.dismiss(UPDATE_TOAST_ID)
         break
     }
-  }, [install, restart, state])
+  }, [install, restart, state, t])
 
   return null
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState, type MouseEvent, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import { Check, Copy, RefreshCw } from 'lucide-react'
 import { errorMessage } from '@reflect/core'
@@ -25,6 +26,7 @@ const COPY_RESET_MS = 1400
  * plus a compact copy affordance for sharing it again.
  */
 export function PublishedUrlSection({ path }: PublishedUrlSectionProps): ReactElement | null {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const row = useNoteRow(path)
   const url = row?.gistUrl ?? null
@@ -54,9 +56,9 @@ export function PublishedUrlSection({ path }: PublishedUrlSectionProps): ReactEl
     try {
       await navigator.clipboard.writeText(url)
       setCopyState('copied')
-      startOperation('Published URL copied').done()
+      startOperation(t('contextSidebar.published-url-copied')).done()
     } catch (cause) {
-      startOperation('Copying the published URL').fail(errorMessage(cause))
+      startOperation(t('contextSidebar.copying-published-url')).fail(errorMessage(cause))
     }
   }
 
@@ -83,7 +85,7 @@ export function PublishedUrlSection({ path }: PublishedUrlSectionProps): ReactEl
   const Icon = copyState === 'copied' ? Check : Copy
 
   return (
-    <SidebarSection storageKey="published-url" title="Published URL">
+    <SidebarSection storageKey="published-url" title={t('contextSidebar.published-url')}>
       <div className="flex items-center gap-1.5 px-3 py-1">
         <a
           href={url}
@@ -99,14 +101,14 @@ export function PublishedUrlSection({ path }: PublishedUrlSectionProps): ReactEl
               type="button"
               variant="ghost"
               size="icon-xs"
-              aria-label="Copy published URL"
+              aria-label={t('contextSidebar.copy-published-url')}
               onClick={() => void copyUrl()}
               className="text-text-muted hover:text-text"
             >
               <Icon aria-hidden className="size-3.5" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>{copyState === 'copied' ? 'Copied' : 'Copy published URL'}</TooltipContent>
+          <TooltipContent>{copyState === 'copied' ? t('contextSidebar.copied') : t('contextSidebar.copy-published-url')}</TooltipContent>
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -114,7 +116,7 @@ export function PublishedUrlSection({ path }: PublishedUrlSectionProps): ReactEl
               type="button"
               variant="ghost"
               size="icon-xs"
-              aria-label="Update published gist"
+              aria-label={t('contextSidebar.update-published-gist')}
               onClick={() => void updateGist()}
               disabled={isUpdating}
               className={cn('text-text-muted hover:text-text', row?.gistStale === true && 'text-accent')}
@@ -123,7 +125,7 @@ export function PublishedUrlSection({ path }: PublishedUrlSectionProps): ReactEl
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            {row?.gistStale === true ? 'Update gist with latest note' : 'Update published gist'}
+            {row?.gistStale === true ? t('contextSidebar.update-gist-latest') : t('contextSidebar.update-published-gist')}
           </TooltipContent>
         </Tooltip>
       </div>

@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MessageSquare } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { imageFilesFrom } from '@/lib/chat-attachments'
@@ -21,19 +22,17 @@ import { ChatTurnList } from './chat-turn-list'
 export function ChatScreen(): ReactElement {
   const { providers, attachImages } = useChatSession()
   const { navigate } = useRouter()
+  const { t } = useTranslation()
 
   if (providers.length === 0) {
     return (
       <div className="flex h-full items-center justify-center px-6">
         <div className="flex max-w-sm flex-col items-center text-center">
           <MessageSquare aria-hidden strokeWidth={1.5} className="size-8 text-text-muted" />
-          <h2 className="mt-4 text-lg font-semibold text-text">Chat with your notes</h2>
-          <p className="mt-2 text-sm text-text-muted">
-            Add an AI provider to start chatting. Reflect calls the provider directly with your
-            own key — it stays in the system keychain, and private notes are never sent.
-          </p>
+          <h2 className="mt-4 text-lg font-semibold text-text">{t('chat.empty-heading')}</h2>
+          <p className="mt-2 text-sm text-text-muted">{t('chat.empty-description')}</p>
           <Button className="mt-5" onClick={() => navigate({ kind: 'settings' })}>
-            Add an AI provider
+            {t('chat.add-provider')}
           </Button>
         </div>
       </div>

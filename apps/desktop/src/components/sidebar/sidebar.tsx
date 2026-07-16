@@ -13,6 +13,7 @@ import { hasMacosTitleBarOverlay } from '@/lib/window-chrome'
 import { cn } from '@/lib/utils'
 import { notePathForRoute } from '@/routing/route'
 import { useRouter } from '@/routing/router'
+import { useTranslation } from 'react-i18next'
 import { GraphFooter } from './graph-footer'
 import { NavigateArrows } from './navigate-arrows'
 import { SidebarItem } from './sidebar-item'
@@ -21,7 +22,7 @@ import { SidebarSearch } from './sidebar-search'
 
 interface SidebarProps {
   graph: GraphInfo
-  /** Commands run with this — the same context the palette/shortcuts use. */
+  /** Commands run with this \u2014 the same context the palette/shortcuts use. */
   context: CommandContext
 }
 
@@ -30,11 +31,12 @@ interface SidebarProps {
  * right, search, primary navigation with hover-revealed shortcut keycaps, the
  * Pinned shelf, and the graph switcher footer. Most nav rows run registered
  * commands so a binding and its behavior stay one definition; the Daily notes
- * row is a capture gesture like `Mod-D` — it asks the stream to focus today
+ * row is a capture gesture like `Mod-D` \u2014 it asks the stream to focus today
  * with the caret at the end, ready to append. (Sidebar collapse stays on
  * `Mod-\` via the command registry.)
  */
 export function Sidebar({ graph, context }: SidebarProps): ReactElement {
+  const { t } = useTranslation()
   const { route } = useRouter()
   const today = useToday()
   const pinned = usePinnedNotes()
@@ -51,7 +53,7 @@ export function Sidebar({ graph, context }: SidebarProps): ReactElement {
       className={cn(
         'flex h-full min-h-0 flex-col',
         // With the overlaid macOS title bar, the traffic lights and the
-        // WindowDragRegion strip own the top 28px — start content below them.
+        // WindowDragRegion strip own the top 28px \u2014 start content below them.
         hasMacosTitleBarOverlay ? 'pt-2' : 'pt-2.5',
       )}
     >
@@ -67,10 +69,10 @@ export function Sidebar({ graph, context }: SidebarProps): ReactElement {
           <AudioMemoButton />
         </div>
 
-        <nav aria-label="Primary" className="mt-6 space-y-1 px-4">
+        <nav aria-label={t('sidebar.primary-navigation')} className="mt-6 space-y-1 px-4">
           <SidebarItem
             icon={<PencilIcon className="shrink-0" />}
-            label="Daily notes"
+            label={t('sidebar.daily-notes')}
             binding={keybindingFor('nav.today') ?? undefined}
             active={(route.kind === 'today' || route.kind === 'daily') && !hasActivePinnedNote}
             onClick={() => void runCommand('nav.today', context)}
@@ -81,10 +83,10 @@ export function Sidebar({ graph, context }: SidebarProps): ReactElement {
                 <SquarePen aria-hidden strokeWidth={1.75} className="size-4" />
               </span>
             }
-            label="New note"
+            label={t('sidebar.new-note')}
             binding={keybindingFor('note.new') ?? undefined}
             // Active while the open note is still on its ULID placeholder
-            // name — the state this row creates. The birth rename onto a
+            // name \u2014 the state this row creates. The birth rename onto a
             // title slug is also what hands the note off to ordinary
             // navigation, releasing the highlight.
             active={route.kind === 'note' && isUntitledNotePath(route.path)}
@@ -92,12 +94,12 @@ export function Sidebar({ graph, context }: SidebarProps): ReactElement {
           />
           <SidebarItem
             icon={<ListIcon className="shrink-0" />}
-            label="All notes"
+            label={t('sidebar.all-notes')}
             binding={keybindingFor('nav.allNotes') ?? undefined}
             // A named note lives in the All Notes collection, so keep this row
             // lit while editing one. A brand-new note is still an untitled
             // placeholder, though, and the "New note" row above owns that
-            // highlight until the birth rename — so the two never light at once.
+            // highlight until the birth rename \u2014 so the two never light at once.
             active={
               route.kind === 'allNotes' ||
               (route.kind === 'note' && !isUntitledNotePath(route.path) && !hasActivePinnedNote)
@@ -110,7 +112,7 @@ export function Sidebar({ graph, context }: SidebarProps): ReactElement {
                 <ListChecks aria-hidden strokeWidth={1.75} className="size-4" />
               </span>
             }
-            label="Tasks"
+            label={t('sidebar.tasks')}
             binding={keybindingFor('nav.tasks') ?? undefined}
             active={route.kind === 'tasks'}
             onClick={() => void runCommand('nav.tasks', context)}
@@ -121,7 +123,7 @@ export function Sidebar({ graph, context }: SidebarProps): ReactElement {
                 <MessageSquare aria-hidden strokeWidth={1.75} className="size-4" />
               </span>
             }
-            label="Chat"
+            label={t('sidebar.chat')}
             binding={keybindingFor('chat.open') ?? undefined}
             active={route.kind === 'chat'}
             onClick={() => void runCommand('chat.open', context)}

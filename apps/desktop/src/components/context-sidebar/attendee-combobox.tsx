@@ -1,4 +1,5 @@
 import { useDeferredValue, useState, type KeyboardEvent, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Command as CommandPrimitive } from 'cmdk'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import {
@@ -69,6 +70,7 @@ function entryAttendee(entry: AutocompleteEntry): MeetingAttendee {
  * passed to its Input, so an external `htmlFor` can never reach it.
  */
 export function AttendeeCombobox({ attendees, onAdd }: AttendeeComboboxProps): ReactElement {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const { settings } = useSettings()
   const authorization = useContactsAuthorization()
@@ -169,7 +171,7 @@ export function AttendeeCombobox({ attendees, onAdd }: AttendeeComboboxProps): R
       }}
     >
       <CommandPrimitive
-        label="Attendees"
+        label={t('contextSidebar.attendees')}
         shouldFilter={false}
         loop
         value={highlighted}
@@ -184,7 +186,7 @@ export function AttendeeCombobox({ attendees, onAdd }: AttendeeComboboxProps): R
             }}
             onKeyDown={onKeyDown}
             onBlur={addTyped}
-            placeholder="Add attendee"
+            placeholder={t('contextSidebar.add-attendee')}
             className={INPUT_CLASS_NAME}
           />
         </PopoverAnchor>
@@ -207,7 +209,9 @@ export function AttendeeCombobox({ attendees, onAdd }: AttendeeComboboxProps): R
                 onSelect={() => select(entry)}
               >
                 <span className="min-w-0 flex-1 truncate">
-                  {entry.kind === 'create' ? `Add “${entry.title}”` : entryName(entry)}
+                  {entry.kind === 'create'
+                    ? t('contextSidebar.add-suggestion', { name: entry.title })
+                    : entryName(entry)}
                 </span>
                 {entry.kind === 'suggestion' && entry.suggestion.alias !== null && (
                   <span className="truncate text-xs text-text-muted">
@@ -216,7 +220,7 @@ export function AttendeeCombobox({ attendees, onAdd }: AttendeeComboboxProps): R
                 )}
                 {entry.kind === 'contact' && (
                   <span className="truncate text-xs text-text-muted">
-                    {entry.contact.emails[0] ?? entry.contact.phones[0] ?? 'Contact'}
+                    {entry.contact.emails[0] ?? entry.contact.phones[0] ?? t('contextSidebar.contact')}
                   </span>
                 )}
               </CommandItem>

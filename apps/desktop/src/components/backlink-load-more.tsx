@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import { cn } from '@/lib/utils'
@@ -27,6 +28,7 @@ export function BacklinkLoadMore({
   className,
   buttonClassName,
 }: BacklinkLoadMoreProps): ReactElement | null {
+  const { t } = useTranslation()
   const buttonRef = useRef<HTMLButtonElement>(null)
   const requestPendingRef = useRef(false)
 
@@ -79,7 +81,7 @@ export function BacklinkLoadMore({
     <div className={cn('flex flex-col items-start gap-1', className)}>
       {isFetchNextPageError ? (
         <p role="alert" className="text-xs text-text-muted">
-          Couldn’t load more backlinks.
+          {t('common.backlinks.load-more-error')}
         </p>
       ) : null}
       <Button
@@ -93,10 +95,10 @@ export function BacklinkLoadMore({
       >
         {isFetchingNextPage ? <Spinner /> : null}
         {isFetchingNextPage
-          ? 'Loading more backlinks…'
+          ? t('common.backlinks.loading-more')
           : isFetchNextPageError
-            ? 'Retry loading backlinks'
-            : 'Load more backlinks'}
+            ? t('common.backlinks.retry-loading')
+            : t('common.backlinks.load-more')}
       </Button>
     </div>
   )

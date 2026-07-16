@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { hasBridge, listNotes, listNoteTags } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useNoteLinkNavigation } from '@/hooks/use-note-link-navigation'
@@ -39,6 +40,7 @@ interface AllNotesScreenProps {
  * wired to the router's per-entry scroll memory by hand.
  */
 export function AllNotesScreen({ tag }: AllNotesScreenProps): ReactElement {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const { navigate } = useRouter()
   const navigateNoteLink = useNoteLinkNavigation()
@@ -115,22 +117,22 @@ export function AllNotesScreen({ tag }: AllNotesScreenProps): ReactElement {
     <div
       ref={rootRef}
       tabIndex={-1}
-      aria-label="All notes"
+      aria-label={t('allNotes.screen-aria-label')}
       className="flex h-full min-h-0 flex-col outline-none"
     >
       <header className="flex flex-none flex-wrap items-center justify-between gap-3 border-b border-border py-4 pl-12 pr-7">
-        <h1 className="text-[15px] font-semibold text-text">Notes</h1>
+        <h1 className="text-[15px] font-semibold text-text">{t('allNotes.title')}</h1>
         <div className="flex flex-wrap items-center gap-3">
           {selection.selectedCount > 0 ? (
             <Button
               type="button"
               variant="outline"
-              aria-label={`Trash (${selection.selectedCount})`}
+              aria-label={t('allNotes.trash-selection-aria-label', { count: selection.selectedCount })}
               onClick={openTrashConfirm}
               className="text-text-secondary hover:text-destructive"
             >
               <Trash2 aria-hidden className="size-3.5" />
-              <span>Trash</span>
+              <span>{t('allNotes.trash')}</span>
               <span
                 aria-hidden
                 className="flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive/10 px-1 text-[10px] font-semibold leading-none tabular-nums text-destructive"

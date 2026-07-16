@@ -25,7 +25,7 @@ import { TemplatesSection } from './settings/templates-section'
 export function SettingsScreen(): ReactElement {
   const { t } = useTranslation()
   return (
-    <div aria-label={t('settings.title')}>
+    <div aria-label={t('common.settings.aria-label')}>
       <h1 className="text-lg font-semibold text-text">{t('settings.title')}</h1>
       <div className="mt-6">
         <LanguageSection />

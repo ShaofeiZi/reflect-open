@@ -1,4 +1,5 @@
 import { type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ChevronRight } from 'lucide-react'
 import { BacklinkLoadMore } from '@/components/backlink-load-more'
 import { BacklinkSourceGroup } from '@/components/backlink-source-group'
@@ -39,12 +40,13 @@ export function BacklinksPanel({ path }: BacklinksPanelProps): ReactElement | nu
   } = useBacklinkSources(path)
   const [expanded, setExpanded] = useBacklinksExpanded()
   const { openSource, onWikilinkClick, resolveImageUrl } = useBacklinkNavigation()
+  const { t } = useTranslation()
 
   if (isError) {
     return (
-      <section aria-label="Incoming backlinks" className="mt-8">
+      <section aria-label={t('common.aria.incoming-backlinks')} className="mt-8">
         <p role="alert" className="text-xs text-text-muted">
-          Couldn’t load backlinks.
+          {t('common.backlinks.couldnt-load')}
         </p>
       </section>
     )
@@ -59,7 +61,7 @@ export function BacklinksPanel({ path }: BacklinksPanelProps): ReactElement | nu
   }
 
   return (
-    <section aria-label="Incoming backlinks" className="mt-8">
+    <section aria-label={t('common.aria.incoming-backlinks')} className="mt-8">
       <h3 className="text-xs font-medium text-text-muted">
         <button
           type="button"
@@ -74,7 +76,9 @@ export function BacklinksPanel({ path }: BacklinksPanelProps): ReactElement | nu
             }`}
           />
           <span>
-            Incoming backlink{count === 1 ? '' : 's'} ({count})
+            {count === 1
+              ? t('common.backlinks.incoming-singular', { count })
+              : t('common.backlinks.incoming-plural', { count })}
           </span>
         </button>
       </h3>

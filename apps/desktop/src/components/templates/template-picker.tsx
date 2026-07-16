@@ -1,5 +1,6 @@
 import { type ReactElement } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { listTemplates } from '@reflect/core'
 import { FilePlus2, LayoutTemplate } from 'lucide-react'
 import {
@@ -31,6 +32,7 @@ interface TemplatePickerProps {
 }
 
 export function TemplatePicker({ context }: TemplatePickerProps): ReactElement | null {
+  const { t } = useTranslation()
   const { pickerOpen, closeTemplatePicker, openTemplateCreate } = useNoteTemplates()
   const { graph } = useGraph()
   const { data: templates } = useQuery({
@@ -62,12 +64,12 @@ export function TemplatePicker({ context }: TemplatePickerProps): ReactElement |
           closeTemplatePicker()
         }
       }}
-      title="Insert template"
-      description="Choose a template to insert at the cursor"
+      title={t('templates.picker.title')}
+      description={t('templates.picker.description')}
     >
-      <CommandInput placeholder="Insert template…" />
+      <CommandInput placeholder={t('templates.picker.placeholder')} />
       <CommandList>
-        <CommandEmpty>No templates</CommandEmpty>
+        <CommandEmpty>{t('templates.picker.empty')}</CommandEmpty>
         {templates !== undefined && templates.length > 0 ? (
           <CommandGroup>
             {templates.map((template) => (
@@ -87,7 +89,7 @@ export function TemplatePicker({ context }: TemplatePickerProps): ReactElement |
         <CommandGroup forceMount>
           <CommandItem forceMount value="new-template" onSelect={openTemplateCreate}>
             <FilePlus2 aria-hidden strokeWidth={1.75} className="text-text-muted" />
-            New template
+            {t('templates.new-template')}
           </CommandItem>
         </CommandGroup>
       </CommandList>

@@ -9,6 +9,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import {
   DEFAULT_SETTINGS,
@@ -136,6 +137,7 @@ interface SettingsProviderProps {
 }
 
 export function SettingsProvider({ children }: SettingsProviderProps): ReactElement {
+  const { t } = useTranslation()
   const { data: loaded, error: loadError } = useQuery({
     queryKey: SETTINGS_QUERY_KEY,
     queryFn: loadSettings,
@@ -233,9 +235,9 @@ export function SettingsProvider({ children }: SettingsProviderProps): ReactElem
   useEffect(() => {
     if (loadError && !loadErrorSurfaced.current) {
       loadErrorSurfaced.current = true
-      startOperation('Loading settings').fail(errorMessage(loadError))
+      startOperation(t('common.settings.loading')).fail(errorMessage(loadError))
     }
-  }, [loadError])
+  }, [loadError, t])
 
   // Keep the interface language in sync with the settings document: the
   // initial mount defaults to `en` (see `initI18n`), and the resolved `language`
@@ -281,10 +283,10 @@ export function SettingsProvider({ children }: SettingsProviderProps): ReactElem
         // The in-memory value stays applied and `lastPersisted` still points
         // at the confirmed disk document, so the difference is retried later.
         // The failure is product status, not console noise.
-        startOperation('Saving settings').fail(errorMessage(error))
+        startOperation(t('common.settings.saving')).fail(errorMessage(error))
       })
     return persistQueue.current
-  }, [])
+  }, [t])
 
   useEffect(() => {
     void persistIfChanged()

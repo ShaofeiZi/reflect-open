@@ -2,6 +2,7 @@ import { memo, useEffect, useRef, useState, type KeyboardEvent, type ReactElemen
 import { Command } from 'cmdk'
 import { parseHighlights } from '@reflect/core'
 import { CalendarDays, FileText } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Kbd } from '@/components/kbd'
 import { ShortcutKeys } from '@/components/shortcut-keys'
 import { useNoteLinkNavigation } from '@/hooks/use-note-link-navigation'
@@ -56,6 +57,7 @@ interface PendingNoteClick {
 }
 
 export function CommandPalette({ context }: CommandPaletteProps): ReactElement | null {
+  const { t } = useTranslation()
   const { open, query, setQuery, closePalette } = usePalette()
   const { settings } = useSettings()
   const { sections, resultsSettled, searchFailed } = usePaletteResults(open, query)
@@ -138,14 +140,14 @@ export function CommandPalette({ context }: CommandPaletteProps): ReactElement |
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Command palette"
+        aria-label={t('palette.title')}
         className={cn('w-full', splitLayout ? 'max-w-4xl' : 'max-w-xl')}
         onPointerDown={(event) => {
           event.stopPropagation() // clicks inside must not close
         }}
       >
         <Command
-          label="Command palette"
+          label={t('palette.title')}
           shouldFilter={false}
           value={selectedValue}
           onValueChange={setSelectedValue}
@@ -166,7 +168,7 @@ export function CommandPalette({ context }: CommandPaletteProps): ReactElement |
             autoFocus
             value={query}
             onValueChange={setQuery}
-            placeholder="Search notes, or > for commands…"
+            placeholder={t('palette.placeholder')}
             className="reflect-palette-input"
           />
           <div className={cn(splitLayout && 'flex h-[min(60vh,36rem)]')}>
@@ -175,15 +177,15 @@ export function CommandPalette({ context }: CommandPaletteProps): ReactElement |
             >
               {searchFailed ? (
                 <div role="alert" className="reflect-palette-empty">
-                  Search unavailable — the index didn’t answer.
+                  {t('palette.search-unavailable')}
                 </div>
               ) : null}
               {resultsSettled && !searchFailed ? (
-                <Command.Empty className="reflect-palette-empty">No results</Command.Empty>
+                <Command.Empty className="reflect-palette-empty">{t('palette.no-results')}</Command.Empty>
               ) : null}
               {sections.notes.length > 0 ? (
                 <Command.Group
-                  heading={query.trim() === '' ? 'Recent' : 'Notes'}
+                  heading={query.trim() === '' ? t('palette.recent.heading') : t('palette.notes.heading')}
                   className="reflect-palette-group"
                 >
                   {sections.notes.map((entry) => {
@@ -233,7 +235,7 @@ export function CommandPalette({ context }: CommandPaletteProps): ReactElement |
                 </Command.Group>
               ) : null}
               {sections.commands.length > 0 ? (
-                <Command.Group heading="Commands" className="reflect-palette-group">
+                <Command.Group heading={t('palette.commands.heading')} className="reflect-palette-group">
                   {sections.commands.map((command) => {
                     const Icon = commandIcon(command.id)
                     return (
@@ -253,7 +255,11 @@ export function CommandPalette({ context }: CommandPaletteProps): ReactElement |
                             strokeWidth={1.75}
                             className="size-4 shrink-0 text-text-muted"
                           />
-                          <span className="min-w-0 flex-1 truncate text-sm">{command.title}</span>
+                          <span className="min-w-0 flex-1 truncate text-sm">
+                            {command.titleKey
+                              ? t(command.titleKey, command.titleParams ?? {})
+                              : command.title}
+                          </span>
                           {command.keybinding ? <ShortcutKeys binding={command.keybinding} /> : null}
                         </span>
                       </Command.Item>
@@ -272,7 +278,7 @@ export function CommandPalette({ context }: CommandPaletteProps): ReactElement |
                   <NotePreview key="note-preview" entry={selectedNote} />
                 ) : (
                   <div className="flex h-full items-center justify-center text-sm text-text-muted">
-                    No note selected
+                    {t('palette.no-note-selected')}
                   </div>
                 )}
               </div>
@@ -284,13 +290,13 @@ export function CommandPalette({ context }: CommandPaletteProps): ReactElement |
           >
             <span className="flex items-center gap-1.5">
               <Kbd>↑</Kbd>
-              <Kbd>↓</Kbd> Navigate
+              <Kbd>↓</Kbd> {t('palette.hint.navigate')}
             </span>
             <span className="flex items-center gap-1.5">
-              <Kbd>↩</Kbd> Open
+              <Kbd>↩</Kbd> {t('palette.hint.open')}
             </span>
             <span className="flex items-center gap-1.5">
-              <Kbd>esc</Kbd> Close
+              <Kbd>esc</Kbd> {t('palette.hint.close')}
             </span>
           </div>
         </Command>

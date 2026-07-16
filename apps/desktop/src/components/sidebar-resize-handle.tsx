@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   SIDEBAR_PANEL_IDS,
   useSidebarResize,
@@ -6,9 +7,9 @@ import {
 } from '@/hooks/use-sidebar-resize'
 import { cn } from '@/lib/utils'
 
-const PANEL_LABELS: Record<ResizableSidebarPanel, string> = {
-  workspace: 'Resize sidebar',
-  context: 'Resize context panel',
+const PANEL_LABEL_KEYS: Record<ResizableSidebarPanel, string> = {
+  workspace: 'common.aria.resize-sidebar',
+  context: 'common.aria.resize-context-panel',
 }
 
 interface SidebarResizeHandleProps {
@@ -30,13 +31,14 @@ interface SidebarResizeHandleProps {
  */
 export function SidebarResizeHandle({ panel }: SidebarResizeHandleProps): ReactElement {
   const { width, range, dragging, handlers } = useSidebarResize(panel)
+  const { t } = useTranslation()
 
   return (
     <div
       role="separator"
       tabIndex={0}
       aria-orientation="vertical"
-      aria-label={PANEL_LABELS[panel]}
+      aria-label={t(PANEL_LABEL_KEYS[panel])}
       aria-controls={SIDEBAR_PANEL_IDS[panel]}
       aria-valuenow={width}
       aria-valuemin={range.min}

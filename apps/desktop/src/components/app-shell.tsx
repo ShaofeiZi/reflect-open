@@ -1,4 +1,5 @@
 import type { ReactElement, ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 
 interface AppShellProps {
@@ -37,6 +38,7 @@ export function AppShell({
   children,
   className,
 }: AppShellProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <div
       className={cn(
@@ -47,7 +49,7 @@ export function AppShell({
       {sidebar ? (
         <aside
           id="workspace-sidebar"
-          aria-label="Workspace"
+          aria-label={t('common.aria.workspace')}
           className="relative flex w-[var(--sidebar-width)] shrink-0 flex-col overflow-hidden border-r border-border bg-surface-sunken"
         >
           {sidebar}
@@ -60,7 +62,7 @@ export function AppShell({
       {context ? (
         <aside
           id="context-sidebar"
-          aria-label="Context"
+          aria-label={t('common.aria.context')}
           className="relative hidden w-[var(--context-sidebar-width)] shrink-0 border-l border-border bg-surface-sunken lg:block"
         >
           {contextEdge}

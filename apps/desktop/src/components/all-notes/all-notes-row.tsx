@@ -1,4 +1,5 @@
 import { memo, type MouseEvent, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { NoteListEntry } from '@reflect/core'
 import { formatRecencyLabel } from '@/lib/dates'
 import { cn } from '@/lib/utils'
@@ -31,6 +32,7 @@ interface AllNotesRowProps {
  * indicator gutter toggles it; the subject or a double-click opens the note.
  */
 export const AllNotesRow = memo(function AllNotesRow({ note, selected, onSelect, onToggle, onOpen }: AllNotesRowProps): ReactElement {
+  const { t } = useTranslation()
   const { settings } = useSettings()
   return (
     <div
@@ -53,7 +55,7 @@ export const AllNotesRow = memo(function AllNotesRow({ note, selected, onSelect,
     >
       <button
         type="button"
-        aria-label={selected ? 'Deselect note' : 'Select note'}
+        aria-label={selected ? t('allNotes.deselect-note') : t('allNotes.select-note')}
         aria-pressed={selected}
         onClick={(event) => {
           event.stopPropagation()

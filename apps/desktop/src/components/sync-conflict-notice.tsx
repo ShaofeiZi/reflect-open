@@ -1,4 +1,5 @@
 import { type ReactElement, type ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { GitMerge } from 'lucide-react'
 import {
@@ -46,6 +47,7 @@ interface SyncConflictNoticeProps {
 export function SyncConflictNotice({ path, className }: SyncConflictNoticeProps): ReactElement | null {
   const { graph } = useGraph()
   const { busy, error, resolve } = useConflictResolution(path)
+  const { t } = useTranslation()
   const { data } = useQuery({
     queryKey: [INDEX_QUERY_SCOPE, 'note-conflict', graph?.root, path],
     queryFn: async () => (await getNote(path)) ?? null,
@@ -86,10 +88,9 @@ export function SyncConflictNotice({ path, className }: SyncConflictNoticeProps)
       <div className="flex gap-2">
         <GitMerge aria-hidden className="mt-0.5 size-3.5 shrink-0" />
         <div className="min-w-0 flex-1">
-          <p className="font-semibold">This note was edited on two devices at once.</p>
+          <p className="font-semibold">{t('common.conflict.two-devices')}</p>
           <p className="mt-0.5">
-            Both versions are highlighted below. Choose what to keep — every version stays
-            recoverable in the backup history.
+            {t('common.conflict.both-highlighted')}
           </p>
         </div>
       </div>
@@ -100,7 +101,9 @@ export function SyncConflictNotice({ path, className }: SyncConflictNoticeProps)
           disabled={busy}
           onClick={() => void resolve('ours')}
         >
-          {named ? `Keep “${labels.ours}”` : 'Keep this device’s version'}
+          {named
+            ? t('common.conflict.keep-named', { label: labels.ours })
+            : t('common.conflict.keep-this-device')}
         </ResolveButton>
         <ResolveButton
           dot="theirs"
@@ -109,10 +112,10 @@ export function SyncConflictNotice({ path, className }: SyncConflictNoticeProps)
           onClick={() => void resolve('theirs')}
         >
           {manySided
-            ? 'Keep the other versions'
+            ? t('common.conflict.keep-other-versions')
             : named
-              ? `Keep “${labels.theirs}”`
-              : 'Keep the other device’s'}
+              ? t('common.conflict.keep-named', { label: labels.theirs })
+              : t('common.conflict.keep-other-device')}
         </ResolveButton>
         <ResolveButton
           dot="both"
@@ -120,11 +123,11 @@ export function SyncConflictNotice({ path, className }: SyncConflictNoticeProps)
           disabled={busy}
           onClick={() => void resolve('both')}
         >
-          {manySided ? 'Keep all' : 'Keep both'}
+          {manySided ? t('common.conflict.keep-all') : t('common.conflict.keep-both')}
         </ResolveButton>
       </div>
       {error !== null ? (
-        <p className="mt-2 text-red-700 dark:text-red-300">Couldn’t resolve: {error}</p>
+        <p className="mt-2 text-red-700 dark:text-red-300">{t('common.conflict.couldnt-resolve', { error })}</p>
       ) : null}
     </InlineAlert>
   )

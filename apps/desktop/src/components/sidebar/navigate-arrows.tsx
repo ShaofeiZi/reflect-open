@@ -4,6 +4,7 @@ import { ShortcutKeys } from '@/components/shortcut-keys'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { keybindingFor } from '@/lib/commands/app-commands'
 import { useRouter } from '@/routing/router'
+import { useTranslation } from 'react-i18next'
 
 const BACK_BINDING = keybindingFor('history.back')
 const FORWARD_BINDING = keybindingFor('history.forward')
@@ -19,6 +20,7 @@ const BUTTON_CLASS =
  * disabled at either end of it.
  */
 export function NavigateArrows(): ReactElement {
+  const { t } = useTranslation()
   const { back, forward, canBack, canForward } = useRouter()
 
   return (
@@ -34,7 +36,7 @@ export function NavigateArrows(): ReactElement {
           <span>
             <button
               type="button"
-              aria-label="Go back"
+              aria-label={t('sidebar.go-back')}
               disabled={!canBack}
               onClick={back}
               className={BUTTON_CLASS}
@@ -44,7 +46,7 @@ export function NavigateArrows(): ReactElement {
           </span>
         </TooltipTrigger>
         <TooltipContent>
-          Go back {BACK_BINDING && <ShortcutKeys binding={BACK_BINDING} />}
+          {t('sidebar.go-back')} {BACK_BINDING && <ShortcutKeys binding={BACK_BINDING} />}
         </TooltipContent>
       </Tooltip>
       <Tooltip>
@@ -52,7 +54,7 @@ export function NavigateArrows(): ReactElement {
           <span>
             <button
               type="button"
-              aria-label="Go forward"
+              aria-label={t('sidebar.go-forward')}
               disabled={!canForward}
               onClick={forward}
               className={BUTTON_CLASS}
@@ -62,7 +64,7 @@ export function NavigateArrows(): ReactElement {
           </span>
         </TooltipTrigger>
         <TooltipContent>
-          Go forward {FORWARD_BINDING && <ShortcutKeys binding={FORWARD_BINDING} />}
+          {t('sidebar.go-forward')} {FORWARD_BINDING && <ShortcutKeys binding={FORWARD_BINDING} />}
         </TooltipContent>
       </Tooltip>
     </div>

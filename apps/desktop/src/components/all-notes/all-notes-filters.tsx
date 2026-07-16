@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { foldTag, type NoteTagFacet } from '@reflect/core'
 import { useSettings } from '@/providers/settings-provider'
 import { CustomFilterMenu } from './custom-filter-menu'
@@ -19,6 +20,7 @@ interface AllNotesFiltersProps {
  * case-insensitive throughout, same as the `#tag` search token.
  */
 export function AllNotesFilters({ tag, facets, onSelect }: AllNotesFiltersProps): ReactElement {
+  const { t } = useTranslation()
   const { settings } = useSettings()
 
   // The setting is user-edited JSON — dedupe case-insensitively and drop
@@ -41,10 +43,10 @@ export function AllNotesFilters({ tag, facets, onSelect }: AllNotesFiltersProps)
   return (
     <div
       role="group"
-      aria-label="Filter by tag"
+      aria-label={t('allNotes.filter-aria-label')}
       className="flex items-stretch divide-x divide-border overflow-hidden rounded-lg border border-border bg-surface shadow-sm"
     >
-      <FilterTab label="All" active={tag === null} onClick={() => onSelect(null)} />
+      <FilterTab label={t('allNotes.filter-all')} active={tag === null} onClick={() => onSelect(null)} />
       {pinned.map((pinnedTag) => (
         <FilterTab
           key={foldTag(pinnedTag)}

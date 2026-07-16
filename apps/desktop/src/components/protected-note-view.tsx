@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { InlineAlert } from '@/components/inline-alert'
 
 interface ProtectedNoteViewProps {
@@ -13,12 +14,11 @@ interface ProtectedNoteViewProps {
  * gate).
  */
 export function ProtectedNoteView({ content }: ProtectedNoteViewProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <div>
       <InlineAlert className="mb-4">
-        This note contains markdown the editor can’t yet reproduce faithfully (for
-        example task lists), so it’s open read-only to protect your file. Edit it in
-        another tool for now.
+        {t('common.protected.notice')}
       </InlineAlert>
       <pre className="reflect-protected-note whitespace-pre-wrap text-sm leading-relaxed">
         {content}

@@ -7,6 +7,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   aiKeySecretName,
   appendEvent,
@@ -74,6 +75,7 @@ interface ChatProviderProps {
 export function ChatProvider({ graph, children }: ChatProviderProps): ReactElement {
   const { settings, updateSettings } = useSettings()
   const { indexGeneration } = useGraph()
+  const { t } = useTranslation()
   const [turns, setTurns] = useState<ChatTurn[]>([])
   const [draft, setDraft] = useState('')
   const [attachments, setAttachments] = useState<ChatAttachment[]>([])
@@ -292,7 +294,7 @@ export function ChatProvider({ graph, children }: ChatProviderProps): ReactEleme
         if (apiKey === null) {
           applyEvent({
             type: 'error',
-            message: 'No API key found for this provider — re-add it in Settings → AI providers.',
+            message: t('common.chat.no-api-key'),
             messages: [],
           })
           return
@@ -335,7 +337,7 @@ export function ChatProvider({ graph, children }: ChatProviderProps): ReactEleme
         }
       }
     },
-    [graph.name, persistTurn],
+    [graph.name, persistTurn, t],
   )
 
   const stop = useCallback(() => {

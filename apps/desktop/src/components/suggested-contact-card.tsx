@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
 import { UserRound } from 'lucide-react'
 import { errorMessage } from '@reflect/core'
@@ -26,6 +27,7 @@ interface SuggestedContactCardProps {
 export function SuggestedContactCard({ path, className }: SuggestedContactCardProps): ReactElement | null {
   const { graph } = useGraph()
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
   const contact = useSuggestedContact(path)
   const [isBusy, setIsBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -60,7 +62,7 @@ export function SuggestedContactCard({ path, className }: SuggestedContactCardPr
 
   return (
     <div
-      aria-label="Suggested contact"
+      aria-label={t('common.aria.suggested-contact')}
       className={cn(
         'mb-4 flex items-center gap-3 rounded-lg border border-border bg-surface px-3 py-2.5 shadow-sm',
         className,
@@ -85,14 +87,14 @@ export function SuggestedContactCard({ path, className }: SuggestedContactCardPr
         disabled={isBusy}
         onClick={() => void resolve(() => ignoreContactSuggestion(path, contact, generation))}
       >
-        Ignore
+        {t('common.contact.ignore')}
       </Button>
       <Button
         size="xs"
         disabled={isBusy}
         onClick={() => void resolve(() => addContactToNote(path, contact, generation))}
       >
-        Add
+        {t('common.contact.add')}
       </Button>
     </div>
   )

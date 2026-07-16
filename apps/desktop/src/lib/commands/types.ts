@@ -59,6 +59,14 @@ export interface AppCommand {
   id: string
   /** Palette display title. */
   title: string
+  /**
+   * i18next key for the display title (e.g. `commands.go-to-today`). Consumers
+   * that render the title translate via `t(titleKey, titleParams)` and fall
+   * back to {@link title} when absent.
+   */
+  titleKey?: string
+  /** Interpolation params for {@link titleKey} (e.g. `{ position: 1 }`). */
+  titleParams?: Record<string, unknown>
   /** Extra match terms for palette filtering. */
   keywords?: string[]
   /** Keymap-registry binding (app scope), e.g. `Mod-d`. */

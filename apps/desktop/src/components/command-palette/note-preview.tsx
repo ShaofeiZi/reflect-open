@@ -1,6 +1,7 @@
 import { type ReactElement } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { isAppError, readNote, splitFrontmatter } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { MarkdownPreview } from '@/editor/markdown-preview'
 import { useAssetPersistence } from '@/editor/use-asset-persistence'
 import { formatDayLabel } from '@/lib/dates'
@@ -35,6 +36,7 @@ async function readNoteForPreview(path: string): Promise<string | null> {
 }
 
 export function NotePreview({ entry }: NotePreviewProps): ReactElement {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const { settings } = useSettings()
   const { resolveImageUrl } = useAssetPersistence(graph?.generation ?? null)
@@ -48,11 +50,11 @@ export function NotePreview({ entry }: NotePreviewProps): ReactElement {
 
   let content: ReactElement | null
   if (isError) {
-    content = <p className="text-sm text-text-muted">This note can’t be previewed.</p>
+    content = <p className="text-sm text-text-muted">{t('palette.preview.error')}</p>
   } else if (data === undefined) {
     content = null // still loading; blank beats a flash of the wrong state
   } else if (body === null || body.trim() === '') {
-    content = <p className="text-sm text-text-muted italic">Empty</p>
+    content = <p className="text-sm text-text-muted italic">{t('palette.preview.empty')}</p>
   } else {
     content = <MarkdownPreview content={body} resolveImageUrl={resolveImageUrl} />
   }
