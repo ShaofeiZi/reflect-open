@@ -152,25 +152,11 @@ describe('native Apple locales', () => {
       resolve(APPLE_ROOT, 'reflect-open.xcodeproj', 'project.pbxproj'),
     )
     expect(project.match(/isa = PBXVariantGroup;/g)).toHaveLength(5)
+    expect(project.match(/isa = PBXResourcesBuildPhase;/g)).toHaveLength(3)
     expect(project).toContain('"zh-Hans",')
-    expect(project).toContain(
-      'A10000000000000000000001 /* Localizable.strings in Resources */',
-    )
-    expect(project).toContain(
-      'A10000000000000000000002 /* Localizable.strings in Resources */',
-    )
-    expect(project).toContain(
-      'A10000000000000000000003 /* Localizable.strings in Resources */',
-    )
-    expect(project).toContain(
-      'A10000000000000000000004 /* InfoPlist.strings in Resources */',
-    )
-    expect(project).toContain(
-      'A10000000000000000000005 /* AppShortcuts.strings in Resources */',
-    )
-    expect(project).toContain(
-      'A50000000000000000000001 /* Resources */',
-    )
+    expect(project.match(/\/\* Localizable\.strings in Resources \*\//g)).toHaveLength(6)
+    expect(project.match(/\/\* InfoPlist\.strings in Resources \*\//g)).toHaveLength(2)
+    expect(project.match(/\/\* AppShortcuts\.strings in Resources \*\//g)).toHaveLength(2)
 
     const generatedInfo = read(resolve(APPLE_ROOT, 'reflect-open_iOS', 'Info.plist'))
     expect(generatedInfo).toContain('<string>RECORD_AUDIO_SHORTCUT_TITLE</string>')
