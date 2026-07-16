@@ -2,6 +2,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { ReactNode } from 'react'
 import type { ApiKeyValidation } from '@reflect/core'
+import { changeLanguage, DEFAULT_LANGUAGE } from '@/lib/i18n'
 
 /**
  * The mobile add-provider sheet over the shared submit flow: a verified key
@@ -33,7 +34,10 @@ Element.prototype.scrollIntoView ??= () => {}
 
 const { AddAiProviderDrawer } = await import('./add-ai-provider-drawer')
 
-afterEach(cleanup)
+afterEach(async () => {
+  cleanup()
+  await changeLanguage(DEFAULT_LANGUAGE)
+})
 
 const onAdd = vi.fn<(draft: unknown) => Promise<void>>()
 const onOpenChange = vi.fn<(open: boolean) => void>()
@@ -81,6 +85,19 @@ describe('AddAiProviderDrawer', () => {
     await waitFor(() => expect(screen.getByText(/rejected this API key/)).toBeDefined())
     expect(onAdd).not.toHaveBeenCalled()
     expect(onOpenChange).not.toHaveBeenCalled()
+  })
+
+  it('localizes a rejected key in Simplified Chinese', async () => {
+    await changeLanguage('zh-CN')
+    validateApiKey.mockResolvedValue('invalid')
+    renderSheet()
+
+    fireEvent.change(screen.getByLabelText('API 密钥'), { target: { value: 'sk-bad' } })
+    fireEvent.click(screen.getByRole('button', { name: '添加服务商' }))
+
+    await waitFor(() =>
+      expect(screen.getByText('OpenAI 拒绝了此 API 密钥。')).toBeDefined(),
+    )
   })
 
   it('downgrades to save-anyway when the provider is unreachable', async () => {

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10000000000000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A30000000000000000000001 /* Localizable.strings */; };
+		A10000000000000000000002 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A30000000000000000000002 /* Localizable.strings */; };
+		A10000000000000000000003 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A30000000000000000000003 /* Localizable.strings */; };
+		A10000000000000000000004 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A30000000000000000000004 /* InfoPlist.strings */; };
+		A10000000000000000000005 /* AppShortcuts.strings in Resources */ = {isa = PBXBuildFile; fileRef = A30000000000000000000005 /* AppShortcuts.strings */; };
 		14BE6EF4AB511AC099410853 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 57BCB79C0774021318852985 /* main.mm */; };
 		1C8847A7F1C163FBA53373F9 /* ExtensionClass.js in Resources */ = {isa = PBXBuildFile; fileRef = 536E4F5E21B7DCC3C7ECDC1A /* ExtensionClass.js */; };
 		266B3807E809464C8FC14146 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC9BB81FAB5AF8D65160799 /* Metal.framework */; };
@@ -71,6 +76,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A20000000000000000000001 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A20000000000000000000002 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A20000000000000000000003 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A20000000000000000000004 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A20000000000000000000005 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A20000000000000000000006 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A20000000000000000000007 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A20000000000000000000008 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A20000000000000000000009 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		A2000000000000000000000A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppShortcuts.strings"; sourceTree = "<group>"; };
 		05ABE058940EC4D96B7CA5D9 /* mod.rs */ = {isa = PBXFileReference; path = mod.rs; sourceTree = "<group>"; };
 		088536D8F462855DCFDA7B06 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		08B3817A23175E584BA6FD8D /* error.rs */ = {isa = PBXFileReference; path = error.rs; sourceTree = "<group>"; };
@@ -194,6 +209,7 @@
 		064330CA0617C1F023B33371 /* ShareExtension */ = {
 			isa = PBXGroup;
 			children = (
+				A30000000000000000000001 /* Localizable.strings */,
 				D357D2D54012FD394DF9423E /* CaptureInbox.swift */,
 				536E4F5E21B7DCC3C7ECDC1A /* ExtensionClass.js */,
 				89342C7501B47DBB934B2D27 /* ShareState.swift */,
@@ -232,6 +248,7 @@
 			children = (
 				3ED6411036D50396010D935D /* assets */,
 				A86D201016958E2276806466 /* Assets.xcassets */,
+				A40000000000000000000001 /* infoplist */,
 				8D0D6D72E614086946EBF890 /* LaunchScreen.storyboard */,
 				59A902E5FAB9324234886822 /* Externals */,
 				90B73AA2E17A6707CD2373F8 /* RecordingWidget */,
@@ -333,6 +350,7 @@
 		90B73AA2E17A6707CD2373F8 /* RecordingWidget */ = {
 			isa = PBXGroup;
 			children = (
+				A30000000000000000000002 /* Localizable.strings */,
 				D7AC6BF821D47F74D41DFAFE /* RecordAudioWidget.swift */,
 				1A3930E6E7AB28929B07A6D0 /* RecordingActivityWidget.swift */,
 				A26DB86321DA75DFE1CD4B41 /* RecordingWidgetBundle.swift */,
@@ -358,6 +376,7 @@
 		B36B6C8C4266337158D8EA7E /* reflect-open */ = {
 			isa = PBXGroup;
 			children = (
+				A30000000000000000000003 /* Localizable.strings */,
 				57BCB79C0774021318852985 /* main.mm */,
 				D29B88183661F5C1C960E074 /* RecordingIntents.swift */,
 				3613166A0FB6AFF3C3B2F85C /* StopRecordingLiveActivityIntent.swift */,
@@ -365,6 +384,16 @@
 			);
 			name = "reflect-open";
 			path = "Sources/reflect-open";
+			sourceTree = "<group>";
+		};
+		A40000000000000000000001 /* infoplist */ = {
+			isa = PBXGroup;
+			children = (
+				A30000000000000000000005 /* AppShortcuts.strings */,
+				A30000000000000000000004 /* InfoPlist.strings */,
+			);
+			name = infoplist;
+			path = ../../infoplist;
 			sourceTree = "<group>";
 		};
 		B6C98802589FDB7BF4EC3F7C /* Frameworks */ = {
@@ -417,6 +446,7 @@
 			buildConfigurationList = 0CB80A8B9A6F429446C05ECD /* Build configuration list for PBXNativeTarget "RecordingWidget" */;
 			buildPhases = (
 				6E18E3E924D4531333C9C477 /* Sources */,
+				A50000000000000000000001 /* Resources */,
 				823BEF2AC9236315045FA6B8 /* Preserve entitlements on skip-codesign builds */,
 			);
 			buildRules = (
@@ -501,6 +531,7 @@
 			knownRegions = (
 				Base,
 				en,
+				"zh-Hans",
 			);
 			mainGroup = 32CAD5F88380EB83D170715E;
 			minimizedProjectReferenceProxies = 1;
@@ -517,12 +548,23 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A50000000000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000002 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		85955AB12D745102D2B8C7AD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F00F5EAED90E34102F9AE651 /* Assets.xcassets in Resources */,
+				A10000000000000000000005 /* AppShortcuts.strings in Resources */,
+				A10000000000000000000004 /* InfoPlist.strings in Resources */,
 				5693613DE956199D6486EA26 /* LaunchScreen.storyboard in Resources */,
+				A10000000000000000000003 /* Localizable.strings in Resources */,
 				C1FBC0B57C41A13D88225DFB /* assets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -532,10 +574,59 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C8847A7F1C163FBA53373F9 /* ExtensionClass.js in Resources */,
+				A10000000000000000000001 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A30000000000000000000001 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A20000000000000000000001 /* en */,
+				A20000000000000000000002 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000002 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A20000000000000000000003 /* en */,
+				A20000000000000000000004 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000003 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A20000000000000000000005 /* en */,
+				A20000000000000000000006 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000004 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A20000000000000000000007 /* en */,
+				A20000000000000000000008 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000005 /* AppShortcuts.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A20000000000000000000009 /* en */,
+				A2000000000000000000000A /* zh-Hans */,
+			);
+			name = AppShortcuts.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		823BEF2AC9236315045FA6B8 /* Preserve entitlements on skip-codesign builds */ = {

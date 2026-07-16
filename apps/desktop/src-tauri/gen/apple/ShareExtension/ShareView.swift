@@ -12,26 +12,26 @@ struct ShareView: View {
             switch state.status {
             case .saving:
                 ProgressView()
-                Text("Saving to Reflect…")
+                Text("share.saving")
                     .font(.body.weight(.medium))
                     .foregroundColor(.secondary)
             case .saved:
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 44))
                     .foregroundColor(.green)
-                Text("Saved to Reflect")
+                Text("share.saved")
                     .font(.body.weight(.medium))
             case .failed:
                 Image(systemName: "exclamationmark.circle.fill")
                     .font(.system(size: 44))
                     .foregroundColor(.secondary)
-                Text("Couldn’t save")
+                Text("share.failed")
                     .font(.body.weight(.medium))
             }
             Spacer()
             if case .failed = state.status {
                 Button(action: { state.dismiss() }) {
-                    Text("Dismiss")
+                    Text("share.dismiss")
                         .frame(maxWidth: .infinity)
                         .padding()
                         .overlay(

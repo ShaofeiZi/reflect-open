@@ -8,10 +8,10 @@ import { MobileSettings } from './settings'
 
 /**
  * The mobile Settings screen (the pushed card that replaced the bottom
- * sheet): the graph row disclosing into the Graphs screen, appearance and
- * editor preferences writing the shared settings document, the backup group's
- * plain-language status + Disconnect through the backup controller, and
- * graceful degradation where no SyncProvider is mounted.
+ * sheet): the graph row disclosing into the Graphs screen, language,
+ * appearance, and editor preferences writing the shared settings document,
+ * the backup group's plain-language status + Disconnect through the backup
+ * controller, and graceful degradation where no SyncProvider is mounted.
  */
 
 vi.mock('@reflect/core', async (importOriginal) => ({
@@ -129,6 +129,15 @@ describe('MobileSettings', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Large' }))
     expect(updateSettings).toHaveBeenCalledWith({ editorTextSize: 'large' })
+  })
+
+  it('writes the interface language to the shared settings document', async () => {
+    const user = userEvent.setup()
+    mount()
+
+    await user.click(screen.getByRole('radio', { name: '简体中文' }))
+
+    expect(updateSettings).toHaveBeenCalledWith({ language: 'zh-CN' })
   })
 
   it('toggles the editor switches', async () => {

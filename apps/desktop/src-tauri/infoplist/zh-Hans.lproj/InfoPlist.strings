@@ -1,0 +1,5 @@
+"NSMicrophoneUsageDescription" = "Reflect 使用麦克风录制语音备忘，并将其转写到你的每日笔记中。";
+"NSCalendarsFullAccessUsageDescription" = "Reflect 读取你的日历，以便在每日笔记旁显示当天的会议。访问为只读，数据仅保留在此设备上。";
+"NSCalendarsUsageDescription" = "Reflect 读取你的日历，以便在每日笔记旁显示当天的会议。访问为只读，数据仅保留在此设备上。";
+"NSContactsUsageDescription" = "Reflect 读取你的通讯录，为人物笔记建议详细信息。不会存储或发送任何通讯录数据。";
+"RECORD_AUDIO_SHORTCUT_TITLE" = "录制语音";

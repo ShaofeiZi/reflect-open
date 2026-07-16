@@ -9,6 +9,7 @@ import {
   normalizeChatSystemPrompt,
   type AiProviderConfig,
   type EditorTextSize,
+  type Language,
   type ThemePreference,
 } from '@reflect/core'
 import { useAiProviders } from '@/hooks/use-ai-providers'
@@ -48,6 +49,13 @@ function textSizeOptions(t: (key: string) => string): readonly SegmentedOption<E
     { value: 'small', label: t('mobile.settings-screen.text-small') },
     { value: 'medium', label: t('mobile.settings-screen.text-medium') },
     { value: 'large', label: t('mobile.settings-screen.text-large') },
+  ]
+}
+
+function languageOptions(t: (key: string) => string): readonly SegmentedOption<Language>[] {
+  return [
+    { value: 'en', label: t('mobile.settings-screen.language-en') },
+    { value: 'zh-CN', label: t('mobile.settings-screen.language-zh-CN') },
   ]
 }
 
@@ -147,6 +155,15 @@ export function MobileSettings(): ReactElement {
               label={graph?.name ?? '—'}
               value={storageLabel}
               onPress={() => navigate({ kind: 'graphs' })}
+            />
+          </SettingsGroup>
+
+          <SettingsGroup header={t('mobile.settings-screen.language')}>
+            <SettingsSegmentedRow
+              label={t('mobile.settings-screen.interface-language')}
+              value={settings.language}
+              options={languageOptions(t)}
+              onChange={(language) => updateSettings({ language })}
             />
           </SettingsGroup>
 

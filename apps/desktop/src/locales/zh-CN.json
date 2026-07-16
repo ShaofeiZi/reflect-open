@@ -338,6 +338,7 @@
       "defaultModel": "默认模型",
       "apiKey": "API 密钥",
       "apiKeyRequired": "请输入 API 密钥。",
+      "apiKeyRejected": "{{provider}} 拒绝了此 API 密钥。",
       "useAsDefault": "设为默认服务商",
       "verifyWarning": "无法连接 {{provider}} 验证密钥。再次提交将以未验证状态保存。",
       "settingsLoadFailed": "无法加载设置，因此无法保存新的 AI 服务商。API 密钥未被存储。",
@@ -428,7 +429,9 @@
       "status": {
         "idle": "已备份",
         "syncing": "备份中…",
+        "offline": "当前离线 — 更改已保存在本地，重新联网后会继续备份",
         "authFailed": "备份失败 — 请重新连接 GitHub",
+        "unsupportedHttps": "备份失败 — 请将此远端改为 SSH：git remote set-url origin git@<host>:<owner>/<repo>.git",
         "failed": "备份失败：{{message}}"
       },
       "checking": "正在检查备份状态…",
@@ -556,6 +559,9 @@
       "copyAndOpen": "复制代码并打开 GitHub",
       "copyFailed": "无法自动复制——请先选中上面的代码并复制。",
       "openFailed": "无法打开浏览器——请自行访问 {{url}}。",
+      "signInAuthFailed": "GitHub 登录被拒绝或代码已过期，请重试。",
+      "signInNetworkFailed": "无法连接 GitHub，请检查网络连接后重试。",
+      "signInFailed": "GitHub 登录失败：{{message}}",
       "rejected": "GitHub 拒绝了该 token——请检查后重试。"
     },
     "icloudSection": {
@@ -1034,6 +1040,10 @@
     "settings-screen": {
       "title": "设置",
       "graph": "图谱",
+      "language": "语言",
+      "interface-language": "界面语言",
+      "language-en": "English",
+      "language-zh-CN": "简体中文",
       "appearance": "外观",
       "theme": "主题",
       "theme-system": "系统",
@@ -1155,7 +1165,11 @@
       "needs-review": "需要检查",
       "needs-attention": "需要处理",
       "offline": "离线",
+      "offline-detail": "更改已保存在本地，重新联网后会继续同步。",
       "backed-up": "已备份",
+      "auth-detail": "请重新连接 GitHub 以继续同步。",
+      "unsupported-https-detail": "此主机需要使用 SSH 远端才能同步。",
+      "error-detail": "同步失败：{{message}}",
       "one-conflict": "一篇笔记同时在两台设备上被编辑——打开它以选择要保留的版本。",
       "many-conflicts": "{{count}} 篇笔记同时在两台设备上被编辑——打开它们以选择要保留的版本。"
     },
@@ -1205,7 +1219,9 @@
       "connect-unpublish": "请先在设置中连接 GitHub 再取消发布 Gist。"
     },
     "search": {
-      "rebuilding-index": "正在重建搜索索引"
+      "rebuilding-index": "正在重建搜索索引",
+      "rebuilt-with-skipped": "索引已重建，跳过 {{count}} 篇笔记：{{sample}}",
+      "more-skipped": "；另有 {{count}} 篇"
     },
     "assets": {
       "describing": "正在识别资源内容",
@@ -1305,13 +1321,25 @@
     "app": "Reflect",
     "about": "关于 Reflect",
     "settings": "设置…",
+    "services": "服务",
     "hide-app": "隐藏 Reflect",
+    "hide-others": "隐藏其他应用",
+    "show-all": "全部显示",
     "quit-app": "退出 Reflect",
     "file": "文件",
+    "close-window": "关闭窗口",
     "edit": "编辑",
+    "undo": "撤销",
+    "redo": "重做",
+    "cut": "剪切",
+    "copy": "复制",
+    "paste": "粘贴",
+    "select-all": "全选",
     "view": "显示",
+    "minimize": "最小化",
     "zoom": "缩放",
     "window": "窗口",
+    "bring-all-to-front": "前置全部窗口",
     "help": "帮助"
   },
   "shortcuts": {

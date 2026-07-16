@@ -76,6 +76,31 @@ describe('BackupSettingsField', () => {
     expect(screen.getByRole('button', { name: /Sign out of GitHub/ })).toBeTruthy()
   })
 
+  it('localizes offline state instead of surfacing the engine message verbatim', async () => {
+    renderSection({
+      phase: 'connected',
+      remoteUrl: 'https://github.com/alex/notes.git',
+      repo: { owner: 'alex', name: 'notes' },
+      status: { state: 'offline', message: 'internal network detail' },
+    })
+
+    expect(await screen.findByText(/Offline — changes are saved locally/)).toBeTruthy()
+    expect(screen.queryByText('internal network detail')).toBeNull()
+  })
+
+  it('localizes the generic HTTPS remote fix while preserving its command', async () => {
+    renderSection({
+      phase: 'connected',
+      remoteUrl: 'https://gitlab.com/alex/notes.git',
+      repo: null,
+      status: { state: 'error', errorKind: 'rejected', message: 'internal adoption detail' },
+    })
+
+    expect(await screen.findByText(/switch this remote to SSH/i)).toBeTruthy()
+    expect(screen.getByText(/git remote set-url/)).toBeTruthy()
+    expect(screen.queryByText(/internal adoption detail/)).toBeNull()
+  })
+
   it('opens the connected GitHub repository', async () => {
     renderSection({
       phase: 'connected',

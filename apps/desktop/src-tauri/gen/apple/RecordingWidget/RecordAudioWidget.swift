@@ -32,8 +32,8 @@ struct RecordAudioWidget: Widget {
         .widgetURL(URL(string: "reflect://record-audio"))
         .widgetBackgroundCompat()
     }
-    .configurationDisplayName("Record audio memo")
-    .description("Start recording an audio memo in Reflect.")
+    .configurationDisplayName(LocalizedStringKey("widget.record.display-name"))
+    .description(Text("widget.record.description"))
     .supportedFamilies([.accessoryCircular, .systemSmall])
   }
 }
@@ -55,7 +55,7 @@ struct RecordAudioWidgetView: View {
         Image(systemName: "mic.fill")
           .font(.largeTitle)
           .foregroundStyle(.red)
-        Text("Record audio")
+        Text("widget.record.action")
           .font(.caption)
           .foregroundStyle(.secondary)
       }

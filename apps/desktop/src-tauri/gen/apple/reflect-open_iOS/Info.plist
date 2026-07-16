@@ -65,7 +65,7 @@
 			<key>UIApplicationShortcutItemIconType</key>
 			<string>UIApplicationShortcutIconTypeAudio</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Record audio</string>
+			<string>RECORD_AUDIO_SHORTCUT_TITLE</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>app.reflect.record-audio</string>
 		</dict>

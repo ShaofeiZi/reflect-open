@@ -14,7 +14,7 @@ import Foundation
   /// The notification name mirrors `RecordingPlugin.stopRequestedNotification`.
   @available(iOS 17.0, *)
   struct StopRecordingLiveActivityIntent: LiveActivityIntent {
-    static var title: LocalizedStringResource = "Stop recording"
+    static var title = LocalizedStringResource("intent.stop.title")
     /// Hidden from the Shortcuts app — `StopRecordingSiriIntent` is the
     /// discoverable stop; this one exists only behind the activity's button.
     static var isDiscoverable: Bool = false

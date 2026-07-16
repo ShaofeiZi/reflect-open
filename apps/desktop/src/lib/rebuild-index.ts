@@ -35,7 +35,7 @@ export function rebuildIndexVisibly(generation: number): Promise<void> {
 
 async function runRebuild(generation: number): Promise<void> {
   const operation = startOperation(translate('operations.search.rebuilding-index'))
-  const skippedNotes: string[] = []
+  const skippedNotes: Array<{ path: string; message: string }> = []
   try {
     await rebuildIndex({
       generation,
@@ -44,15 +44,27 @@ async function runRebuild(generation: number): Promise<void> {
         // log every skip in full — this is the durable record of which notes
         // fell out of the index and why.
         console.warn(`Index rebuild skipped ${note.path}: ${note.message}`)
-        skippedNotes.push(`${note.path}: ${note.message}`)
+        skippedNotes.push(note)
       },
     })
     if (skippedNotes.length === 0) {
       operation.done()
     } else {
-      const sample = skippedNotes.slice(0, 3).join('; ')
-      const suffix = skippedNotes.length > 3 ? `; +${skippedNotes.length - 3} more` : ''
-      operation.warn(`Rebuilt with ${skippedNotes.length} skipped note(s): ${sample}${suffix}`)
+      const sample = skippedNotes
+        .slice(0, 3)
+        .map((note) => `${note.path}: ${note.message}`)
+        .join('; ')
+      const remaining = Math.max(0, skippedNotes.length - 3)
+      operation.warn(
+        `${translate('operations.search.rebuilt-with-skipped', {
+          count: skippedNotes.length,
+          sample,
+        })}${
+          remaining > 0
+            ? translate('operations.search.more-skipped', { count: remaining })
+            : ''
+        }`,
+      )
     }
   } catch (cause) {
     operation.fail(errorMessage(cause))

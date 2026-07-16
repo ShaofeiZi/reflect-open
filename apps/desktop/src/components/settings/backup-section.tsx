@@ -34,13 +34,21 @@ function statusLine(backup: Extract<BackupState, { phase: 'connected' }>, t: TFu
     case 'syncing':
       return t('settings.backupSection.status.syncing')
     case 'offline':
-      return backup.status.message
+      return t('settings.backupSection.status.offline')
     case 'error':
       // "Reconnect GitHub" only helps when GitHub is the remote; a generic
       // remote's auth message already names the fix (ssh-add, known_hosts…).
-      return backup.status.errorKind === 'auth' && backup.repo !== null
-        ? t('settings.backupSection.status.authFailed')
-        : t('settings.backupSection.status.failed', { message: backup.status.message })
+      if (backup.status.errorKind === 'auth' && backup.repo !== null) {
+        return t('settings.backupSection.status.authFailed')
+      }
+      if (
+        backup.status.errorKind === 'rejected' &&
+        backup.repo === null &&
+        /^https?:\/\//i.test(backup.remoteUrl)
+      ) {
+        return t('settings.backupSection.status.unsupportedHttps')
+      }
+      return t('settings.backupSection.status.failed', { message: backup.status.message })
   }
 }
 

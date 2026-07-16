@@ -15,9 +15,9 @@ import Foundation
   /// must present recording UI); stopping is finalized natively at once.
   @available(iOS 16.0, *)
   struct StartRecordingIntent: AppIntent {
-    static var title: LocalizedStringResource = "Start recording"
+    static var title = LocalizedStringResource("intent.start.title")
     static var description = IntentDescription(
-      "Start recording an audio memo that Reflect transcribes into your daily note.")
+      LocalizedStringResource("intent.start.description"))
     static var openAppWhenRun = true
 
     @MainActor
@@ -30,8 +30,9 @@ import Foundation
 
   @available(iOS 16.0, *)
   struct StopRecordingSiriIntent: AppIntent {
-    static var title: LocalizedStringResource = "Stop recording"
-    static var description = IntentDescription("Stop the audio memo Reflect is recording.")
+    static var title = LocalizedStringResource("intent.stop.title")
+    static var description = IntentDescription(
+      LocalizedStringResource("intent.stop.description"))
     static var openAppWhenRun = false
 
     @MainActor
@@ -51,13 +52,13 @@ import Foundation
           "Start recording in \(.applicationName)",
           "Record an audio memo in \(.applicationName)",
         ],
-        shortTitle: "Record audio",
+        shortTitle: LocalizedStringResource("intent.record.short-title"),
         systemImageName: "mic"
       )
       AppShortcut(
         intent: StopRecordingSiriIntent(),
         phrases: ["Stop recording in \(.applicationName)"],
-        shortTitle: "Stop recording",
+        shortTitle: LocalizedStringResource("intent.stop.short-title"),
         systemImageName: "stop.circle"
       )
     }

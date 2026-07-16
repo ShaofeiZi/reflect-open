@@ -1,0 +1,6 @@
+"intent.start.title" = "开始录音";
+"intent.start.description" = "开始录制语音备忘，Reflect 会将其转写到你的每日笔记中。";
+"intent.stop.title" = "停止录音";
+"intent.stop.description" = "停止 Reflect 正在录制的语音备忘。";
+"intent.record.short-title" = "录制语音";
+"intent.stop.short-title" = "停止录音";

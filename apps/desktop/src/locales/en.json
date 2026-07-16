@@ -338,6 +338,7 @@
       "defaultModel": "Default model",
       "apiKey": "API key",
       "apiKeyRequired": "Enter an API key.",
+      "apiKeyRejected": "{{provider}} rejected this API key.",
       "useAsDefault": "Use as the default provider",
       "verifyWarning": "Couldn't reach {{provider}} to verify the key. Submit again to save it unverified.",
       "settingsLoadFailed": "Settings could not be loaded, so new AI providers cannot be saved. The API key was not stored.",
@@ -428,7 +429,9 @@
       "status": {
         "idle": "Backed up",
         "syncing": "Backing up…",
+        "offline": "Offline — changes are saved locally and will back up when you reconnect",
         "authFailed": "Backup failed — reconnect GitHub",
+        "unsupportedHttps": "Backup failed — switch this remote to SSH: git remote set-url origin git@<host>:<owner>/<repo>.git",
         "failed": "Backup failed: {{message}}"
       },
       "checking": "Checking backup status…",
@@ -556,6 +559,9 @@
       "copyAndOpen": "Copy code and open GitHub",
       "copyFailed": "Couldn’t copy automatically — select the code above and copy it first.",
       "openFailed": "Couldn’t open the browser — visit {{url}} yourself.",
+      "signInAuthFailed": "GitHub sign-in was denied or the code expired. Try again.",
+      "signInNetworkFailed": "Couldn’t reach GitHub. Check your connection and try again.",
+      "signInFailed": "GitHub sign-in failed: {{message}}",
       "rejected": "GitHub rejected that token — check it and try again."
     },
     "icloudSection": {
@@ -1034,6 +1040,10 @@
     "settings-screen": {
       "title": "Settings",
       "graph": "Graph",
+      "language": "Language",
+      "interface-language": "Interface language",
+      "language-en": "English",
+      "language-zh-CN": "简体中文",
       "appearance": "Appearance",
       "theme": "Theme",
       "theme-system": "System",
@@ -1155,7 +1165,11 @@
       "needs-review": "Needs review",
       "needs-attention": "Needs attention",
       "offline": "Offline",
+      "offline-detail": "Changes are saved locally and will sync when you reconnect.",
       "backed-up": "Backed up",
+      "auth-detail": "Reconnect GitHub to resume syncing.",
+      "unsupported-https-detail": "This host needs an SSH remote before it can sync.",
+      "error-detail": "Sync failed: {{message}}",
       "one-conflict": "A note was edited on two devices at once — open it to choose what to keep.",
       "many-conflicts": "{{count}} notes were edited on two devices at once — open them to choose what to keep."
     },
@@ -1205,7 +1219,9 @@
       "connect-unpublish": "Connect GitHub in Settings to unpublish gists."
     },
     "search": {
-      "rebuilding-index": "Rebuilding search index"
+      "rebuilding-index": "Rebuilding search index",
+      "rebuilt-with-skipped": "Rebuilt with {{count}} skipped note(s): {{sample}}",
+      "more-skipped": "; +{{count}} more"
     },
     "assets": {
       "describing": "Describing assets",
@@ -1305,13 +1321,25 @@
     "app": "Reflect",
     "about": "About Reflect",
     "settings": "Settings…",
+    "services": "Services",
     "hide-app": "Hide Reflect",
+    "hide-others": "Hide Others",
+    "show-all": "Show All",
     "quit-app": "Quit Reflect",
     "file": "File",
+    "close-window": "Close Window",
     "edit": "Edit",
+    "undo": "Undo",
+    "redo": "Redo",
+    "cut": "Cut",
+    "copy": "Copy",
+    "paste": "Paste",
+    "select-all": "Select All",
     "view": "View",
+    "minimize": "Minimize",
     "zoom": "Zoom",
     "window": "Window",
+    "bring-all-to-front": "Bring All to Front",
     "help": "Help"
   },
   "shortcuts": {

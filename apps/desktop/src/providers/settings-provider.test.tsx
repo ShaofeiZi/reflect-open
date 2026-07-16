@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import type { ReactNode } from 'react'
 import { setBridge, type AiProviderConfig } from '@reflect/core'
+import { changeLanguage, DEFAULT_LANGUAGE, getLanguage } from '@/lib/i18n'
 import { resetOperations, useOperations } from '@/lib/operations'
 import { flushSettings } from '@/lib/settings-flush'
 import { SETTINGS_QUERY_KEY, SettingsProvider, useSettings } from './settings-provider'
@@ -81,11 +82,12 @@ beforeEach(() => {
   installFakeBridge()
 })
 
-afterEach(() => {
+afterEach(async () => {
   cleanup() // `globals: false` disables testing-library's automatic cleanup
   setBridge(null)
   queryClient.clear()
   resetOperations() // failed-save entries linger on a timer otherwise
+  await changeLanguage(DEFAULT_LANGUAGE)
 })
 
 describe('SettingsProvider', () => {
@@ -97,6 +99,25 @@ describe('SettingsProvider', () => {
     await waitFor(() => expect(result.current.settings.editorMarkdownSyntax).toBe('show'))
     // Hydration alone must not write the store back.
     expect(saved).toEqual([])
+  })
+
+  it('applies the persisted interface language to i18next', async () => {
+    stored = { language: 'zh-CN' }
+    renderHook(() => useSettings(), { wrapper })
+
+    await waitFor(() => expect(getLanguage()).toBe('zh-CN'))
+  })
+
+  it('applies a runtime language update immediately and persists it', async () => {
+    const { result } = renderHook(() => useSettings(), { wrapper })
+    await loadSettled()
+
+    act(() => {
+      result.current.updateSettings({ language: 'zh-CN' })
+    })
+
+    await waitFor(() => expect(getLanguage()).toBe('zh-CN'))
+    await waitFor(() => expect(saved.at(-1)).toMatchObject({ language: 'zh-CN' }))
   })
 
   it('normalizes an invalid persisted value to its default', async () => {

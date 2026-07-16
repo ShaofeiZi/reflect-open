@@ -1,0 +1,6 @@
+"intent.start.title" = "Start recording";
+"intent.start.description" = "Start recording an audio memo that Reflect transcribes into your daily note.";
+"intent.stop.title" = "Stop recording";
+"intent.stop.description" = "Stop the audio memo Reflect is recording.";
+"intent.record.short-title" = "Record audio";
+"intent.stop.short-title" = "Stop recording";

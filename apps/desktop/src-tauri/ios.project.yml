@@ -49,6 +49,8 @@ targets:
     platform: iOS
     sources:
       - path: Sources
+      - path: ../../infoplist
+        buildPhase: resources
       - path: Assets.xcassets
       # Build artifacts (libapp.a) land here; without an explicit `none`,
       # regenerating after a build sweeps them into Copy Bundle Resources,
@@ -103,7 +105,7 @@ targets:
         # recording plugin via the shortcut-item delegate hook.
         UIApplicationShortcutItems:
           - UIApplicationShortcutItemType: app.reflect.record-audio
-            UIApplicationShortcutItemTitle: Record audio
+            UIApplicationShortcutItemTitle: RECORD_AUDIO_SHORTCUT_TITLE
             UIApplicationShortcutItemIconType: UIApplicationShortcutIconTypeAudio
         CFBundleDisplayName: $(REFLECT_DISPLAY_NAME)
         UILaunchStoryboardName: LaunchScreen
@@ -203,6 +205,9 @@ targets:
       - path: ShareExtension/ShareState.swift
       - path: ShareExtension/ShareView.swift
       - path: ShareExtension/CaptureInbox.swift
+      - path: ShareExtension
+        includes: ["*.lproj/**"]
+        buildPhase: resources
       # The Safari preprocessor (title/URL/selection/meta description); a
       # bundle resource the NSExtension attributes reference by base name.
       - path: ShareExtension/ExtensionClass.js
@@ -284,6 +289,9 @@ targets:
       - path: RecordingWidget/RecordingWidgetBundle.swift
       - path: RecordingWidget/RecordAudioWidget.swift
       - path: RecordingWidget/RecordingActivityWidget.swift
+      - path: RecordingWidget
+        includes: ["*.lproj/**"]
+        buildPhase: resources
       - path: Sources/reflect-open/StopRecordingLiveActivityIntent.swift
       - path: ../../../../../plugins/tauri-plugin-recording/ios/Sources/RecordingActivityAttributes.swift
     info:

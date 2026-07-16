@@ -1,0 +1,5 @@
+"widget.record.display-name" = "录制语音备忘";
+"widget.record.description" = "开始在 Reflect 中录制语音备忘。";
+"widget.record.action" = "录制语音";
+"widget.recording" = "正在录音";
+"intent.stop.title" = "停止录音";

@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
+import { changeLanguage, DEFAULT_LANGUAGE } from './i18n'
 import {
   addMonths,
   buildMonthGrid,
@@ -7,6 +8,10 @@ import {
   monthShortLabel,
   weekdayLabels,
 } from './month-grid'
+
+afterEach(async () => {
+  await changeLanguage(DEFAULT_LANGUAGE)
+})
 
 describe('monthOf', () => {
   it('extracts the YYYY-MM month of an ISO date', () => {
@@ -19,6 +24,14 @@ describe('monthLabel', () => {
   it('formats a human month label', () => {
     expect(monthLabel('2026-06')).toBe('June 2026')
     expect(monthLabel('2026-01')).toBe('January 2026')
+  })
+
+  it('follows the active Simplified Chinese interface language', async () => {
+    await changeLanguage('zh-CN')
+
+    expect(monthLabel('2026-06')).toBe('六月 2026')
+    expect(monthShortLabel('2026-01')).toBe('1月')
+    expect(weekdayLabels()).toEqual(['一', '二', '三', '四', '五', '六', '日'])
   })
 })
 

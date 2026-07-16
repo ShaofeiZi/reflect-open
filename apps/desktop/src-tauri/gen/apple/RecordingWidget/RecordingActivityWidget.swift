@@ -16,7 +16,7 @@ struct RecordingActivityWidget: Widget {
           .font(.title3)
           .foregroundStyle(.red)
         VStack(alignment: .leading, spacing: 2) {
-          Text("Recording")
+          Text("widget.recording")
             .font(.headline)
           Text("Reflect")
             .font(.caption)
@@ -37,7 +37,7 @@ struct RecordingActivityWidget: Widget {
         }
         DynamicIslandExpandedRegion(.center) {
           VStack(spacing: 2) {
-            Text("Recording")
+            Text("widget.recording")
               .font(.headline)
             RecordingTimerText(startedAt: context.state.startedAt)
               .font(.title3.monospacedDigit())
@@ -86,6 +86,7 @@ private struct StopRecordingButton: View {
           .padding(8)
       }
       .buttonStyle(.plain)
+      .accessibilityLabel(Text("intent.stop.title"))
     }
   }
 }

@@ -1,0 +1,5 @@
+"widget.record.display-name" = "Record audio memo";
+"widget.record.description" = "Start recording an audio memo in Reflect.";
+"widget.record.action" = "Record audio";
+"widget.recording" = "Recording";
+"intent.stop.title" = "Stop recording";

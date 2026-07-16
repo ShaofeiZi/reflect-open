@@ -1,6 +1,7 @@
 import { act, cleanup, renderHook } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { runDeviceFlow, ReflectError, type GithubAuth } from '@reflect/core'
+import { changeLanguage, DEFAULT_LANGUAGE } from '@/lib/i18n'
 import { useDeviceFlowAuth } from './use-device-flow-auth'
 
 vi.mock('@reflect/core', async (importOriginal) => ({
@@ -11,9 +12,10 @@ vi.mock('@reflect/core', async (importOriginal) => ({
 const mockFlow = vi.mocked(runDeviceFlow)
 const AUTH: GithubAuth = { kind: 'pat', token: 'ghp_abc' }
 
-afterEach(() => {
+afterEach(async () => {
   cleanup()
   mockFlow.mockReset()
+  await changeLanguage(DEFAULT_LANGUAGE)
 })
 
 describe('useDeviceFlowAuth', () => {
@@ -55,7 +57,19 @@ describe('useDeviceFlowAuth', () => {
 
     expect(authed).toBe(false)
     expect(result.current.view).toEqual({ view: 'idle' })
-    expect(result.current.error).toBe('GitHub sign-in was denied.')
+    expect(result.current.error).toBe('GitHub sign-in was denied or the code expired. Try again.')
+  })
+
+  it('localizes known device-flow failures in Simplified Chinese', async () => {
+    await changeLanguage('zh-CN')
+    mockFlow.mockRejectedValue(new ReflectError('network', 'provider detail'))
+    const { result } = renderHook(() => useDeviceFlowAuth())
+
+    await act(async () => {
+      await result.current.signIn()
+    })
+
+    expect(result.current.error).toBe('无法连接 GitHub，请检查网络连接后重试。')
   })
 
   it('resolves false without an error when the flow is aborted (dialog closed)', async () => {

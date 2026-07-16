@@ -16,6 +16,13 @@ function connected(status: Extract<BackupState, { phase: 'connected' }>['status'
   }
 }
 
+function genericConnected(
+  remoteUrl: string,
+  status: Extract<BackupState, { phase: 'connected' }>['status'],
+): BackupState {
+  return { phase: 'connected', remoteUrl, repo: null, status }
+}
+
 describe('mobileSyncStatus', () => {
   it('has nothing to say without a configured backup', () => {
     expect(mobileSyncStatus({ phase: 'loading' }, 0)).toBeNull()
@@ -52,13 +59,37 @@ describe('mobileSyncStatus', () => {
     expect(status?.label).toBe('Needs review')
   })
 
-  it('surfaces errors as Needs attention with the engine message', () => {
+  it('maps GitHub auth errors to a localized reconnect instruction', () => {
     const status = mobileSyncStatus(
       connected({ state: 'error', errorKind: 'auth', message: 'Sign in again' }),
       0,
     )
     expect(status?.label).toBe('Needs attention')
-    expect(status?.detail).toBe('Sign in again')
+    expect(status?.detail).toBe('Reconnect GitHub to resume syncing.')
+  })
+
+  it('maps a generic HTTPS remote rejection to a localized SSH instruction', () => {
+    const status = mobileSyncStatus(
+      genericConnected('https://gitlab.com/alex/notes.git', {
+        state: 'error',
+        errorKind: 'rejected',
+        message: 'internal adoption detail',
+      }),
+      0,
+    )
+    expect(status?.detail).toBe('This host needs an SSH remote before it can sync.')
+  })
+
+  it('keeps unknown diagnostics inside a localized error template', () => {
+    const status = mobileSyncStatus(
+      genericConnected('git@gitlab.com:alex/notes.git', {
+        state: 'error',
+        errorKind: 'other',
+        message: 'disk full',
+      }),
+      0,
+    )
+    expect(status?.detail).toBe('Sync failed: disk full')
   })
 
   it('surfaces offline plainly — changes are safe locally', () => {
@@ -68,6 +99,6 @@ describe('mobileSyncStatus', () => {
     )
     expect(status?.label).toBe('Offline')
     expect(status?.tone).toBe('attention')
-    expect(status?.detail).toMatch(/saved locally/)
+    expect(status?.detail).toBe('Changes are saved locally and will sync when you reconnect.')
   })
 })

@@ -1,6 +1,8 @@
+import { renderHook, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { EmbedStatus } from '@reflect/core'
-import { resetOperations } from '@/lib/operations'
+import { changeLanguage, DEFAULT_LANGUAGE } from '@/lib/i18n'
+import { resetOperations, useOperations } from '@/lib/operations'
 
 const rebuildIndex = vi.hoisted(() =>
   vi.fn<
@@ -25,8 +27,9 @@ beforeEach(() => {
   rebuildIndex.mockClear()
 })
 
-afterEach(() => {
+afterEach(async () => {
   resetOperations()
+  await changeLanguage(DEFAULT_LANGUAGE)
 })
 
 describe('rebuildIndexVisibly', () => {
@@ -75,6 +78,23 @@ describe('rebuildIndexVisibly', () => {
     })
 
     await expect(rebuildIndexVisibly(7)).resolves.toBeUndefined()
+  })
+
+  it('localizes the skipped-note warning in Simplified Chinese', async () => {
+    await changeLanguage('zh-CN')
+    rebuildIndex.mockImplementationOnce(async (options) => {
+      options.onSkippedNote?.({ path: 'notes/bad.md', message: 'unexpected end of hex escape' })
+    })
+    const { result } = renderHook(() => useOperations())
+
+    await rebuildIndexVisibly(7)
+
+    await waitFor(() =>
+      expect(result.current.at(-1)).toMatchObject({
+        status: 'warning',
+        message: '索引已重建，跳过 1 篇笔记：notes/bad.md: unexpected end of hex escape',
+      }),
+    )
   })
 
   it('absorbs a failed rebuild and releases the in-flight guard', async () => {

@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { aiProvider, errorMessage, validateApiKey } from '@reflect/core'
+import { translate } from '@/lib/i18n'
 import { providerFetch } from '@/lib/provider-fetch'
 import type { NewAiProvider } from '@/hooks/use-ai-providers'
 
@@ -51,7 +52,11 @@ export function useAddAiProviderSubmit({
         if (!unverified) {
           const validation = await validateApiKey(draft.provider, apiKey, providerFetch)
           if (validation === 'invalid') {
-            setSubmitError(`${aiProvider(draft.provider).label} rejected this API key.`)
+            setSubmitError(
+              translate('settings.addAiProviderDialog.apiKeyRejected', {
+                provider: aiProvider(draft.provider).label,
+              }),
+            )
             return
           }
           if (validation === 'unreachable') {

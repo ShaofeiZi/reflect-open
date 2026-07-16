@@ -125,6 +125,18 @@ describe('appMenuLayout', () => {
         commandId: 'palette.open',
         text: undefined,
       })
+      const editMenu = layout.find((submenu) => submenu.text === '编辑')
+      expect(
+        editMenu?.entries
+          .filter((entry) => entry.kind === 'predefined' && entry.text !== undefined)
+          .map((entry) => entry.text),
+      ).toEqual(['撤销', '重做', '剪切', '复制', '粘贴', '全选'])
+      const windowMenu = layout.find((submenu) => submenu.text === '窗口')
+      expect(
+        windowMenu?.entries
+          .filter((entry) => entry.kind === 'predefined' && entry.text !== undefined)
+          .map((entry) => entry.text),
+      ).toEqual(['最小化', '缩放', '前置全部窗口'])
     } finally {
       await changeLanguage('en')
     }
