@@ -15,7 +15,147 @@
     "continue": "Continue",
     "back": "Back",
     "next": "Next",
-    "ok": "OK"
+    "ok": "OK",
+    "aria": {
+      "workspace": "Workspace",
+      "context": "Context",
+      "incoming-backlinks": "Incoming backlinks",
+      "editing": "Editing {{path}}",
+      "resize-sidebar": "Resize sidebar",
+      "resize-context-panel": "Resize context panel",
+      "suggested-contact": "Suggested contact",
+      "open-settings": "Open settings"
+    },
+    "backlinks": {
+      "load-more-error": "Couldn’t load more backlinks.",
+      "loading-more": "Loading more backlinks…",
+      "retry-loading": "Retry loading backlinks",
+      "load-more": "Load more backlinks",
+      "collapse-references": "Collapse references from {{title}}",
+      "expand-references": "Expand references from {{title}}",
+      "couldnt-load": "Couldn’t load backlinks.",
+      "incoming-singular": "Incoming backlink ({{count}})",
+      "incoming-plural": "Incoming backlinks ({{count}})"
+    },
+    "conflict": {
+      "empty-side": "Empty on this side",
+      "banner-text": "This note changed on disk while you had unsaved edits.",
+      "keep-mine": "Keep mine",
+      "load-theirs": "Load theirs",
+      "two-devices": "This note was edited on two devices at once.",
+      "both-highlighted": "Both versions are highlighted below. Choose what to keep — every version stays recoverable in the backup history.",
+      "keep-named": "Keep “{{label}}”",
+      "keep-this-device": "Keep this device’s version",
+      "keep-other-versions": "Keep the other versions",
+      "keep-other-device": "Keep the other device’s",
+      "keep-all": "Keep all",
+      "keep-both": "Keep both",
+      "couldnt-resolve": "Couldn’t resolve: {{error}}"
+    },
+    "chooser": {
+      "welcome": "Welcome to Reflect",
+      "subtitle": "Your notes are plain markdown files. Choose where to keep them.",
+      "folder-title": "A folder you choose",
+      "folder-body-mac": "Keep notes in any folder on this Mac.",
+      "folder-body-computer": "Keep notes in any folder on this computer.",
+      "choose-folder": "Choose a folder…",
+      "recent": "Recent",
+      "forget-graph": "Forget {{name}}",
+      "forget": "Forget",
+      "icloud-badge": "Recommended",
+      "icloud-open-existing": "Open an existing graph from iCloud Drive.",
+      "icloud-sync-available": "Syncs across your Mac and iPhone. Backed up automatically.",
+      "icloud-checking": "Checking iCloud…",
+      "icloud-sign-in": "Sign in to iCloud on this Mac to sync your notes across devices.",
+      "your-notes": "your notes",
+      "or-create-new-graph": "or create new graph",
+      "aria-name": "Name",
+      "new-name-placeholder": "New name",
+      "create": "Create",
+      "name-taken": "That name already exists in iCloud Drive.",
+      "name-label": "Name",
+      "setting-up": "Setting up…"
+    },
+    "note": {
+      "loading": "Loading note…",
+      "couldnt-open": "Couldn’t open {{path}}: {{error}}",
+      "save-failed": "Saving failed: {{error}}. Your edits are kept in the editor and the next successful save will persist them.",
+      "couldnt-save-image": "Couldn’t save the pasted image: {{message}}. It was not added to the note.",
+      "couldnt-save-file": "Couldn’t save the file: {{message}}. It was not added to the note.",
+      "untitled": "Untitled"
+    },
+    "protected": {
+      "notice": "This note contains markdown the editor can’t yet reproduce faithfully (for example task lists), so it’s open read-only to protect your file. Edit it in another tool for now."
+    },
+    "contact": {
+      "ignore": "Ignore",
+      "add": "Add"
+    },
+    "update": {
+      "available": "Update available",
+      "available-desc": "Reflect {{version}} is ready to install.",
+      "install": "Install",
+      "downloading": "Downloading update",
+      "preparing": "Preparing…",
+      "ready": "Update ready",
+      "ready-desc": "Reflect {{version}} will finish updating after restart.",
+      "restart": "Restart",
+      "failed": "Update failed",
+      "retry-install": "Retry install"
+    },
+    "import": {
+      "file-singular": "file",
+      "file-plural": "files",
+      "imported": "{{count}} imported",
+      "daily-note-singular": "daily note",
+      "daily-note-plural": "daily notes",
+      "merged": "{{count}} merged",
+      "renamed": "{{count}} renamed to avoid a name clash",
+      "already-present": "{{count}} already present",
+      "attachment-singular": "attachment",
+      "attachment-plural": "attachments",
+      "downloaded": "{{count}} downloaded",
+      "attachment-failed-singular": "1 attachment couldn't be downloaded and still links to Reflect V1.",
+      "attachment-failed-plural": "{{count}} attachments couldn't be downloaded and still link to Reflect V1.",
+      "reading-export": "Reading the export…",
+      "downloading-attachments": "Downloading attachments… {{done}} of {{total}}",
+      "adding-notes": "Adding notes… {{done}} of {{total}}",
+      "importing-v1": "Importing from Reflect V1",
+      "cancelling": "Cancelling…",
+      "complete": "Import complete",
+      "failed": "Import failed"
+    },
+    "audio-memo": {
+      "no-provider-reason": "Add an OpenAI or Gemini model in Settings to record audio memos",
+      "unsupported-platform": "Audio recording is not supported on this platform",
+      "mic-denied-macos": "Microphone access was denied. Allow it in System Settings → Privacy & Security → Microphone.",
+      "mic-denied-other": "Microphone access was denied. Allow microphone access for Reflect in your system settings."
+    },
+    "chat": {
+      "no-api-key": "No API key found for this provider — re-add it in Settings → AI providers."
+    },
+    "graph": {
+      "choose-folder": "Choose a graph folder"
+    },
+    "settings": {
+      "loading": "Loading settings",
+      "saving": "Saving settings",
+      "aria-label": "Settings"
+    },
+    "shortcuts": {
+      "title": "Keyboard shortcuts",
+      "app": "App",
+      "editor": "Editor"
+    },
+    "wiki-preview": {
+      "empty-note": "Empty note"
+    },
+    "header": {
+      "indexing": "Indexing…",
+      "light-mode": "Light mode",
+      "dark-mode": "Dark mode",
+      "settings-tooltip": "Settings"
+    }
   },
   "settings": {
     "title": "Settings",
@@ -41,5 +181,313 @@
     "import": "Import",
     "about": "About",
     "destructive": "Danger zone"
-  }
+  },
+  "sidebar": {
+    "primary-navigation": "Primary",
+    "daily-notes": "Daily notes",
+    "new-note": "New note",
+    "all-notes": "All notes",
+    "tasks": "Tasks",
+    "chat": "Chat",
+    "search-placeholder": "Search anything...",
+    "pinned-notes": "Pinned notes",
+    "unpin-note": "Unpin Note",
+    "opening-note-menu": "Opening note menu",
+    "backing-up": "Backing up",
+    "backup-waiting": "Backup waiting for a connection",
+    "backup-failed": "Backup failed — see Settings",
+    "indexing": "Indexing",
+    "switch-graph": "Switch graph",
+    "graph-color": "Graph color",
+    "reveal-graph-in-finder": "Reveal graph in Finder",
+    "open-another-graph": "Open another graph…",
+    "user-settings": "User settings",
+    "open-settings": "Open settings",
+    "settings": "Settings",
+    "go-back": "Go back",
+    "go-forward": "Go forward"
+  },
+  "allNotes": {
+    "filter-aria-label": "Filter by tag",
+    "filter-all": "All",
+    "deselect-note": "Deselect note",
+    "select-note": "Select note",
+    "screen-aria-label": "All notes",
+    "title": "Notes",
+    "trash-selection-aria-label": "Trash ({{count}})",
+    "trash": "Trash",
+    "column": {
+      "subject": "Subject",
+      "snippet": "Snippet",
+      "tags": "Tags",
+      "updated": "Updated"
+    },
+    "empty-state": {
+      "no-notes": "No notes yet.",
+      "no-tagged-notes": "No notes tagged #{{tag}}."
+    },
+    "trash-dialog": {
+      "title-one": "Trash {{count}} note?",
+      "title-other": "Trash {{count}} notes?",
+      "description-one": "It moves to your system Trash, where you can restore it.",
+      "description-other": "They move to your system Trash, where you can restore them."
+    },
+    "cancel": "Cancel",
+    "custom": {
+      "no-matching-tags": "No matching tags.",
+      "type-to-filter": "Type a tag to filter by.",
+      "invalid-tag": "Not a valid tag name.",
+      "label": "Custom",
+      "filter-by-another-tag": "Filter by another tag",
+      "filter-placeholder": "Filter by any tag…",
+      "filter-by-typed": "Filter by #{{tag}}"
+    },
+    "new-note": "New note"
+  },
+  "chat": {
+    "empty-heading": "Chat with your notes",
+    "empty-description": "Add an AI provider to start chatting. Reflect calls the provider directly with your own key — it stays in the system keychain, and private notes are never sent.",
+    "add-provider": "Add an AI provider",
+    "placeholder": "Ask about your notes…",
+    "message-aria-label": "Chat message",
+    "remove-attachment": "Remove {{name}}",
+    "model-aria-label": "Model",
+    "choose-model": "Choose a model"
+  },
+  "palette": {
+    "title": "Command palette",
+    "placeholder": "Search notes, or > for commands…",
+    "search-unavailable": "Search unavailable — the index didn’t answer.",
+    "no-results": "No results",
+    "recent": {
+      "heading": "Recent"
+    },
+    "notes": {
+      "heading": "Notes"
+    },
+    "commands": {
+      "heading": "Commands"
+    },
+    "no-note-selected": "No note selected",
+    "hint": {
+      "navigate": "Navigate",
+      "open": "Open",
+      "close": "Close"
+    },
+    "preview": {
+      "error": "This note can’t be previewed.",
+      "empty": "Empty"
+    }
+  },
+  "contextSidebar": {
+    "add-event": "Add event",
+    "meeting-name": "Meeting name",
+    "attendees": "Attendees",
+    "remove-attendee": "Remove {{name}}",
+    "create-backlinked-note": "Create backlinked note",
+    "cancel": "Cancel",
+    "add-to-daily-note": "Add to daily note",
+    "add-attendee": "Add attendee",
+    "add-suggestion": "Add “{{name}}”",
+    "contact": "Contact",
+    "events": "Events",
+    "calendar": "Calendar",
+    "previous-month": "Previous month",
+    "jump-to-today": "Jump to today",
+    "next-month": "Next month",
+    "note-actions": "Note actions",
+    "unpin-note": "Un-pin this note",
+    "pin-note": "Pin this note",
+    "updating-pin": "Updating pin",
+    "unlock-note": "Unlock note",
+    "lock-note": "Lock note",
+    "updating-privacy": "Updating privacy",
+    "lock-note-tooltip": "Locks this note out of AI. Backup and sync still include it.",
+    "unpublishing": "Unpublishing…",
+    "publishing": "Publishing…",
+    "unpublish-link": "Unpublish link",
+    "share-private-link": "Share with private link",
+    "unpublish-tooltip": "Delete the private GitHub gist for this note",
+    "publish-tooltip": "Creates a secret GitHub gist and copies its private link",
+    "trashing-note": "Trashing note",
+    "trash-note": "Trash note",
+    "trash-confirm-title": "Trash this note?",
+    "trash-confirm-description": "It moves to your system Trash, where you can restore it.",
+    "published-url": "Published URL",
+    "published-url-copied": "Published URL copied",
+    "copying-published-url": "Copying the published URL",
+    "copy-published-url": "Copy published URL",
+    "copied": "Copied",
+    "update-published-gist": "Update published gist",
+    "update-gist-latest": "Update gist with latest note",
+    "similar-notes": "Similar notes"
+  },
+  "audioMemo": {
+    "record-audio-memo": "Record audio memo",
+    "stop-recording": "Stop recording",
+    "discard-audio-memo": "Discard audio memo",
+    "retry": "Retry",
+    "discard": "Discard",
+    "transcribing": "Transcribing…"
+  },
+  "tasks": {
+    "filters-menu": {
+      "label": {
+        "pinned": "Pinned tasks",
+        "current": "Current tasks",
+        "overdue": "Overdue tasks",
+        "upcoming": "Upcoming tasks",
+        "other": "Other tasks"
+      },
+      "trigger": "Task filters",
+      "heading": "Tasks",
+      "show-archived": "Show archived tasks"
+    },
+    "group": {
+      "add": "Add",
+      "empty": "No tasks"
+    },
+    "row": {
+      "empty-task": "Empty task",
+      "checkbox": {
+        "aria-reopen": "Reopen: {{label}}",
+        "aria-complete": "Complete: {{label}}"
+      }
+    },
+    "calendar": {
+      "aria-label": "Schedule",
+      "aria": {
+        "previous-month": "Previous month",
+        "next-month": "Next month"
+      },
+      "clear-date": "Clear date"
+    },
+    "screen": {
+      "aria-label": "Tasks",
+      "search": {
+        "placeholder": "Search...",
+        "aria-label": "Search tasks"
+      },
+      "schedule": {
+        "aria-label": "Schedule {{count}}",
+        "button": "Schedule"
+      },
+      "convert": {
+        "aria-label": "Convert to bullet {{count}}",
+        "title": "Drop the checkbox, keeping the line as a plain bullet — leaves the Tasks list",
+        "button": "Convert to bullet"
+      },
+      "archive": {
+        "aria-label": "Archive {{count}}",
+        "button": "Archive"
+      },
+      "error": {
+        "load-failed": "Couldn’t load tasks."
+      },
+      "empty": {
+        "no-matching": "No matching tasks.",
+        "no-tasks": "No tasks to show."
+      }
+    }
+  },
+  "templates": {
+    "new-template": "New template",
+    "create-dialog": {
+      "description": "A markdown file in your graph's templates/ folder.",
+      "name-placeholder": "Template name",
+      "name-required": "Enter a name.",
+      "cancel": "Cancel",
+      "create": "Create"
+    },
+    "picker": {
+      "title": "Insert template",
+      "description": "Choose a template to insert at the cursor",
+      "placeholder": "Insert template…",
+      "empty": "No templates"
+    }
+  },
+  "editor": {
+    "retry": "Retry",
+    "retry-with-another-model": "Retry with another model",
+    "insert-below": "Insert below",
+    "replace-selection": "Replace selection",
+    "add-provider-to-use-prompts": "Add an AI provider in Settings to use AI prompts.",
+    "private-note-blocked": "This note is marked private, so its content is never sent to an AI provider.",
+    "no-api-key": "No API key found for this provider — re-add it in Settings → AI providers.",
+    "add-provider-menu-label": "Add an AI provider in Settings…",
+    "run-as-prompt": "Run as a prompt",
+    "image-preview-title": "Image preview",
+    "close": "Close",
+    "open": "Open",
+    "close-image-preview": "Close image preview"
+  },
+  "mobile": {
+    "add-ai-provider": {
+      "aria-label": "Add AI provider",
+      "title": "Add AI provider",
+      "key-hint": "The API key is stored in this device's keychain, never in your graph — add it on each device you chat from.",
+      "verify-warning": "Couldn't reach {{provider}} to verify the key. Submit again to save it unverified."
+    },
+    "provider": {
+      "label": "Provider",
+      "aria-label": "Provider"
+    },
+    "default-model": {
+      "label": "Default model",
+      "aria-label": "Default model"
+    },
+    "api-key": {
+      "label": "API key"
+    },
+    "use-as-default-provider": "Use as the default provider",
+    "save-anyway": "Save anyway",
+    "add-provider": "Add provider"
+  },
+  "commands": {
+    "switch-to-graph": "Switch to graph {{position}}",
+    "go-to-today": "Go to today",
+    "all-notes": "All notes",
+    "tasks": "Tasks",
+    "new-note": "New note",
+    "open-note-in-new-window": "Open note in new window",
+    "chat": "Chat",
+    "new-chat": "New chat",
+    "back": "Back",
+    "forward": "Forward",
+    "search": "Search…",
+    "pin-or-unpin-note": "Pin or unpin note",
+    "unpinning-note": "Unpinning note",
+    "pinning-note": "Pinning note",
+    "mark-or-unmark-note-as-private": "Mark or un-mark note as private",
+    "unlocking-note": "Unlocking note",
+    "locking-note": "Locking note",
+    "share-with-private-link": "Share with private link",
+    "attach-file": "Attach file…",
+    "copy-deep-link": "Copy deep link",
+    "open-random-note": "Open random note",
+    "insert-template": "Insert template…",
+    "new-template": "New template",
+    "record-audio-memo": "Record audio memo",
+    "toggle-theme": "Toggle theme",
+    "toggle-sidebar": "Toggle sidebar",
+    "open-settings": "Open settings",
+    "keyboard-shortcuts": "Keyboard shortcuts",
+    "enable-semantic-search": "Enable semantic search",
+    "rebuild-search-index": "Rebuild search index",
+    "developer-tools": "Developer tools"
+  },
+  "menu": {
+    "app": "Reflect",
+    "about": "About Reflect",
+    "settings": "Settings…",
+    "hide-app": "Hide Reflect",
+    "quit-app": "Quit Reflect",
+    "file": "File",
+    "edit": "Edit",
+    "view": "View",
+    "zoom": "Zoom",
+    "window": "Window",
+    "help": "Help"
+  },
+  "shortcuts": {}
 }

@@ -15,7 +15,147 @@
     "continue": "继续",
     "back": "返回",
     "next": "下一步",
-    "ok": "确定"
+    "ok": "确定",
+    "aria": {
+      "workspace": "工作区",
+      "context": "上下文",
+      "incoming-backlinks": "反向链接",
+      "editing": "正在编辑 {{path}}",
+      "resize-sidebar": "调整侧栏大小",
+      "resize-context-panel": "调整上下文侧栏大小",
+      "suggested-contact": "建议的联系人",
+      "open-settings": "打开设置"
+    },
+    "backlinks": {
+      "load-more-error": "无法加载更多反向链接。",
+      "loading-more": "正在加载更多反向链接…",
+      "retry-loading": "重试加载反向链接",
+      "load-more": "加载更多反向链接",
+      "collapse-references": "收起来自 {{title}} 的引用",
+      "expand-references": "展开来自 {{title}} 的引用",
+      "couldnt-load": "无法加载反向链接。",
+      "incoming-singular": "反向链接 ({{count}})",
+      "incoming-plural": "反向链接 ({{count}})"
+    },
+    "conflict": {
+      "empty-side": "这一侧为空",
+      "banner-text": "此笔记在磁盘上已被修改,而你还有未保存的编辑。",
+      "keep-mine": "保留我的",
+      "load-theirs": "加载对方版本",
+      "two-devices": "此笔记同时在两台设备上被编辑。",
+      "both-highlighted": "两个版本已在下方高亮显示。选择要保留的内容——每个版本都可在备份历史中恢复。",
+      "keep-named": "保留“{{label}}”",
+      "keep-this-device": "保留此设备的版本",
+      "keep-other-versions": "保留其他版本",
+      "keep-other-device": "保留另一台设备的版本",
+      "keep-all": "全部保留",
+      "keep-both": "两者都保留",
+      "couldnt-resolve": "无法解决冲突:{{error}}"
+    },
+    "chooser": {
+      "welcome": "欢迎使用 Reflect",
+      "subtitle": "你的笔记是纯 Markdown 文件。选择保存位置。",
+      "folder-title": "你选择的文件夹",
+      "folder-body-mac": "将笔记保存在此 Mac 上的任意文件夹中。",
+      "folder-body-computer": "将笔记保存在此电脑上的任意文件夹中。",
+      "choose-folder": "选择文件夹…",
+      "recent": "最近打开",
+      "forget-graph": "忘记 {{name}}",
+      "forget": "忘记",
+      "icloud-badge": "推荐",
+      "icloud-open-existing": "从 iCloud 云盘中打开现有图谱。",
+      "icloud-sync-available": "在你的 Mac 和 iPhone 间同步。自动备份。",
+      "icloud-checking": "正在检查 iCloud…",
+      "icloud-sign-in": "在此 Mac 上登录 iCloud 以在设备间同步你的笔记。",
+      "your-notes": "你的笔记",
+      "or-create-new-graph": "或创建新图谱",
+      "aria-name": "名称",
+      "new-name-placeholder": "新名称",
+      "create": "创建",
+      "name-taken": "该名称在 iCloud 云盘中已存在。",
+      "name-label": "名称",
+      "setting-up": "正在设置…"
+    },
+    "note": {
+      "loading": "正在加载笔记…",
+      "couldnt-open": "无法打开 {{path}}: {{error}}",
+      "save-failed": "保存失败:{{error}}。你的编辑已保留在编辑器中,下次保存成功时会写入。",
+      "couldnt-save-image": "无法保存粘贴的图片:{{message}}。它未被添加到笔记中。",
+      "couldnt-save-file": "无法保存文件:{{message}}。它未被添加到笔记中。",
+      "untitled": "无标题"
+    },
+    "protected": {
+      "notice": "此笔记包含编辑器尚无法精确还原的 Markdown(例如任务列表),因此以只读方式打开以保护你的文件。请暂时在其他工具中编辑。"
+    },
+    "contact": {
+      "ignore": "忽略",
+      "add": "添加"
+    },
+    "update": {
+      "available": "有可用更新",
+      "available-desc": "Reflect {{version}} 已准备好安装。",
+      "install": "安装",
+      "downloading": "正在下载更新",
+      "preparing": "准备中…",
+      "ready": "更新就绪",
+      "ready-desc": "Reflect {{version}} 将在重启后完成更新。",
+      "restart": "重启",
+      "failed": "更新失败",
+      "retry-install": "重试安装"
+    },
+    "import": {
+      "file-singular": "个文件",
+      "file-plural": "个文件",
+      "imported": "已导入 {{count}}",
+      "daily-note-singular": "篇每日笔记",
+      "daily-note-plural": "篇每日笔记",
+      "merged": "已合并 {{count}}",
+      "renamed": "{{count}} 个已重命名以避免名称冲突",
+      "already-present": "{{count}} 个已存在",
+      "attachment-singular": "个附件",
+      "attachment-plural": "个附件",
+      "downloaded": "已下载 {{count}}",
+      "attachment-failed-singular": "1 个附件无法下载,仍链接到 Reflect V1。",
+      "attachment-failed-plural": "{{count}} 个附件无法下载,仍链接到 Reflect V1。",
+      "reading-export": "正在读取导出文件…",
+      "downloading-attachments": "正在下载附件… {{done}} / {{total}}",
+      "adding-notes": "正在添加笔记… {{done}} / {{total}}",
+      "importing-v1": "正在从 Reflect V1 导入",
+      "cancelling": "正在取消…",
+      "complete": "导入完成",
+      "failed": "导入失败"
+    },
+    "audio-memo": {
+      "no-provider-reason": "在设置中添加 OpenAI 或 Gemini 模型以录制语音备忘",
+      "unsupported-platform": "此平台不支持录音",
+      "mic-denied-macos": "麦克风访问被拒绝。请在系统设置 → 隐私与安全性 → 麦克风中允许。",
+      "mic-denied-other": "麦克风访问被拒绝。请在系统设置中允许 Reflect 访问麦克风。"
+    },
+    "chat": {
+      "no-api-key": "未找到此服务商的 API 密钥 — 请在设置 → AI 服务商中重新添加。"
+    },
+    "graph": {
+      "choose-folder": "选择图谱文件夹"
+    },
+    "settings": {
+      "loading": "正在加载设置",
+      "saving": "正在保存设置",
+      "aria-label": "设置"
+    },
+    "shortcuts": {
+      "title": "键盘快捷键",
+      "app": "应用",
+      "editor": "编辑器"
+    },
+    "wiki-preview": {
+      "empty-note": "空笔记"
+    },
+    "header": {
+      "indexing": "正在索引…",
+      "light-mode": "浅色模式",
+      "dark-mode": "深色模式",
+      "settings-tooltip": "设置"
+    }
   },
   "settings": {
     "title": "设置",
@@ -41,5 +181,313 @@
     "import": "导入",
     "about": "关于",
     "destructive": "危险区"
-  }
+  },
+  "sidebar": {
+    "primary-navigation": "主导航",
+    "daily-notes": "每日笔记",
+    "new-note": "新建笔记",
+    "all-notes": "全部笔记",
+    "tasks": "任务",
+    "chat": "对话",
+    "search-placeholder": "搜索任何内容...",
+    "pinned-notes": "置顶笔记",
+    "unpin-note": "取消置顶笔记",
+    "opening-note-menu": "打开笔记菜单",
+    "backing-up": "备份中",
+    "backup-waiting": "备份等待连接",
+    "backup-failed": "备份失败 — 请查看设置",
+    "indexing": "索引中",
+    "switch-graph": "切换图谱",
+    "graph-color": "图谱颜色",
+    "reveal-graph-in-finder": "在访达中显示图谱",
+    "open-another-graph": "打开其他图谱…",
+    "user-settings": "用户设置",
+    "open-settings": "打开设置",
+    "settings": "设置",
+    "go-back": "后退",
+    "go-forward": "前进"
+  },
+  "allNotes": {
+    "filter-aria-label": "按标签筛选",
+    "filter-all": "全部",
+    "deselect-note": "取消选择笔记",
+    "select-note": "选择笔记",
+    "screen-aria-label": "全部笔记",
+    "title": "笔记",
+    "trash-selection-aria-label": "移到废纸篓 ({{count}})",
+    "trash": "移到废纸篓",
+    "column": {
+      "subject": "主题",
+      "snippet": "摘要",
+      "tags": "标签",
+      "updated": "更新时间"
+    },
+    "empty-state": {
+      "no-notes": "暂无笔记。",
+      "no-tagged-notes": "没有标签为 #{{tag}} 的笔记。"
+    },
+    "trash-dialog": {
+      "title-one": "将 {{count}} 条笔记移到废纸篓？",
+      "title-other": "将 {{count}} 条笔记移到废纸篓？",
+      "description-one": "它会移到系统废纸篓,你可以在那里恢复它。",
+      "description-other": "它们会移到系统废纸篓,你可以在那里恢复它们。"
+    },
+    "cancel": "取消",
+    "custom": {
+      "no-matching-tags": "没有匹配的标签。",
+      "type-to-filter": "输入标签以筛选。",
+      "invalid-tag": "不是有效的标签名。",
+      "label": "自定义",
+      "filter-by-another-tag": "按其他标签筛选",
+      "filter-placeholder": "按任意标签筛选…",
+      "filter-by-typed": "按 #{{tag}} 筛选"
+    },
+    "new-note": "新建笔记"
+  },
+  "chat": {
+    "empty-heading": "与你的笔记对话",
+    "empty-description": "添加一个 AI 服务商即可开始对话。Reflect 会使用你自己的密钥直接调用服务商——密钥保存在系统钥匙串中，私密笔记永远不会被发送。",
+    "add-provider": "添加 AI 服务商",
+    "placeholder": "向你的笔记提问…",
+    "message-aria-label": "对话消息",
+    "remove-attachment": "移除 {{name}}",
+    "model-aria-label": "模型",
+    "choose-model": "选择模型"
+  },
+  "palette": {
+    "title": "命令面板",
+    "placeholder": "搜索笔记,或输入 > 查看命令…",
+    "search-unavailable": "搜索不可用 — 索引未响应。",
+    "no-results": "无结果",
+    "recent": {
+      "heading": "最近"
+    },
+    "notes": {
+      "heading": "笔记"
+    },
+    "commands": {
+      "heading": "命令"
+    },
+    "no-note-selected": "未选中笔记",
+    "hint": {
+      "navigate": "导航",
+      "open": "打开",
+      "close": "关闭"
+    },
+    "preview": {
+      "error": "无法预览此笔记。",
+      "empty": "空"
+    }
+  },
+  "contextSidebar": {
+    "add-event": "添加事件",
+    "meeting-name": "会议名称",
+    "attendees": "参会者",
+    "remove-attendee": "移除{{name}}",
+    "create-backlinked-note": "创建反向链接笔记",
+    "cancel": "取消",
+    "add-to-daily-note": "添加到每日笔记",
+    "add-attendee": "添加参会者",
+    "add-suggestion": "添加“{{name}}”",
+    "contact": "联系人",
+    "events": "事件",
+    "calendar": "日历",
+    "previous-month": "上个月",
+    "jump-to-today": "跳转到今天",
+    "next-month": "下个月",
+    "note-actions": "笔记操作",
+    "unpin-note": "取消置顶此笔记",
+    "pin-note": "置顶此笔记",
+    "updating-pin": "正在更新置顶",
+    "unlock-note": "解锁笔记",
+    "lock-note": "锁定笔记",
+    "updating-privacy": "正在更新隐私设置",
+    "lock-note-tooltip": "将此笔记排除在 AI 之外。备份和同步仍会包含它。",
+    "unpublishing": "正在取消发布…",
+    "publishing": "正在发布…",
+    "unpublish-link": "取消发布链接",
+    "share-private-link": "通过私密链接分享",
+    "unpublish-tooltip": "删除此笔记的私密 GitHub gist",
+    "publish-tooltip": "创建一个私密 GitHub gist 并复制其私密链接",
+    "trashing-note": "正在将笔记移到废纸篓",
+    "trash-note": "移到废纸篓",
+    "trash-confirm-title": "将此笔记移到废纸篓？",
+    "trash-confirm-description": "它会被移到系统废纸篓，你可以在那里恢复。",
+    "published-url": "已发布链接",
+    "published-url-copied": "已复制已发布链接",
+    "copying-published-url": "正在复制已发布链接",
+    "copy-published-url": "复制已发布链接",
+    "copied": "已复制",
+    "update-published-gist": "更新已发布 gist",
+    "update-gist-latest": "用最新笔记更新 gist",
+    "similar-notes": "相似笔记"
+  },
+  "audioMemo": {
+    "record-audio-memo": "录制语音备忘",
+    "stop-recording": "停止录音",
+    "discard-audio-memo": "丢弃语音备忘",
+    "retry": "重试",
+    "discard": "丢弃",
+    "transcribing": "转写中…"
+  },
+  "tasks": {
+    "filters-menu": {
+      "label": {
+        "pinned": "置顶任务",
+        "current": "当前任务",
+        "overdue": "逾期任务",
+        "upcoming": "即将到期的任务",
+        "other": "其他任务"
+      },
+      "trigger": "任务筛选",
+      "heading": "任务",
+      "show-archived": "显示已归档任务"
+    },
+    "group": {
+      "add": "添加",
+      "empty": "暂无任务"
+    },
+    "row": {
+      "empty-task": "空任务",
+      "checkbox": {
+        "aria-reopen": "重新打开：{{label}}",
+        "aria-complete": "完成：{{label}}"
+      }
+    },
+    "calendar": {
+      "aria-label": "安排日期",
+      "aria": {
+        "previous-month": "上个月",
+        "next-month": "下个月"
+      },
+      "clear-date": "清除日期"
+    },
+    "screen": {
+      "aria-label": "任务",
+      "search": {
+        "placeholder": "搜索…",
+        "aria-label": "搜索任务"
+      },
+      "schedule": {
+        "aria-label": "安排日期 {{count}}",
+        "button": "安排日期"
+      },
+      "convert": {
+        "aria-label": "转换为列表项 {{count}}",
+        "title": "移除复选框，保留该行为普通列表项 — 从任务列表移除",
+        "button": "转换为列表项"
+      },
+      "archive": {
+        "aria-label": "归档 {{count}}",
+        "button": "归档"
+      },
+      "error": {
+        "load-failed": "无法加载任务。"
+      },
+      "empty": {
+        "no-matching": "没有匹配的任务。",
+        "no-tasks": "暂无任务可显示。"
+      }
+    }
+  },
+  "templates": {
+    "new-template": "新建模板",
+    "create-dialog": {
+      "description": "你图谱的 templates/ 文件夹下的 Markdown 文件。",
+      "name-placeholder": "模板名称",
+      "name-required": "请输入名称。",
+      "cancel": "取消",
+      "create": "创建"
+    },
+    "picker": {
+      "title": "插入模板",
+      "description": "选择一个要插入到光标处的模板",
+      "placeholder": "插入模板…",
+      "empty": "暂无模板"
+    }
+  },
+  "editor": {
+    "retry": "重试",
+    "retry-with-another-model": "使用其他模型重试",
+    "insert-below": "在下方插入",
+    "replace-selection": "替换所选内容",
+    "add-provider-to-use-prompts": "在设置中添加 AI 服务商以使用 AI 提示词。",
+    "private-note-blocked": "此笔记已标记为私密，其内容不会发送给任何 AI 服务商。",
+    "no-api-key": "未找到该服务商的 API 密钥 — 请在设置 → AI 服务商中重新添加。",
+    "add-provider-menu-label": "在设置中添加 AI 服务商…",
+    "run-as-prompt": "作为提示词运行",
+    "image-preview-title": "图片预览",
+    "close": "关闭",
+    "open": "打开",
+    "close-image-preview": "关闭图片预览"
+  },
+  "mobile": {
+    "add-ai-provider": {
+      "aria-label": "添加 AI 服务商",
+      "title": "添加 AI 服务商",
+      "key-hint": "API 密钥保存在本设备的钥匙串中，不会存入你的图谱——在每个使用对话的设备上都需要分别添加。",
+      "verify-warning": "无法连接 {{provider}} 验证密钥。再次提交将以未验证状态保存。"
+    },
+    "provider": {
+      "label": "服务商",
+      "aria-label": "服务商"
+    },
+    "default-model": {
+      "label": "默认模型",
+      "aria-label": "默认模型"
+    },
+    "api-key": {
+      "label": "API 密钥"
+    },
+    "use-as-default-provider": "设为默认服务商",
+    "save-anyway": "仍然保存",
+    "add-provider": "添加服务商"
+  },
+  "commands": {
+    "switch-to-graph": "切换到图谱 {{position}}",
+    "go-to-today": "前往今天",
+    "all-notes": "全部笔记",
+    "tasks": "任务",
+    "new-note": "新建笔记",
+    "open-note-in-new-window": "在新窗口打开笔记",
+    "chat": "对话",
+    "new-chat": "新建对话",
+    "back": "后退",
+    "forward": "前进",
+    "search": "搜索…",
+    "pin-or-unpin-note": "置顶或取消置顶笔记",
+    "unpinning-note": "取消置顶笔记",
+    "pinning-note": "置顶笔记",
+    "mark-or-unmark-note-as-private": "标记或取消标记笔记为私密",
+    "unlocking-note": "解锁笔记",
+    "locking-note": "锁定笔记",
+    "share-with-private-link": "通过私密链接分享",
+    "attach-file": "附加文件…",
+    "copy-deep-link": "复制深链接",
+    "open-random-note": "随机打开笔记",
+    "insert-template": "插入模板…",
+    "new-template": "新建模板",
+    "record-audio-memo": "录制语音备忘",
+    "toggle-theme": "切换主题",
+    "toggle-sidebar": "切换侧栏",
+    "open-settings": "打开设置",
+    "keyboard-shortcuts": "键盘快捷键",
+    "enable-semantic-search": "启用语义搜索",
+    "rebuild-search-index": "重建搜索索引",
+    "developer-tools": "开发者工具"
+  },
+  "menu": {
+    "app": "Reflect",
+    "about": "关于 Reflect",
+    "settings": "设置…",
+    "hide-app": "隐藏 Reflect",
+    "quit-app": "退出 Reflect",
+    "file": "文件",
+    "edit": "编辑",
+    "view": "显示",
+    "zoom": "缩放",
+    "window": "窗口",
+    "help": "帮助"
+  },
+  "shortcuts": {}
 }
