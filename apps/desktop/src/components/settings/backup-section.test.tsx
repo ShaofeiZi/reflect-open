@@ -214,8 +214,9 @@ describe('BackupSettingsField', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Sign out' }))
 
     expect(await screen.findByRole('heading', { name: 'Sign out of GitHub?' })).toBeTruthy()
-    expect(within(screen.getByRole('dialog')).getByText('Keychain denied')).toBeTruthy()
-    expect(screen.getAllByText('Keychain denied')).toHaveLength(1)
+    const message = 'The operation failed: Keychain denied'
+    expect(within(screen.getByRole('dialog')).getByText(message)).toBeTruthy()
+    expect(screen.getAllByText(message)).toHaveLength(1)
   })
 
   it('does not close the sign-out dialog while sign-out is pending', async () => {

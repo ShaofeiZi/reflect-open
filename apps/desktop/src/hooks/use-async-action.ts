@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { errorMessage } from '@reflect/core'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 export interface AsyncAction {
   /**
@@ -31,7 +31,7 @@ export function useAsyncAction(): AsyncAction {
     try {
       await action()
     } catch (caught: unknown) {
-      setError(errorMessage(caught))
+      setError(userErrorMessage(caught))
     } finally {
       setPending(false)
     }

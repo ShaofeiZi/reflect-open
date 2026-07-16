@@ -1,11 +1,11 @@
 import {
   captureInboxSpool,
-  errorMessage,
   resolveNoteTarget,
   textCaptureEnvelopeSchema,
 } from '@reflect/core'
 import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { routeForPath, type Route } from '@/routing/route'
 import { parseDeepLink } from '@/lib/deep-links/parse'
 
@@ -52,7 +52,7 @@ export async function handleDeepLink(url: string, io: DeepLinkIo): Promise<void>
         if (io.isStale?.() === true) {
           return
         }
-        startOperation(translate('operations.links.opening')).fail(errorMessage(cause))
+        startOperation(translate('operations.links.opening')).fail(userErrorMessage(cause))
         return
       }
       if (io.isStale?.() === true) {
@@ -85,7 +85,7 @@ export async function handleDeepLink(url: string, io: DeepLinkIo): Promise<void>
         })
         await captureInboxSpool(`${envelope.id}.json`, JSON.stringify(envelope), io.generation)
       } catch (cause) {
-        startOperation(translate('operations.links.saving-capture')).fail(errorMessage(cause))
+        startOperation(translate('operations.links.saving-capture')).fail(userErrorMessage(cause))
         return
       }
       startOperation(label).done()

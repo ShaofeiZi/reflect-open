@@ -1,9 +1,10 @@
 import { open } from '@tauri-apps/plugin-dialog'
-import { assetFileName, errorMessage, importAsset } from '@reflect/core'
+import { assetFileName, importAsset } from '@reflect/core'
 import { noteEditorHandleFor } from '@/editor/editor-handle-registry'
 import type { CommandContext } from '@/lib/commands/types'
 import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 function basenameOf(sourcePath: string): string {
   const segments = sourcePath.split(/[/\\]/)
@@ -76,7 +77,7 @@ export async function attachFilesToNote(context: CommandContext): Promise<void> 
   }
   if (failures.length > 0) {
     const details = failures
-      .map(({ name, cause }) => `${name} (${errorMessage(cause)})`)
+      .map(({ name, cause }) => `${name} (${userErrorMessage(cause)})`)
       .join(', ')
     problems.push(translate('operations.notes.attachment-copy-failed', { details }))
   }

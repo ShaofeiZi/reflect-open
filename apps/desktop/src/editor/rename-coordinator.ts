@@ -1,5 +1,4 @@
 import {
-  errorMessage,
   getLinkSources,
   readNote,
   resolveWikiTarget,
@@ -13,6 +12,7 @@ import type { NoteContentOrigin } from './note-session'
 import { composeRenameFailure, type RenamePhaseFailures } from './rename-failure'
 import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { createTitleRenameTracker } from './title-rename'
 import type { TitleRename } from './title-rename'
 
@@ -120,7 +120,7 @@ export function createRenameCoordinator(options: RenameCoordinatorOptions): Rena
           console.error('note file move failed:', cause)
           operation.fail(
             translate('operations.notes.rename-move-failed', {
-              error: errorMessage(cause),
+              error: userErrorMessage(cause),
             }),
           )
         }
@@ -154,14 +154,14 @@ export function createRenameCoordinator(options: RenameCoordinatorOptions): Rena
           // baseline has already advanced (re-arming would re-fire with a
           // stale `from` after further edits), so the alias is the safety
           // net that keeps every un-rewritten link resolving to this note.
-          failures.rewrite = errorMessage(cause)
+          failures.rewrite = userErrorMessage(cause)
           console.error('rename link rewrite failed:', cause)
         }
         if (!collision) {
           try {
             await placeOldTitleAlias(currentPath, { ...rename, from }, gen)
           } catch (cause) {
-            failures.alias = errorMessage(cause)
+            failures.alias = userErrorMessage(cause)
             console.error('rename alias placement failed:', cause)
           }
         }
@@ -172,7 +172,7 @@ export function createRenameCoordinator(options: RenameCoordinatorOptions): Rena
         try {
           await runMove(rename.to, gen)
         } catch (cause) {
-          failures.move = errorMessage(cause)
+          failures.move = userErrorMessage(cause)
           console.error('note file move failed:', cause)
         }
       } finally {

@@ -4,7 +4,6 @@ import type { FileInfo, FileLinkPayload } from '@meowdown/core'
 import {
   assetFileName,
   createAsset,
-  errorMessage,
   listDir,
   openAsset as openAssetCommand,
   type FileMeta,
@@ -12,6 +11,7 @@ import {
 import { formatBytes } from '@/lib/format-bytes'
 import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 /**
  * Above this size, a save gets a non-blocking status-line warning. Never a
@@ -212,7 +212,7 @@ export function useAssetPersistence(
         if (!isStale()) {
           setSaveError({
             kind: imageExtension ? 'image' : 'file',
-            message: errorMessage(cause),
+            message: userErrorMessage(cause),
           })
         }
         return null

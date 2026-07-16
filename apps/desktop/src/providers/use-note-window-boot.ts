@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import {
-  errorMessage,
   isMobilePlatform,
   subscribeIndexWritten,
   subscribeWindowNavigate,
@@ -11,6 +10,7 @@ import {
 import { dispatchDeepLink } from '@/lib/deep-links/intake'
 import { throttledInvalidateIndexQueries } from '@/lib/query-client'
 import { trackSubscriptions } from '@/lib/subscriptions'
+import { userErrorMessage } from '@/lib/user-error-message'
 import {
   initialRouteForDeepLink,
   setInitialWindowRoute,
@@ -74,7 +74,7 @@ export function useNoteWindowBoot({ platform, onAdopted, onFailed }: NoteWindowB
         onAdopted(boot)
       } catch (err) {
         if (active) {
-          onFailed(errorMessage(err))
+          onFailed(userErrorMessage(err))
         }
       }
     })()

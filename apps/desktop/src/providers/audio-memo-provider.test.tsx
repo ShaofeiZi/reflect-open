@@ -272,7 +272,7 @@ describe('AudioMemoProvider', () => {
       result.current.toggle()
     })
     await waitFor(() => expect(result.current.phase).toBe('error'))
-    expect(result.current.error).toBe('disk full')
+    expect(result.current.error).toBe('The audio memo could not be saved: disk full')
     expect(result.current.canRetry).toBe(true)
 
     await act(async () => {
@@ -564,7 +564,11 @@ describe('AudioMemoProvider', () => {
       rerender()
     })
 
-    await waitFor(() => expect(failOperation).toHaveBeenCalledWith('disk full'))
+    await waitFor(() =>
+      expect(failOperation).toHaveBeenCalledWith(
+        'The audio memo could not be saved: disk full',
+      ),
+    )
   })
 
   it('a parked error never invisibly blocks recording: toggle surfaces, then clears it', async () => {

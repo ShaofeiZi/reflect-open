@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react'
-import { aiProvider, errorMessage, validateApiKey } from '@reflect/core'
+import { aiProvider, validateApiKey } from '@reflect/core'
 import { translate } from '@/lib/i18n'
 import { providerFetch } from '@/lib/provider-fetch'
+import { userErrorMessage } from '@/lib/user-error-message'
 import type { NewAiProvider } from '@/hooks/use-ai-providers'
 
 interface UseAddAiProviderSubmitOptions {
@@ -67,7 +68,7 @@ export function useAddAiProviderSubmit({
         await onAdd({ ...draft, apiKey })
         onDone()
       } catch (error: unknown) {
-        setSubmitError(errorMessage(error))
+        setSubmitError(userErrorMessage(error))
       }
     },
     [unverified, onAdd, onDone],

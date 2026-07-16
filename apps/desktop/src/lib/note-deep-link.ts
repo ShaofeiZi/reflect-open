@@ -1,6 +1,5 @@
 import {
   dateFromDailyPath,
-  errorMessage,
   indexNote,
   isDaily,
   newNoteId,
@@ -11,6 +10,7 @@ import { dailyDeepLink, noteDeepLink } from '@/lib/deep-links/format'
 import { commitNoteFrontmatter, readNoteSource } from '@/lib/note-frontmatter'
 import { startOperation } from '@/lib/operations'
 import { translate } from '@/lib/i18n'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 /**
  * "Copy deep link" (the v1 `alt+mod+l` port): the clipboard gets the most
@@ -60,13 +60,13 @@ export async function runCopyDeepLink(path: string, generation: number): Promise
   try {
     url = await deepLinkForNote(path, generation)
   } catch (cause) {
-    startOperation(translate('operations.links.copying-deep-link')).fail(errorMessage(cause))
+    startOperation(translate('operations.links.copying-deep-link')).fail(userErrorMessage(cause))
     return
   }
   try {
     await navigator.clipboard.writeText(url)
     startOperation(translate('operations.links.deep-link-copied')).done()
   } catch (cause) {
-    startOperation(translate('operations.links.copying-deep-link')).fail(errorMessage(cause))
+    startOperation(translate('operations.links.copying-deep-link')).fail(userErrorMessage(cause))
   }
 }

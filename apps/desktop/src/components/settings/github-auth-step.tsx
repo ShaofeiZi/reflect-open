@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react'
 import { openUrl } from '@tauri-apps/plugin-opener'
-import { isDeviceFlowConfigured, saveGithubAuth, type GithubUser } from '@reflect/core'
+import {
+  isAppError,
+  isDeviceFlowConfigured,
+  saveGithubAuth,
+  type GithubUser,
+} from '@reflect/core'
 import { useTranslation } from 'react-i18next'
 import { InlineAlert } from '@/components/inline-alert'
 import { Button } from '@/components/ui/button'
@@ -132,7 +137,15 @@ export function GithubAuthStep({ onAuthed, repoName }: GithubAuthStepProps): Rea
     await pat.run(async () => {
       await saveGithubAuth({ kind: 'pat', token })
       invalidateGithubAuth()
-      await verifyAndFinish()
+      try {
+        await verifyAndFinish()
+      } catch (cause) {
+        if (isAppError(cause) && cause.kind === 'auth') {
+          pat.setError(t('settings.githubAuth.rejected'))
+          return
+        }
+        throw cause
+      }
     })
   }
 

@@ -7,7 +7,6 @@ import {
 } from '@meowdown/react'
 import {
   contactLinkSuggestions,
-  errorMessage,
   hasBridge,
   isContactsReadable,
   resolveOrCreateNoteWithTitle,
@@ -21,6 +20,7 @@ import { formatDayLabel, todayIso } from '@/lib/dates'
 import { translate } from '@/lib/i18n'
 import { createPersonNoteFromContact } from '@/lib/note-contact'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 import { useSettings } from '@/providers/settings-provider'
 
@@ -106,7 +106,9 @@ export function useEditorAutocomplete(): EditorAutocomplete {
             onSelect: () => {
               void resolveOrCreateFromAutocomplete(entry.title).catch((error: unknown) => {
                 console.error('create-from-autocomplete failed:', error)
-                startOperation(translate('operations.notes.creating')).fail(errorMessage(error))
+                startOperation(translate('operations.notes.creating')).fail(
+                  userErrorMessage(error),
+                )
               })
             },
           }

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { runDeviceFlow, toAppError } from '@reflect/core'
+import { isAppError, runDeviceFlow } from '@reflect/core'
 import { invalidateGithubAuth } from '@/lib/github-auth-state'
 import { translate } from '@/lib/i18n'
 import { providerFetch } from '@/lib/provider-fetch'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 /** What a device-flow surface renders: nothing yet, or the code to enter. */
 export type DeviceFlowView =
@@ -67,13 +68,14 @@ export function useDeviceFlowAuth(): DeviceFlowAuth {
       return auth !== null
     } catch (caught: unknown) {
       setView({ view: 'idle' })
-      const error = toAppError(caught)
       setError(
-        error.kind === 'auth'
+        isAppError(caught) && caught.kind === 'auth'
           ? translate('settings.githubAuth.signInAuthFailed')
-          : error.kind === 'network'
+          : isAppError(caught) && caught.kind === 'network'
             ? translate('settings.githubAuth.signInNetworkFailed')
-            : translate('settings.githubAuth.signInFailed', { message: error.message }),
+            : translate('settings.githubAuth.signInFailed', {
+                message: userErrorMessage(caught),
+              }),
       )
       return false
     } finally {

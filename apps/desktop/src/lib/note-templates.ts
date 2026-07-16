@@ -1,6 +1,5 @@
 import {
   availableTemplatePath,
-  errorMessage,
   hasAuthoredTitle,
   parseNote,
   readNote,
@@ -15,6 +14,7 @@ import type { NoteEditorHandle } from '@/editor/note-editor'
 import { openSession } from '@/editor/open-documents'
 import { startOperation } from '@/lib/operations'
 import { translate } from '@/lib/i18n'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 /**
  * Note templates (docs/porting/note-templates.md): markdown files under
@@ -52,7 +52,7 @@ export async function insertTemplate(
     editor.insertMarkdown(await templateBody(path))
     editor.focus()
   } catch (cause) {
-    startOperation(translate('operations.templates.inserting')).fail(errorMessage(cause))
+    startOperation(translate('operations.templates.inserting')).fail(userErrorMessage(cause))
   }
 }
 

@@ -28,7 +28,7 @@ describe('useAsyncAction', () => {
     expect(result.current.error).toBeNull()
   })
 
-  it('captures a failure as a message and clears it on the next run', async () => {
+  it('localizes a structured failure and clears it on the next run', async () => {
     const { result } = renderHook(() => useAsyncAction())
 
     await act(async () => {
@@ -36,7 +36,9 @@ describe('useAsyncAction', () => {
         throw { kind: 'auth', message: 'token rejected' }
       })
     })
-    expect(result.current.error).toBe('token rejected')
+    expect(result.current.error).toBe(
+      'Authentication failed. Check the relevant account or API key in Settings and try again.',
+    )
     expect(result.current.pending).toBe(false)
 
     await act(async () => {

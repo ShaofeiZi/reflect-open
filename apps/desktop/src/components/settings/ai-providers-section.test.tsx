@@ -232,7 +232,11 @@ describe('AiProvidersSection', () => {
     fireEvent.change(dialog.getByLabelText('API key'), { target: { value: 'sk-test' } })
     fireEvent.click(dialog.getByRole('button', { name: 'Add provider' }))
 
-    await waitFor(() => expect(dialog.getByRole('alert').textContent).toBe('keychain locked'))
+    await waitFor(() =>
+      expect(dialog.getByRole('alert').textContent).toBe(
+        'A file operation failed: keychain locked',
+      ),
+    )
     expect(screen.getByRole('dialog')).toBeTruthy()
     expect(saved).toEqual([])
     expect(secrets.size).toBe(0)

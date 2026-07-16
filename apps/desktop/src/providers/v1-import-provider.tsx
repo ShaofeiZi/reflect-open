@@ -11,7 +11,6 @@ import {
 } from 'react'
 import {
   cancelReflectV1Import,
-  errorMessage,
   importReflectV1Zip,
   markReflectV1ImportOwnWrites,
   subscribeImportProgress,
@@ -20,6 +19,7 @@ import {
   type GraphInfo,
 } from '@reflect/core'
 import { V1ImportDialog } from '@/components/v1-import-dialog'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 
 /**
@@ -120,7 +120,7 @@ export function V1ImportProvider({ graph, children }: V1ImportProviderProps): Re
           setState(
             cancelRequestedRef.current
               ? { phase: 'idle' }
-              : { phase: 'failed', message: errorMessage(caught) },
+              : { phase: 'failed', message: userErrorMessage(caught) },
           )
         } finally {
           runningRef.current = false

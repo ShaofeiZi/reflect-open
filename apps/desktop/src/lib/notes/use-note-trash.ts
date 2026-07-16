@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { errorMessage, type NoteListEntry } from '@reflect/core'
+import type { NoteListEntry } from '@reflect/core'
 import { deleteOpenNote } from '@/lib/note-delete'
 import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 import { allNotesListPrefix } from './all-notes-query'
 
@@ -85,7 +86,7 @@ export function useNoteTrash(): NoteTrash {
           operation.progress(attempted, paths.length)
         }
         if (failures > 0) {
-          operation.fail(errorMessage(lastError))
+          operation.fail(userErrorMessage(lastError))
           // Deliberately no invalidate: the index still lists the notes that
           // *did* trash (their reindex hasn't run yet), so a refetch would
           // resurrect them in the list. The per-row cache removal above is

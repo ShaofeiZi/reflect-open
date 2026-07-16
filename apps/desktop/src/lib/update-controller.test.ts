@@ -82,7 +82,7 @@ describe('createUpdateController', () => {
     await controller.checkNow()
     expect(controller.getState()).toEqual({
       phase: 'error',
-      message: 'release endpoint unreachable',
+      message: 'The operation failed: release endpoint unreachable',
       during: 'check',
     })
   })
@@ -122,7 +122,7 @@ describe('createUpdateController', () => {
     await controller.install()
     expect(controller.getState()).toEqual({
       phase: 'error',
-      message: 'signature verification failed',
+      message: 'The operation failed: signature verification failed',
       during: 'install',
     })
   })

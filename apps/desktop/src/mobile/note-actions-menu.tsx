@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/drawer'
 import { toggleNotePinned } from '@/lib/note-pin'
 import { deleteOpenNote } from '@/lib/note-delete'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { shareNote } from '@/mobile/share'
 import { useGraph } from '@/providers/graph-provider'
 import { usePinnedNotes } from '@/hooks/use-pinned-notes'
@@ -68,7 +69,7 @@ export function NoteActionsMenu({ path, onDeleted }: NoteActionsMenuProps): Reac
         setConfirmingDelete(false)
         onDeleted()
       })
-      .catch((cause) => setError(errorMessage(cause)))
+      .catch((cause) => setError(userErrorMessage(cause)))
       .finally(() => setBusy(false))
   }
 

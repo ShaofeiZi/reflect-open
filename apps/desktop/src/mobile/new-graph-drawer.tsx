@@ -1,11 +1,11 @@
 import { useId, useState, type ReactElement } from 'react'
-import { errorMessage } from '@reflect/core'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { cleanGraphName, graphRootForName, isGraphNameTaken } from '@/lib/graph-names'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 interface NewGraphDrawerProps {
   open: boolean
@@ -55,7 +55,7 @@ export function NewGraphDrawer({
     setError(null)
     onCreate(graphRootForName(documentsRoot, cleanName)).catch((err: unknown) => {
       setBusy(false)
-      setError(errorMessage(err))
+      setError(userErrorMessage(err))
     })
   }
 

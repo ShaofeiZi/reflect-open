@@ -1183,9 +1183,22 @@
     }
   },
   "operations": {
+    "errors": {
+      "auth": "Authentication failed. Check the relevant account or API key in Settings and try again.",
+      "not-found": "A required note or file is no longer available. Refresh and try again.",
+      "no-graph": "No graph is open.",
+      "path-rejected": "The requested path is not allowed.",
+      "file": "A file operation failed: {{message}}",
+      "data": "Some data could not be read: {{message}}",
+      "unknown": "The operation failed: {{message}}",
+      "network": "The service is unavailable. Check your connection and try again.",
+      "config": "Finish configuring this feature in Settings and try again.",
+      "stale": "The graph changed before the operation finished. Try again."
+    },
     "audio-memo": {
       "saving": "Saving audio memo",
-      "transcribing": "Transcribing audio memo"
+      "transcribing": "Transcribing audio memo",
+      "save-failed": "The audio memo could not be saved: {{message}}"
     },
     "tasks": {
       "reopening": "Reopening task",

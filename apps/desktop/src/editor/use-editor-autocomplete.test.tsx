@@ -89,7 +89,9 @@ describe('useEditorAutocomplete', () => {
       items[0]!.onSelect?.()
     })
 
-    await waitFor(() => expect(operationFail).toHaveBeenCalledWith('graph changed'))
+    await waitFor(() =>
+      expect(operationFail).toHaveBeenCalledWith('The operation failed: graph changed'),
+    )
     expect(startOperation).toHaveBeenCalledWith('Creating note')
     consoleError.mockRestore()
   })

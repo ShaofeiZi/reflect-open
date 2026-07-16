@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import {
-  errorMessage,
   getConflictedNotes,
   getDuplicateNoteIds,
   hasBridge,
@@ -27,6 +26,7 @@ import {
 import { isICloudRoot } from '@/lib/icloud-controller'
 import { ICLOUD_STATUS_QUERY_KEY, INDEX_QUERY_SCOPE } from '@/lib/query-client'
 import { isMacosDesktop } from '@/lib/platform'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 import { useSync } from '@/providers/sync-provider'
 
@@ -141,7 +141,7 @@ export function IcloudSettingsField(): ReactElement | null {
           // graph regardless; the original folder keeping its backup is the
           // recovery copy working as intended. Tell the user, don't block.
           setError(
-            t('settings.icloudSection.disconnectError', { message: errorMessage(caught) }),
+            t('settings.icloudSection.disconnectError', { message: userErrorMessage(caught) }),
           )
         }
       }
@@ -157,7 +157,7 @@ export function IcloudSettingsField(): ReactElement | null {
         )
       }
     } catch (caught) {
-      setError(errorMessage(caught))
+      setError(userErrorMessage(caught))
     } finally {
       setBusy(false)
     }

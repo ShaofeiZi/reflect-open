@@ -2,12 +2,12 @@ import { useEffect, useState, type MouseEvent, type ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import { Check, Copy, RefreshCw } from 'lucide-react'
-import { errorMessage } from '@reflect/core'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useNoteRow } from '@/hooks/use-note-row'
 import { runGistPublish } from '@/lib/note-gist'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { cn } from '@/lib/utils'
 import { useGraph } from '@/providers/graph-provider'
 import { SidebarSection } from './sidebar-section'
@@ -58,7 +58,7 @@ export function PublishedUrlSection({ path }: PublishedUrlSectionProps): ReactEl
       setCopyState('copied')
       startOperation(t('contextSidebar.published-url-copied')).done()
     } catch (cause) {
-      startOperation(t('contextSidebar.copying-published-url')).fail(errorMessage(cause))
+      startOperation(t('contextSidebar.copying-published-url')).fail(userErrorMessage(cause))
     }
   }
 

@@ -32,6 +32,7 @@ import {
   type GraphInfo,
 } from '@reflect/core'
 import { toChatAttachment, type ChatAttachment } from '@/lib/chat-attachments'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { todayIso } from '@/lib/dates'
 import { isMobileSurface } from '@/lib/platform-surface'
 import { providerFetch } from '@/lib/provider-fetch'
@@ -327,7 +328,7 @@ export function ChatProvider({ graph, children }: ChatProviderProps): ReactEleme
       } catch (cause) {
         // streamChat normalizes its own failures; this guards the seams around
         // it (keychain read, event application) so the UI never sticks.
-        applyEvent({ type: 'error', message: errorMessage(cause), messages: [] })
+        applyEvent({ type: 'error', message: userErrorMessage(cause), messages: [] })
       } finally {
         updateTurn((turn) => ({ ...turn, status: 'done' }))
         persistTurn(conversationMeta(), localTurn, turnCreatedMs)

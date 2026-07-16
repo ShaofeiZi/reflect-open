@@ -1183,9 +1183,22 @@
     }
   },
   "operations": {
+    "errors": {
+      "auth": "身份验证失败。请在设置中检查相关账号或 API 密钥后重试。",
+      "not-found": "所需的笔记或文件已不可用。请刷新后重试。",
+      "no-graph": "未打开图谱。",
+      "path-rejected": "不允许访问请求的路径。",
+      "file": "文件操作失败：{{message}}",
+      "data": "无法读取部分数据：{{message}}",
+      "unknown": "操作失败：{{message}}",
+      "network": "服务暂不可用。请检查网络连接后重试。",
+      "config": "请先在设置中完成此功能的配置，然后重试。",
+      "stale": "操作完成前图谱已发生变化，请重试。"
+    },
     "audio-memo": {
       "saving": "正在保存语音备忘",
-      "transcribing": "正在转写语音备忘"
+      "transcribing": "正在转写语音备忘",
+      "save-failed": "无法保存语音备忘：{{message}}"
     },
     "tasks": {
       "reopening": "正在重新打开任务",

@@ -76,7 +76,7 @@ describe('useConflictResolution', () => {
       await result.current.resolve('theirs')
     })
 
-    expect(result.current.error).toBe('disk full')
+    expect(result.current.error).toBe('A file operation failed: disk full')
     expect(vi.mocked(emitFileChanges)).not.toHaveBeenCalled()
     expect(vi.mocked(invalidateIndexQueries)).not.toHaveBeenCalled()
   })
@@ -89,7 +89,7 @@ describe('useConflictResolution', () => {
       await result.current.resolve('both')
     })
 
-    expect(result.current.error).toBe('index closed')
+    expect(result.current.error).toBe('A file operation failed: index closed')
     expect(vi.mocked(emitFileChanges)).toHaveBeenCalled()
     expect(vi.mocked(invalidateIndexQueries)).toHaveBeenCalled()
   })

@@ -1,10 +1,11 @@
 import { useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { errorMessage, type SnippetTask } from '@reflect/core'
+import type { SnippetTask } from '@reflect/core'
 import type { TaskClickHandler, TaskClickPayload } from '@meowdown/react'
 import { toggleTask } from '@/lib/note-task'
 import { startOperation } from '@/lib/operations'
 import { translate } from '@/lib/i18n'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 
 interface SnippetToggleInput {
@@ -57,7 +58,7 @@ export function useSnippetTaskToggle(
         translate(
           task.checked ? 'operations.tasks.reopening' : 'operations.tasks.completing',
         ),
-      ).fail(errorMessage(cause))
+      ).fail(userErrorMessage(cause))
     },
   })
   const { mutate, isPending } = mutation

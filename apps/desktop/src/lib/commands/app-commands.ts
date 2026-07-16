@@ -1,5 +1,4 @@
 import {
-  errorMessage,
   getNote,
   getPinnedNotes,
   hasBridge,
@@ -15,6 +14,7 @@ import { toggleNotePinned } from '@/lib/note-pin'
 import { toggleNotePrivate } from '@/lib/note-private'
 import { startOperation } from '@/lib/operations'
 import { rebuildIndexVisibly } from '@/lib/rebuild-index'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { openRouteInNewWindow } from '@/lib/windows/open-in-new-window'
 import { routeForPath, type Route } from '@/routing/route'
 import { registerCommands } from './registry'
@@ -188,7 +188,7 @@ const APP_COMMANDS: AppCommand[] = [
         // here would be a silent ⌘O. Surface it like other background work.
         startOperation(
           translate(wasPinned ? 'commands.unpinning-note' : 'commands.pinning-note'),
-        ).fail(errorMessage(cause))
+        ).fail(userErrorMessage(cause))
       }
     },
   },
@@ -217,7 +217,7 @@ const APP_COMMANDS: AppCommand[] = [
       } catch (cause) {
         startOperation(
           translate(wasPrivate ? 'commands.unlocking-note' : 'commands.locking-note'),
-        ).fail(errorMessage(cause))
+        ).fail(userErrorMessage(cause))
       }
     },
   },

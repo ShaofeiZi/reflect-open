@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
   changeLanguage,
@@ -7,6 +9,8 @@ import {
   translate,
 } from '@/lib/i18n'
 
+const SOURCE_ROOT = resolve(import.meta.dirname, '..')
+
 function leafKeys(value: object, prefix = ''): string[] {
   return Object.entries(value).flatMap(([key, child]) => {
     const path = prefix === '' ? key : `${prefix}.${key}`
@@ -14,6 +18,53 @@ function leafKeys(value: object, prefix = ''): string[] {
       ? leafKeys(child, path)
       : [path]
   })
+}
+
+function flattenedResources(value: object, prefix = ''): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(value).flatMap(([key, child]) => {
+      const path = prefix === '' ? key : `${prefix}.${key}`
+      return child !== null && typeof child === 'object' && !Array.isArray(child)
+        ? Object.entries(flattenedResources(child, path))
+        : [[path, String(child)]]
+    }),
+  )
+}
+
+function sourceFiles(directory: string): string[] {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name)
+    if (entry.isDirectory()) {
+      return sourceFiles(path)
+    }
+    return /\.[jt]sx?$/.test(entry.name) && !/\.(?:test|spec)\.[jt]sx?$/.test(entry.name)
+      ? [path]
+      : []
+  })
+}
+
+function staticTranslationKeys(): string[] {
+  const patterns = [
+    /\b(?:t|translate)\(\s*['"`]([^'"`]+)['"`]/g,
+    /\btitleKey\s*:\s*['"`]([^'"`]+)['"`]/g,
+    /\bi18nKey\s*=\s*['"]([^'"]+)['"]/g,
+  ]
+  return [
+    ...new Set(
+      sourceFiles(SOURCE_ROOT).flatMap((path) => {
+        const source = readFileSync(path, 'utf8')
+        return patterns.flatMap((pattern) =>
+          [...source.matchAll(pattern)].map((match) => match[1]!),
+        )
+      }),
+    ),
+  ].sort()
+}
+
+function interpolationNames(value: string): string[] {
+  return [...value.matchAll(/\{\{\s*([^},\s]+)[^}]*\}\}/g)]
+    .map((match) => match[1]!)
+    .sort()
 }
 
 afterEach(async () => {
@@ -25,6 +76,25 @@ describe('desktop locales', () => {
     expect(leafKeys(RESOURCES['zh-CN'].translation).sort()).toEqual(
       leafKeys(RESOURCES.en.translation).sort(),
     )
+  })
+
+  it('defines every statically referenced translation key in both locales', () => {
+    const english = flattenedResources(RESOURCES.en.translation)
+    const chinese = flattenedResources(RESOURCES['zh-CN'].translation)
+
+    for (const key of staticTranslationKeys()) {
+      expect(english[key], `English ${key}`).toBeDefined()
+      expect(chinese[key], `Simplified Chinese ${key}`).toBeDefined()
+    }
+  })
+
+  it('keeps interpolation variables identical between locales', () => {
+    const english = flattenedResources(RESOURCES.en.translation)
+    const chinese = flattenedResources(RESOURCES['zh-CN'].translation)
+
+    for (const [key, value] of Object.entries(english)) {
+      expect(interpolationNames(chinese[key]!), key).toEqual(interpolationNames(value))
+    }
   })
 
   it('switches non-React product feedback at runtime', async () => {

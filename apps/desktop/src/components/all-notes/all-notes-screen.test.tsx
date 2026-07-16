@@ -584,7 +584,9 @@ describe('AllNotesScreen — selection and bulk trash', () => {
     // The confirm closes either way; the reason lands in the operations toast.
     await waitFor(() => expect(view.queryByText('Trash 1 note?')).toBeNull())
     await waitFor(() =>
-      expect(view.getByTestId('operations').textContent).toContain('failed:disk on fire'),
+      expect(view.getByTestId('operations').textContent).toContain(
+        'failed:The operation failed: disk on fire',
+      ),
     )
     // The note that failed to trash is left in the list and stays selected, so
     // the bulk action is still available for an immediate retry (no re-select).

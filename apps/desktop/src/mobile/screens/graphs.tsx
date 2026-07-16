@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import {
-  errorMessage,
   hasBridge,
   mobileStorage,
   type MobileStorageKind,
@@ -11,6 +10,7 @@ import {
 import { InlineAlert } from '@/components/inline-alert'
 import { Spinner } from '@/components/ui/spinner'
 import { graphNameFromRoot } from '@/lib/graph-names'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { NewGraphDrawer } from '@/mobile/new-graph-drawer'
 import { MobileScreenHeader } from '@/mobile/screen-header'
 import {
@@ -64,7 +64,7 @@ export function MobileGraphs(): ReactElement {
       },
       (err: unknown) => {
         setPendingRoot(null)
-        setSwitchError(errorMessage(err))
+        setSwitchError(userErrorMessage(err))
         throw err
       },
     )

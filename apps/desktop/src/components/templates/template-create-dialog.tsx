@@ -1,7 +1,6 @@
 import { useState, type ReactElement } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { errorMessage } from '@reflect/core'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import { InlineAlert } from '@/components/inline-alert'
 import type { CommandContext } from '@/lib/commands/types'
 import { createTemplate } from '@/lib/note-templates'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useNoteTemplates } from '@/providers/note-templates-provider'
 
 /**
@@ -55,7 +55,7 @@ export function TemplateCreateDialog({ context }: TemplateCreateDialogProps): Re
       closeTemplateCreate()
       context.navigate({ kind: 'note', path })
     } catch (cause: unknown) {
-      setSubmitError(errorMessage(cause))
+      setSubmitError(userErrorMessage(cause))
     }
   })
 

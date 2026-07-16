@@ -13,6 +13,7 @@ import {
 } from '@reflect/core'
 import { translate } from '@/lib/i18n'
 import { takeWarmMobileStorage } from '@/lib/mobile-boot-warm'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { SETTINGS_QUERY_KEY, useSettings } from '@/providers/settings-provider'
 
 /** The graph directory created in the container for a fresh start — reads as
@@ -275,7 +276,7 @@ export function useMobileGraphBoot(options: MobileGraphBootOptions): MobileGraph
         await openRecent(root)
       } catch (err) {
         if (active) {
-          onParked(errorMessage(err))
+          onParked(userErrorMessage(err))
         }
       }
     })()

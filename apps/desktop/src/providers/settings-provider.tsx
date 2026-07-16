@@ -16,12 +16,12 @@ import {
   hasBridge,
   loadSettings,
   saveSettings,
-  errorMessage,
   type Settings,
 } from '@reflect/core'
 import { startOperation } from '@/lib/operations'
 import { changeLanguage, isSupportedLanguage } from '@/lib/i18n'
 import { setSettingsFlusher } from '@/lib/settings-flush'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 /**
  * App-wide user settings (config-dir JSON, not graph state), applied instantly.
@@ -235,7 +235,7 @@ export function SettingsProvider({ children }: SettingsProviderProps): ReactElem
   useEffect(() => {
     if (loadError && !loadErrorSurfaced.current) {
       loadErrorSurfaced.current = true
-      startOperation(t('common.settings.loading')).fail(errorMessage(loadError))
+      startOperation(t('common.settings.loading')).fail(userErrorMessage(loadError))
     }
   }, [loadError, t])
 
@@ -283,7 +283,7 @@ export function SettingsProvider({ children }: SettingsProviderProps): ReactElem
         // The in-memory value stays applied and `lastPersisted` still points
         // at the confirmed disk document, so the difference is retried later.
         // The failure is product status, not console noise.
-        startOperation(t('common.settings.saving')).fail(errorMessage(error))
+        startOperation(t('common.settings.saving')).fail(userErrorMessage(error))
       })
     return persistQueue.current
   }, [t])

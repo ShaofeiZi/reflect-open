@@ -144,7 +144,7 @@ describe('GithubAuthStep', () => {
     })
     fireEvent.click(screen.getByRole('button', { name: 'Save token' }))
 
-    expect(await screen.findByText(/rejected the token/i)).toBeTruthy()
+    expect(await screen.findByText(/rejected that token/i)).toBeTruthy()
     expect(onAuthed).not.toHaveBeenCalled()
     expect(store.has('github-auth')).toBe(false)
   })

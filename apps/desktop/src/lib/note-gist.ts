@@ -2,10 +2,10 @@ import {
   assertCloudAllowed,
   createGist,
   deleteGist,
-  errorMessage,
   getGithubToken,
   gistBodyHash,
   gistFilename,
+  isAppError,
   parseNote,
   ReflectError,
   splitFrontmatter,
@@ -17,8 +17,15 @@ import { translate } from '@/lib/i18n'
 import { commitNoteFrontmatter, readNoteSource } from '@/lib/note-frontmatter'
 import { startOperation } from '@/lib/operations'
 import { providerFetch } from '@/lib/provider-fetch'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 const activeGistOperations = new Set<string>()
+
+function gistActionErrorMessage(cause: unknown, connectMessage: string): string {
+  return isAppError(cause) && cause.kind === 'auth' && cause.message === connectMessage
+    ? connectMessage
+    : userErrorMessage(cause)
+}
 
 function claimGistOperation(path: string): boolean {
   if (activeGistOperations.has(path)) {
@@ -166,7 +173,9 @@ export async function runGistPublish(path: string, generation: number): Promise<
     try {
       url = await publishNoteToGist(path, generation)
     } catch (cause) {
-      operation.fail(errorMessage(cause))
+      operation.fail(
+        gistActionErrorMessage(cause, translate('operations.gist.connect-publish')),
+      )
       return null
     }
     operation.done()
@@ -177,7 +186,7 @@ export async function runGistPublish(path: string, generation: number): Promise<
       await navigator.clipboard.writeText(url)
       startOperation(translate('operations.gist.copied')).done()
     } catch (cause) {
-      startOperation(translate('operations.gist.copying')).fail(errorMessage(cause))
+      startOperation(translate('operations.gist.copying')).fail(userErrorMessage(cause))
     }
     return url
   } finally {
@@ -199,7 +208,9 @@ export async function runGistUnpublish(path: string, generation: number): Promis
     try {
       await unpublishNoteGist(path, generation)
     } catch (cause) {
-      operation.fail(errorMessage(cause))
+      operation.fail(
+        gistActionErrorMessage(cause, translate('operations.gist.connect-unpublish')),
+      )
       return false
     }
     operation.done()

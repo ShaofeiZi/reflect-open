@@ -8,9 +8,10 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
-import { errorMessage, hasBridge, type GraphInfo } from '@reflect/core'
+import { hasBridge, type GraphInfo } from '@reflect/core'
 import { useAudioMemoPipeline, type PendingAudioCapture } from '@/hooks/use-audio-memo-pipeline'
 import { translate } from '@/lib/i18n'
+import { userErrorMessage } from '@/lib/user-error-message'
 import type { AudioMemoPhase } from '@/providers/audio-memo-provider'
 import { hapticImpactLight } from '@/mobile/haptics'
 import {
@@ -183,7 +184,7 @@ export function MobileAudioMemoProvider({
       pipeline.reportError(
         isMicDeniedError(cause)
           ? translate('common.audio-memo.mic-denied-mobile')
-          : errorMessage(cause),
+          : userErrorMessage(cause),
       )
     }
   }, [available, startRecorder, pipeline, setDrawerOpen])

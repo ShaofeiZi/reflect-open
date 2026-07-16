@@ -343,14 +343,20 @@ describe('useAssetPersistence errors', () => {
     await act(async () => {
       await expect(persistence!.saveFile(fileOf('a.png', 'image/png'))).resolves.toBeNull()
     })
-    expect(persistence!.saveError).toEqual({ kind: 'image', message: 'disk full' })
+    expect(persistence!.saveError).toEqual({
+      kind: 'image',
+      message: 'A file operation failed: disk full',
+    })
 
     // …an image MIME saved under its own name fails as a file (it was named
     // like an attachment, so its banner says so too).
     await act(async () => {
       await expect(persistence!.saveFile(fileOf('scan.tiff', 'image/tiff'))).resolves.toBeNull()
     })
-    expect(persistence!.saveError).toEqual({ kind: 'file', message: 'disk full' })
+    expect(persistence!.saveError).toEqual({
+      kind: 'file',
+      message: 'A file operation failed: disk full',
+    })
 
     // The next success clears the banner.
     bridge.heal()

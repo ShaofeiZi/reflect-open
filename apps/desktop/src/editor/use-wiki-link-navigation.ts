@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
 import {
-  errorMessage,
   normalizeWikiTarget,
   resolveExistingWikiTarget,
   resolveOrCreateNoteWithTitle,
@@ -10,6 +9,7 @@ import { reportAmbiguousNoteTitle } from '@/editor/ambiguous-note-feedback'
 import { useNoteLinkNavigation } from '@/hooks/use-note-link-navigation'
 import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useLinkIntentGuard } from '@/lib/windows/use-link-intent-guard'
 import { routeForPath, type NoteRoute } from '@/routing/route'
 
@@ -118,7 +118,7 @@ export function useWikiLinkNavigation(
           }
         } catch (err) {
           console.error('wiki-link resolution failed:', err)
-          startOperation(translate('operations.links.opening')).fail(errorMessage(err))
+          startOperation(translate('operations.links.opening')).fail(userErrorMessage(err))
         }
       })()
     },

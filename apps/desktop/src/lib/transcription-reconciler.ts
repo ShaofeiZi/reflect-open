@@ -12,6 +12,7 @@ import { createBackgroundReconciler } from '@/lib/background-reconciler'
 import { startOperation } from '@/lib/operations'
 import { translate } from '@/lib/i18n'
 import { providerFetch } from '@/lib/provider-fetch'
+import { reconcileStopMessage } from '@/lib/reconcile-stop-message'
 
 /**
  * The background-transcription lifecycle for one graph session. Built on
@@ -77,7 +78,9 @@ export function createTranscriptionReconciler(
       return
     }
     surfacedStop = stopped.message
-    startOperation(translate('operations.audio-memo.transcribing')).fail(stopped.message)
+    startOperation(translate('operations.audio-memo.transcribing')).fail(
+      reconcileStopMessage(stopped),
+    )
   }
 
   /** One pass: transcribe pending memos, gated behind a transcription-capable model. */

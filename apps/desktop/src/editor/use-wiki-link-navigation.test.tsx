@@ -282,7 +282,9 @@ describe('useWikiLinkNavigation', () => {
 
     lastHandler?.('Business ideas')
 
-    await waitFor(() => expect(operationFail).toHaveBeenCalledWith('index unavailable'))
+    await waitFor(() =>
+      expect(operationFail).toHaveBeenCalledWith('The operation failed: index unavailable'),
+    )
     expect(startOperation).toHaveBeenCalledWith('Opening link')
     expect(currentRoute(view)).toContain('"today"')
     consoleError.mockRestore()

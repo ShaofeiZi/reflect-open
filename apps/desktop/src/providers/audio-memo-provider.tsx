@@ -10,9 +10,10 @@ import {
   type ReactNode,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { errorMessage, type GraphInfo } from '@reflect/core'
+import type { GraphInfo } from '@reflect/core'
 import { isRecordingSupported, useAudioRecorder } from '@/hooks/use-audio-recorder'
 import { useAudioMemoPipeline } from '@/hooks/use-audio-memo-pipeline'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useSettings } from '@/providers/settings-provider'
 import { useSidebar } from '@/providers/sidebar-provider'
 
@@ -128,7 +129,7 @@ export function AudioMemoProvider({ graph, children }: AudioMemoProviderProps): 
           ? isMac
             ? t('common.audio-memo.mic-denied-macos')
             : t('common.audio-memo.mic-denied-other')
-          : errorMessage(cause),
+          : userErrorMessage(cause),
       )
     }
   }, [supported, pipeline, toggleSidebar, startRecorder, t])

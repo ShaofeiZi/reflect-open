@@ -14,6 +14,7 @@ import { createBackgroundReconciler } from '@/lib/background-reconciler'
 import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
 import { providerFetch } from '@/lib/provider-fetch'
+import { reconcileStopMessage } from '@/lib/reconcile-stop-message'
 
 /**
  * The link-capture lifecycle for one graph session. Built on
@@ -75,7 +76,7 @@ export function createCaptureController(options: CaptureControllerOptions): Capt
       return
     }
     surfacedStops.set(label, stopped.message)
-    startOperation(label).fail(stopped.message)
+    startOperation(label).fail(reconcileStopMessage(stopped))
   }
 
   /** One pass: drain the spool inbox (no AI needed), then enrich pending captures. */

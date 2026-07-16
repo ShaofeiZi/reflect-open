@@ -24,7 +24,8 @@ const markReflectV1ImportOwnWrites = vi.hoisted(() => vi.fn())
 const progressHandlers = vi.hoisted(() => new Set<(progress: ProgressFixture) => void>())
 const refreshIndex = vi.hoisted(() => vi.fn())
 
-vi.mock('@reflect/core', () => ({
+vi.mock('@reflect/core', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@reflect/core')>()),
   importReflectV1Zip,
   cancelReflectV1Import,
   markReflectV1ImportOwnWrites,
@@ -32,7 +33,6 @@ vi.mock('@reflect/core', () => ({
     progressHandlers.add(handler)
     return Promise.resolve(() => progressHandlers.delete(handler))
   },
-  errorMessage: (error: unknown) => (error instanceof Error ? error.message : String(error)),
 }))
 vi.mock('@/providers/graph-provider', () => ({
   useGraph: () => ({ refreshIndex }),
@@ -172,14 +172,14 @@ describe('V1ImportProvider', () => {
     await waitFor(() => expect(screen.queryByRole('button', { name: 'Cancel' })).toBeNull())
   })
 
-  it('surfaces failures with the native message', async () => {
+  it('surfaces failures with a localized fallback and the native message', async () => {
     importReflectV1Zip.mockRejectedValueOnce(new Error('could not read the zip'))
     renderProvider()
 
     fireEvent.click(startButton())
 
     expect(await screen.findByText('Import failed')).toBeTruthy()
-    expect(screen.getByText('could not read the zip')).toBeTruthy()
+    expect(screen.getByText('The operation failed: could not read the zip')).toBeTruthy()
     expect(refreshIndex).not.toHaveBeenCalled()
 
     fireEvent.click(screen.getByRole('button', { name: 'Close' }))

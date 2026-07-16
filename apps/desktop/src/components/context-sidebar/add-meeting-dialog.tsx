@@ -5,7 +5,6 @@ import {
   addMeetingToDaily,
   contactsAuthorizationStatus,
   defaultAttendees,
-  errorMessage,
   isContactsReadable,
   resolveMeetingAttendees,
   type CalendarEvent,
@@ -24,6 +23,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { formatTimeOfDay } from '@/lib/dates'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 import { useSettings } from '@/providers/settings-provider'
 import { AttendeeCombobox } from './attendee-combobox'
@@ -148,7 +148,7 @@ export function AddMeetingDialog({ date, event, onClose }: AddMeetingDialogProps
       })
       onClose()
     } catch (cause) {
-      setError(errorMessage(cause))
+      setError(userErrorMessage(cause))
       setSubmitting(false)
     }
   }

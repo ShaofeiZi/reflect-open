@@ -1,9 +1,10 @@
 import type { ReactElement } from 'react'
 import { Trash2 } from 'lucide-react'
-import { aiModelLabel, aiProvider, errorMessage, type AiProviderConfig } from '@reflect/core'
+import { aiModelLabel, aiProvider, type AiProviderConfig } from '@reflect/core'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { ModelCombobox } from './model-combobox'
 
 interface AiProviderRowProps {
@@ -39,7 +40,7 @@ export function AiProviderRow({
 
   const remove = (): void => {
     onRemove(config.id).catch((error: unknown) => {
-      startOperation(t('operations.provider.removing', { name })).fail(errorMessage(error))
+      startOperation(t('operations.provider.removing', { name })).fail(userErrorMessage(error))
     })
   }
 

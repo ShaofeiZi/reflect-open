@@ -1,6 +1,6 @@
 import { useState, type ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { errorMessage, isDaily } from '@reflect/core'
+import { isDaily } from '@reflect/core'
 import { Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { deleteOpenNote } from '@/lib/note-delete'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 import { useRouter } from '@/routing/router'
 
@@ -52,7 +53,7 @@ export function NoteTrashAction({ path }: NoteTrashActionProps): ReactElement | 
       setConfirmingTrash(false)
       navigate({ kind: 'today' })
     } catch (cause) {
-      const message = errorMessage(cause)
+      const message = userErrorMessage(cause)
       setError(message)
       operation.fail(message)
     } finally {

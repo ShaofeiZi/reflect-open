@@ -29,6 +29,7 @@ import { resetNoteRowOverlays } from '@/hooks/note-row-overlay'
 import { translate } from '@/lib/i18n'
 import { setIndexProgress } from '@/lib/index-progress'
 import { dropIcloudStatusQuery, throttledInvalidateIndexQueries } from '@/lib/query-client'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { ensureWelcomeNote } from '@/lib/welcome-note'
 import { closeSecondaryWindows } from '@/lib/windows/close-secondary-windows'
 import { isMainWindow, requireMainWindow } from '@/lib/windows/window-role'
@@ -225,7 +226,7 @@ export function GraphProvider({
         // primary load. As a post-open refresh it must not clobber an open error
         // or set one on a screen (the workspace) that never shows it.
         if (options?.surfaceErrors) {
-          setError(errorMessage(err))
+          setError(userErrorMessage(err))
         }
         return []
       }
@@ -308,7 +309,7 @@ export function GraphProvider({
           if (seq !== openSeq.current) {
             return false
           }
-          setError(errorMessage(err))
+          setError(userErrorMessage(err))
           setStatus('choosing')
         }
         if (seq === openSeq.current) {
@@ -384,7 +385,7 @@ export function GraphProvider({
       try {
         await createGraph(root)
       } catch (err) {
-        setError(errorMessage(err))
+        setError(userErrorMessage(err))
         return false
       }
       return openRecent(root)
@@ -403,7 +404,7 @@ export function GraphProvider({
       })
       selected = typeof result === 'string' ? result : null
     } catch (err) {
-      setError(errorMessage(err))
+      setError(userErrorMessage(err))
       return
     }
     if (selected) {

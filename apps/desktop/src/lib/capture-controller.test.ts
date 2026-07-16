@@ -101,7 +101,7 @@ describe('createCaptureController (shared-inbox relay)', () => {
     await flush()
 
     expect(drainCaptureInbox).toHaveBeenCalledTimes(1)
-    expect(failOperation).toHaveBeenCalledTimes(1)
+    expect(failOperation).toHaveBeenCalledWith('The operation failed: container gone')
 
     // The same failure on a retry pass must not re-toast.
     controller?.schedule()

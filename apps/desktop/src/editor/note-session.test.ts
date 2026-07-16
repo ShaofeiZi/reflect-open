@@ -618,7 +618,7 @@ describe('missing-note seed (new ordinary notes)', () => {
       await settled()
 
       const failed = h.snapshots.at(-1)
-      expect(failed?.error).toBe('disk full')
+      expect(failed?.error).toBe('The operation failed: disk full')
       expect(failed?.dirty).toBe(true) // the edit is kept, not lost
       expect(h.writes).toEqual([])
 
@@ -647,7 +647,7 @@ describe('missing-note seed (new ordinary notes)', () => {
       h.failWrites('disk full')
       h.session.editorChanged('# Edited\n')
       await settled()
-      expect(h.snapshots.at(-1)?.error).toBe('disk full')
+      expect(h.snapshots.at(-1)?.error).toBe('The operation failed: disk full')
 
       h.failWrites(null)
       await h.session.flush() // a settle point (blur/quit) retries without a new edit

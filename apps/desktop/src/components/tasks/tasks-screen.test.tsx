@@ -938,7 +938,7 @@ describe('TasksScreen', () => {
     )
     expect(insertTask).not.toHaveBeenCalled()
     expect(await view.findByRole('button', { name: 'edited content' })).toBeDefined()
-    expect(fail).toHaveBeenCalledWith('This note is open.')
+    expect(fail).toHaveBeenCalledWith('The operation failed: This note is open.')
     view.unmount()
   })
 
@@ -1553,7 +1553,7 @@ describe('TasksScreen', () => {
     await view.findByTestId('task-editor')
     await userEvent.click(view.getByRole('button', { name: 'Reopen: project task' }))
 
-    await waitFor(() => expect(fail).toHaveBeenCalledWith('stale index'))
+    await waitFor(() => expect(fail).toHaveBeenCalledWith('The operation failed: stale index'))
     expect(startOperation).toHaveBeenCalledWith('Reopening task')
     await view.findByRole('button', { name: 'Reopen: project task' })
     view.unmount()
@@ -1647,7 +1647,7 @@ describe('TasksScreen', () => {
     await userEvent.click(view.getByRole('button', { name: 'stage-checkbox-edit' }))
     await userEvent.click(view.getByRole('button', { name: 'Reopen: project task' }))
 
-    await waitFor(() => expect(fail).toHaveBeenCalledWith('disk full'))
+    await waitFor(() => expect(fail).toHaveBeenCalledWith('The operation failed: disk full'))
     expect(startOperation).toHaveBeenCalledWith('Reopening task')
     await view.findByRole('button', { name: 'Reopen: project task' })
     expect(view.queryByText('edited content')).toBeNull()
@@ -1740,7 +1740,7 @@ describe('TasksScreen', () => {
     const view = renderScreen()
 
     await userEvent.click(await view.findByRole('button', { name: 'Complete: project task' }))
-    await waitFor(() => expect(fail).toHaveBeenCalledWith('stale index'))
+    await waitFor(() => expect(fail).toHaveBeenCalledWith('The operation failed: stale index'))
     expect(startOperation).toHaveBeenCalledWith('Completing task')
     // Rolled back: the row returns after the failed write.
     await view.findByText('project task')
@@ -1758,7 +1758,7 @@ describe('TasksScreen', () => {
     await view.findByRole('button', { name: 'first' })
     await userEvent.keyboard('{Meta>}a{/Meta}')
     await userEvent.keyboard('{Meta>}{Enter}{/Meta}')
-    await waitFor(() => expect(fail).toHaveBeenCalledWith('stale index'))
+    await waitFor(() => expect(fail).toHaveBeenCalledWith('The operation failed: stale index'))
     // A batch failure reconciles by refetching the index, not by restoring the
     // pre-batch snapshot (which would un-do any write that already landed).
     await waitFor(() => expect(getOpenTasks.mock.calls.length).toBeGreaterThan(1))

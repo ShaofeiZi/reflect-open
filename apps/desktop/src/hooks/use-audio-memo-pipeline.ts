@@ -208,13 +208,16 @@ export function useAudioMemoPipeline(
         } else {
           // Park the queue behind the failure: the capture is the one step
           // that can lose audio, and memo order in the graph must survive.
+          const message = translate('operations.audio-memo.save-failed', {
+            message: outcome.message,
+          })
           parkedRef.current = capture
           setResume(capture)
-          setError(outcome.message)
+          setError(message)
           if (!errorSurfaceVisibleRef.current()) {
             // The error UI is off screen — the failure must still surface
             // somewhere.
-            startOperation(translate('operations.audio-memo.saving')).fail(outcome.message)
+            startOperation(translate('operations.audio-memo.saving')).fail(message)
           }
         }
       }

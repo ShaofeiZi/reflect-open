@@ -2,10 +2,10 @@ import { useState, type ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
 import { UserRound } from 'lucide-react'
-import { errorMessage } from '@reflect/core'
 import { Button } from '@/components/ui/button'
 import { suggestedContactQueryKey, useSuggestedContact } from '@/hooks/use-suggested-contact'
 import { addContactToNote, ignoreContactSuggestion } from '@/lib/note-contact'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { cn } from '@/lib/utils'
 import { useGraph } from '@/providers/graph-provider'
 
@@ -50,7 +50,7 @@ export function SuggestedContactCard({ path, className }: SuggestedContactCardPr
         queryKey: suggestedContactQueryKey(graph?.root, path),
       })
     } catch (cause) {
-      setError(errorMessage(cause))
+      setError(userErrorMessage(cause))
     } finally {
       setIsBusy(false)
     }

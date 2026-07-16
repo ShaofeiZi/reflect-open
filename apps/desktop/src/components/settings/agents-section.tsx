@@ -6,7 +6,6 @@ import {
   agentSkillInstall,
   agentSkillStatus,
   agentSkillUninstall,
-  errorMessage,
   hasBridge,
   type AgentSkillStatus,
 } from '@reflect/core'
@@ -14,6 +13,7 @@ import { SettingsField } from '@/components/settings/field'
 import { SettingsSection } from '@/components/settings/section'
 import { Button } from '@/components/ui/button'
 import { isMacosDesktop } from '@/lib/platform'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 
 /**
@@ -49,7 +49,7 @@ export function AgentsSection(): ReactElement | null {
     try {
       queryClient.setQueryData(queryKey, await action(graph.generation))
     } catch (caught) {
-      setError(errorMessage(caught))
+      setError(userErrorMessage(caught))
     } finally {
       setBusy(false)
     }

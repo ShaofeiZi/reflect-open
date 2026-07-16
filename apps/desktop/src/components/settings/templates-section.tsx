@@ -1,6 +1,6 @@
 import { useState, type ReactElement } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { errorMessage, listTemplates, type TemplateEntry } from '@reflect/core'
+import { listTemplates, type TemplateEntry } from '@reflect/core'
 import { Pencil, Plus, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,7 @@ import { deleteOpenNote } from '@/lib/note-delete'
 import { renameTemplate } from '@/lib/note-templates'
 import { startOperation } from '@/lib/operations'
 import { INDEX_QUERY_SCOPE } from '@/lib/query-client'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 import { useNoteTemplates } from '@/providers/note-templates-provider'
 import { SettingsField } from './field'
@@ -124,7 +125,7 @@ function TemplateRenameDialog({ template, onClose }: TemplateDialogProps): React
       await renameTemplate(template.path, trimmed, generation)
       onClose()
     } catch (cause) {
-      setError(errorMessage(cause))
+      setError(userErrorMessage(cause))
     }
   }
 
@@ -194,8 +195,9 @@ function TemplateDeleteDialog({ template, onClose }: TemplateDialogProps): React
       operation.done()
       onClose()
     } catch (cause) {
-      operation.fail(errorMessage(cause))
-      setError(errorMessage(cause))
+      const message = userErrorMessage(cause)
+      operation.fail(message)
+      setError(message)
     }
   }
 

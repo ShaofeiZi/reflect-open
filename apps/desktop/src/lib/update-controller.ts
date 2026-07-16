@@ -1,5 +1,6 @@
 import { relaunch } from '@tauri-apps/plugin-process'
 import { check, type Update } from '@tauri-apps/plugin-updater'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 /**
  * The auto-update lifecycle (Plan 15), as plain-language phases the UI renders
@@ -40,10 +41,6 @@ export interface UpdateControllerOptions {
 
 /** Six hours — frequent enough to catch releases, quiet enough to be free. */
 const DEFAULT_AUTO_CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000
-
-function errorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error)
-}
 
 /**
  * Drives `@tauri-apps/plugin-updater` as a subscribable state machine. The
@@ -108,7 +105,7 @@ export function createUpdateController(options: UpdateControllerOptions): Update
       if (silent) {
         console.warn('update check failed (ignored):', error)
       } else {
-        setState({ phase: 'error', message: errorMessage(error), during: 'check' })
+        setState({ phase: 'error', message: userErrorMessage(error), during: 'check' })
       }
     }
   }
@@ -142,7 +139,7 @@ export function createUpdateController(options: UpdateControllerOptions): Update
       })
       setState({ phase: 'ready', version: update.version })
     } catch (error) {
-      setState({ phase: 'error', message: errorMessage(error), during: 'install' })
+      setState({ phase: 'error', message: userErrorMessage(error), during: 'install' })
     }
   }
 

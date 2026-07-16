@@ -1,4 +1,5 @@
-import { appendBlock, editTaskLine, errorMessage, isAppError, removeTaskLine, taskLineToBullet, toggleTaskMarker, upsertFrontmatter, type TaskMarker } from '@reflect/core'
+import { appendBlock, editTaskLine, isAppError, removeTaskLine, taskLineToBullet, toggleTaskMarker, upsertFrontmatter, type TaskMarker } from '@reflect/core'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { splitDoc } from './note-session-doc'
 import { frontmatterPatchToYaml, type FrontmatterPatch } from './note-session-frontmatter'
 import type { NoteSession, NoteSessionOptions, NoteSessionSnapshot, NoteSessionStatus } from './note-session-types'
@@ -119,7 +120,7 @@ export function createNoteSession(options: NoteSessionOptions): NoteSession {
       })
       .catch((cause) => {
         console.error('failed to save note:', cause)
-        error = errorMessage(cause)
+        error = userErrorMessage(cause)
         emit()
       })
   }
@@ -294,7 +295,7 @@ export function createNoteSession(options: NoteSessionOptions): NoteSession {
         onContent?.(content, 'load')
       } catch (cause) {
         if (!disposed) {
-          error = errorMessage(cause)
+          error = userErrorMessage(cause)
           status = 'error'
           emit()
         }

@@ -243,7 +243,9 @@ describe('MobileAudioMemoProvider', () => {
     expect(result.current.canRetry).toBe(true)
     expect(stagedControls.deleteStaged).not.toHaveBeenCalled()
     // The drawer closed on stop — the failure also surfaces as an operation.
-    expect(failOperation).toHaveBeenCalledWith('disk full')
+    expect(failOperation).toHaveBeenCalledWith(
+      'The audio memo could not be saved: disk full',
+    )
 
     await act(async () => {
       result.current.discard()

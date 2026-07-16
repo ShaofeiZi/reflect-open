@@ -1,8 +1,9 @@
-import { embedStatus, errorMessage, rebuildIndex } from '@reflect/core'
+import { embedStatus, rebuildIndex } from '@reflect/core'
 import { startOperation } from '@/lib/operations'
 import { translate } from '@/lib/i18n'
 import { invalidateIndexQueries } from '@/lib/query-client'
 import { backfillEmbeddingsVisibly } from '@/lib/semantic'
+import { userErrorMessage } from '@/lib/user-error-message'
 
 let inFlight: { generation: number; promise: Promise<void> } | null = null
 
@@ -67,7 +68,7 @@ async function runRebuild(generation: number): Promise<void> {
       )
     }
   } catch (cause) {
-    operation.fail(errorMessage(cause))
+    operation.fail(userErrorMessage(cause))
     return
   }
   // A manual rebuild bypasses the watcher pipeline (whose onApplied refreshes

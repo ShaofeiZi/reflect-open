@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import {
   emitFileChanges,
-  errorMessage,
   indexNote,
   readNote,
   resolveConflictMarkers,
@@ -9,6 +8,7 @@ import {
   type ConflictResolution,
 } from '@reflect/core'
 import { invalidateIndexQueries } from '@/lib/query-client'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 
 export interface ConflictResolutionState {
@@ -48,7 +48,7 @@ export function useConflictResolution(path: string): ConflictResolutionState {
         await indexNote(path, { generation: indexGeneration, content: resolved })
       }
     } catch (caught: unknown) {
-      setError(errorMessage(caught))
+      setError(userErrorMessage(caught))
     } finally {
       if (wrote) {
         // The file changed on disk even if the reindex step failed (the

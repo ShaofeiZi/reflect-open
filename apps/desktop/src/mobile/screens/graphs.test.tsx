@@ -150,7 +150,7 @@ describe('MobileGraphs', () => {
     mount()
 
     await user.click(await screen.findByRole('button', { name: 'Work' }))
-    expect(await screen.findByText('clone failed')).toBeTruthy()
+    expect(await screen.findByText('The operation failed: clone failed')).toBeTruthy()
   })
 
   it('says so when iCloud Drive is unavailable', async () => {

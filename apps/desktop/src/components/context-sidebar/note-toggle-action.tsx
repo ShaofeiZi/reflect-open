@@ -1,8 +1,8 @@
 import { useState, type ReactElement, type ReactNode } from 'react'
-import { errorMessage } from '@reflect/core'
 import { ShortcutKeys } from '@/components/shortcut-keys'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { cn } from '@/lib/utils'
 import { useGraph } from '@/providers/graph-provider'
 
@@ -90,7 +90,7 @@ export function NoteToggleAction({
     } catch (cause) {
       setPending(null)
       onFailure?.()
-      startOperation(failureLabel).fail(errorMessage(cause))
+      startOperation(failureLabel).fail(userErrorMessage(cause))
     } finally {
       setIsToggling(false)
     }

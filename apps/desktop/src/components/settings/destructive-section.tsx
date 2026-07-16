@@ -1,5 +1,4 @@
 import { useState, type ReactElement } from 'react'
-import { errorMessage } from '@reflect/core'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,6 +10,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 import { SettingsField } from './field'
 import { SettingsSection } from './section'
@@ -59,7 +59,7 @@ export function DestructiveSection(): ReactElement {
       await deleteGraph()
       setConfirmingDelete(false)
     } catch (err) {
-      setDeleteError(errorMessage(err))
+      setDeleteError(userErrorMessage(err))
     } finally {
       setDeleting(false)
     }

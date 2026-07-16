@@ -2,7 +2,6 @@ import { memo, useCallback, type CSSProperties, type MouseEvent, type ReactEleme
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useQueryClient } from '@tanstack/react-query'
-import { errorMessage } from '@reflect/core'
 import type { PinnedNote } from '@reflect/core'
 import {
   invalidatePinnedNotesCache,
@@ -14,6 +13,7 @@ import { openNativeContextMenu } from '@/lib/native-menu/context-menu'
 import { displayNoteTitle } from '@/lib/note-title-display'
 import { unpinNote } from '@/lib/note-pin'
 import { startOperation } from '@/lib/operations'
+import { userErrorMessage } from '@/lib/user-error-message'
 import { useGraph } from '@/providers/graph-provider'
 import { useSettings } from '@/providers/settings-provider'
 import { routeForPath, routesEqual } from '@/routing/route'
@@ -74,7 +74,7 @@ export const SidebarSortablePinnedRow = memo(function SidebarSortablePinnedRow({
           },
         ],
       }).catch((cause: unknown) => {
-        startOperation(t('sidebar.opening-note-menu')).fail(errorMessage(cause))
+        startOperation(t('sidebar.opening-note-menu')).fail(userErrorMessage(cause))
       })
     },
     [graph, note.path, queryClient, t],

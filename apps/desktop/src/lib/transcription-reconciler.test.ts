@@ -193,7 +193,9 @@ describe('createTranscriptionReconciler', () => {
     })
     create().start()
     await flush()
-    expect(failOperation).toHaveBeenCalledWith('openai rejected the API key (401)')
+    expect(failOperation).toHaveBeenCalledWith(
+      'Authentication failed. Check the relevant account or API key in Settings and try again.',
+    )
 
     window.dispatchEvent(new Event('focus'))
     await flush()

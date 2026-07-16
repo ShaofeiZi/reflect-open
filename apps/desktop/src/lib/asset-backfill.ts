@@ -8,6 +8,7 @@ import { startOperation } from '@/lib/operations'
 import { translate } from '@/lib/i18n'
 import { providerFetch } from '@/lib/provider-fetch'
 import { invalidateIndexQueries } from '@/lib/query-client'
+import { reconcileStopMessage } from '@/lib/reconcile-stop-message'
 
 let inFlight: { generation: number; promise: Promise<ReconcileAssetDescriptionsOutcome> } | null = null
 
@@ -78,7 +79,7 @@ async function runBackfill(
   } else if (outcome.stopped.reason === 'network') {
     operation.warn(translate('operations.assets.network'))
   } else {
-    operation.fail(outcome.stopped.message)
+    operation.fail(reconcileStopMessage(outcome.stopped))
   }
   return outcome
 }

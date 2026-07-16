@@ -84,7 +84,7 @@ describe('insertTemplate', () => {
     readNote.mockRejectedValueOnce(new Error('gone'))
     await insertTemplate('templates/journal.md', fakeEditor())
     expect(startOperation).toHaveBeenCalledWith('Inserting template')
-    expect(operationFail).toHaveBeenCalledWith('gone')
+    expect(operationFail).toHaveBeenCalledWith('The operation failed: gone')
   })
 })
 
