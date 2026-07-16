@@ -74,25 +74,25 @@ export function MobileTabBar({ tab, onSelect }: MobileTabBarProps): ReactElement
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <TabButton
-        label={t('sidebar.daily-notes')}
+        label={t('mobile.tabs.daily')}
         icon={<SquarePen className="size-5" />}
         active={tab === 'daily'}
         onClick={() => onSelect('daily')}
       />
       <TabButton
-        label={t('sidebar.all-notes')}
+        label={t('mobile.tabs.all')}
         icon={<Files className="size-5" />}
         active={tab === 'all'}
         onClick={() => onSelect('all')}
       />
       <TabButton
-        label={t('sidebar.tasks')}
+        label={t('mobile.tabs.tasks')}
         icon={<CircleCheck className="size-5" />}
         active={tab === 'tasks'}
         onClick={() => onSelect('tasks')}
       />
       <TabButton
-        label={t('sidebar.chat')}
+        label={t('mobile.tabs.chat')}
         icon={<MessageSquare className="size-5" />}
         active={tab === 'chat'}
         onClick={() => onSelect('chat')}

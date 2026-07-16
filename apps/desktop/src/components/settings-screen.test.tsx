@@ -151,7 +151,9 @@ describe('SettingsScreen', () => {
     fireEvent.click(within(section).getByRole('button', { name: /forget graph/i }))
 
     const dialog = screen.getByRole('dialog', { name: /forget graph/i })
-    expect(within(dialog).getByText('/graphs/work')).toBeTruthy()
+    expect(
+      within(dialog).getByText('Remove /graphs/work from saved graphs. Files stay on disk.'),
+    ).toBeTruthy()
     expect(graph.forget).not.toHaveBeenCalled()
 
     fireEvent.click(within(dialog).getByRole('button', { name: /forget graph/i }))
@@ -167,7 +169,11 @@ describe('SettingsScreen', () => {
     fireEvent.click(within(section).getByRole('button', { name: /delete graph/i }))
 
     const dialog = screen.getByRole('dialog', { name: /delete graph/i })
-    expect(within(dialog).getByText('/graphs/work')).toBeTruthy()
+    expect(
+      within(dialog).getByText(
+        'Move /graphs/work and all of its notes to the trash. Type Work to confirm.',
+      ),
+    ).toBeTruthy()
     const confirm = within(dialog).getByRole('button', { name: /delete graph/i })
     expect(confirm.hasAttribute('disabled')).toBe(true)
 

@@ -166,7 +166,7 @@ describe('GithubAuthStep', () => {
     render(<GithubAuthStep onAuthed={vi.fn()} repoName="my-notes-backup" />)
     await switchToPat()
 
-    expect(await screen.findByText('my-notes-backup')).toBeTruthy()
+    expect(await screen.findByText('the my-notes-backup repository')).toBeTruthy()
   })
 
   it('reports auth exactly once when the mount probe races a fresh sign-in', async () => {

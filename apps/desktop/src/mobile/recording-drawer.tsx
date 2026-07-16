@@ -138,7 +138,11 @@ function LiveRecordingControls({ memo }: LiveRecordingControlsProps): ReactEleme
           variant={discardArmed ? 'destructive' : 'ghost'}
           size="sm"
           className={discardArmed ? undefined : 'text-text-muted'}
-          aria-label={discardArmed ? t('mobile.recording.confirm-discard') : t('audioMemo.discard-audio-memo')}
+          aria-label={
+            discardArmed
+              ? t('mobile.recording.confirm-discard')
+              : t('mobile.recording.discard')
+          }
           onClick={confirmDiscard}
         >
           <Trash2 aria-hidden className="size-3.5" />

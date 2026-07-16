@@ -858,7 +858,7 @@
       "aria-label": "Add AI provider",
       "title": "Add AI provider",
       "key-hint": "The API key is stored in this device's keychain, never in your graph — add it on each device you chat from.",
-      "verify-warning": "Couldn't reach {{provider}} to verify the key. Submit again to save it unverified."
+      "verify-warning": "Couldn’t reach {{provider}} to verify the key. Submit again to save it unverified."
     },
     "provider": {
       "label": "Provider",
@@ -937,8 +937,15 @@
       "description": "Audio memos are transcribed into your notes with your own OpenAI or Gemini API key. Add one in Settings to start recording.",
       "open-settings": "Open Settings",
       "waiting-mic": "Waiting for the microphone…",
+      "discard": "Discard recording",
       "confirm-discard": "Confirm discard recording",
       "tap-again-discard": "Tap again to discard"
+    },
+    "tabs": {
+      "daily": "Daily",
+      "all": "All",
+      "tasks": "Tasks",
+      "chat": "Chat"
     },
     "back": "Back",
     "sections": "Sections",
@@ -1210,7 +1217,7 @@
     },
     "templates": {
       "inserting": "Inserting template",
-      "no-open-note": "No open note to insert into."
+      "no-open-note": "No open note to insert into"
     },
     "links": {
       "copying-deep-link": "Copying deep link",
@@ -1230,8 +1237,8 @@
       "create-menu": "Create “{{title}}”",
       "contact": "Contact",
       "new": "new",
-      "naming": "Naming “{{title}}”",
-      "renaming": "Renaming “{{from}}” → “{{to}}”",
+      "naming": "Naming \"{{title}}\"",
+      "renaming": "Renaming \"{{from}}\" → \"{{to}}\"",
       "rename-move-failed": "{{error}} — the note keeps its placeholder filename; the title and its links are unaffected",
       "attach-picker": "Attach files",
       "attaching-file": "Attaching file",

@@ -937,8 +937,15 @@
       "description": "语音备忘会使用你自己的 OpenAI 或 Gemini API 密钥转写到笔记中。请先在设置中添加密钥。",
       "open-settings": "打开设置",
       "waiting-mic": "正在等待麦克风…",
+      "discard": "丢弃录音",
       "confirm-discard": "确认丢弃录音",
       "tap-again-discard": "再次点击以丢弃"
+    },
+    "tabs": {
+      "daily": "每日",
+      "all": "全部",
+      "tasks": "任务",
+      "chat": "对话"
     },
     "back": "返回",
     "sections": "分区",

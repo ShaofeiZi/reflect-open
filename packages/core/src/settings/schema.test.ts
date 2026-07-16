@@ -19,6 +19,7 @@ describe('settingsSchema', () => {
       mobileStorage: 'local',
       mobileGraphName: '',
       theme: 'system',
+      language: 'en',
       timeFormat: '12h',
       dateFormat: 'mdy',
       weekStartDay: 'monday',
@@ -46,6 +47,7 @@ describe('settingsSchema', () => {
     expect(DEFAULT_SETTINGS.mobileOnboarded).toBe(false)
     expect(DEFAULT_SETTINGS.mobileStorage).toBe('local')
     expect(DEFAULT_SETTINGS.theme).toBe('system')
+    expect(DEFAULT_SETTINGS.language).toBe('en')
     expect(DEFAULT_SETTINGS.timeFormat).toBe('12h')
     expect(DEFAULT_SETTINGS.dateFormat).toBe('mdy')
     expect(DEFAULT_SETTINGS.weekStartDay).toBe('monday')
@@ -87,6 +89,8 @@ describe('settingsSchema', () => {
     expect(settingsSchema.parse({ theme: 'dark' }).theme).toBe('dark')
     expect(settingsSchema.parse({ theme: 'light' }).theme).toBe('light')
     expect(settingsSchema.parse({ theme: 'system' }).theme).toBe('system')
+    expect(settingsSchema.parse({ language: 'en' }).language).toBe('en')
+    expect(settingsSchema.parse({ language: 'zh-CN' }).language).toBe('zh-CN')
     expect(settingsSchema.parse({ timeFormat: '24h' }).timeFormat).toBe('24h')
     expect(settingsSchema.parse({ timeFormat: '12h' }).timeFormat).toBe('12h')
     expect(settingsSchema.parse({ dateFormat: 'iso' }).dateFormat).toBe('iso')
@@ -152,6 +156,8 @@ describe('settingsSchema', () => {
     expect(settingsSchema.parse({ contextSidebarWidth: 9000 }).contextSidebarWidth).toBe(480)
     expect(settingsSchema.parse({ theme: 'sepia' }).theme).toBe('system')
     expect(settingsSchema.parse({ theme: 7 }).theme).toBe('system')
+    expect(settingsSchema.parse({ language: 'fr' }).language).toBe('en')
+    expect(settingsSchema.parse({ language: 7 }).language).toBe('en')
     expect(settingsSchema.parse({ timeFormat: '36h' }).timeFormat).toBe('12h')
     expect(settingsSchema.parse({ timeFormat: 24 }).timeFormat).toBe('12h')
     expect(settingsSchema.parse({ dateFormat: 'ymd' }).dateFormat).toBe('mdy')
@@ -203,6 +209,7 @@ describe('settingsSchema', () => {
       mobileStorage: 'local',
       mobileGraphName: '',
       theme: 'system',
+      language: 'en',
       timeFormat: '12h',
       dateFormat: 'mdy',
       weekStartDay: 'monday',
