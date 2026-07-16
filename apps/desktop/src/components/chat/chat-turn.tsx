@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import type { ChatTurn as ChatTurnModel } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Bubble, BubbleContent } from '@/components/ui/bubble'
 import { Marker, MarkerContent } from '@/components/ui/marker'
 import { Message, MessageContent, MessageGroup } from '@/components/ui/message'
@@ -27,6 +28,7 @@ interface ChatTurnProps {
  */
 export function ChatTurn({ turn }: ChatTurnProps): ReactElement {
   const navigateWikiLink = useWikiLinkNavigation(null)
+  const { t } = useTranslation()
   const lastIndex = turn.parts.length - 1
 
   return (
@@ -48,7 +50,7 @@ export function ChatTurn({ turn }: ChatTurnProps): ReactElement {
         <MessageContent className="gap-2">
           {turn.parts.length === 0 && turn.status === 'streaming' ? (
             <Marker className="animate-pulse text-sm text-text-muted">
-              <MarkerContent>Thinking…</MarkerContent>
+              <MarkerContent>{t('chat.thinking')}</MarkerContent>
             </Marker>
           ) : null}
           {turn.parts.map((part, index) => (

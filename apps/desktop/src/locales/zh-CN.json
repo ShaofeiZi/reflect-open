@@ -155,6 +155,10 @@
       "light-mode": "浅色模式",
       "dark-mode": "深色模式",
       "settings-tooltip": "设置"
+    },
+    "appState": {
+      "secondaryWindowGraphError": "此窗口无法打开图谱。请关闭它，并从主窗口重新打开。",
+      "loading": "加载中…"
     }
   },
   "settings": {
@@ -180,7 +184,403 @@
     "sync": "同步",
     "import": "导入",
     "about": "关于",
-    "destructive": "危险区"
+    "destructive": "危险区",
+    "appearanceSection": {
+      "theme": {
+        "legend": "主题",
+        "description": "“系统”会跟随操作系统外观。此选择会随设置保存。"
+      },
+      "themeOptions": {
+        "system": "系统",
+        "light": "浅色",
+        "dark": "深色"
+      }
+    },
+    "editorSection": {
+      "markdownSyntax": {
+        "legend": "Markdown 语法",
+        "description": "编辑时如何显示 **、` 等 Markdown 原始字符。"
+      },
+      "markdownOptions": {
+        "hide": {
+          "label": "隐藏",
+          "description": "始终隐藏"
+        },
+        "hybrid": {
+          "label": "混合",
+          "description": "仅在光标附近显示"
+        },
+        "show": {
+          "label": "显示",
+          "description": "始终可见"
+        }
+      },
+      "textSize": {
+        "legend": "文字大小",
+        "description": "笔记编辑器的阅读字号。"
+      },
+      "textSizeOptions": {
+        "small": {
+          "label": "小",
+          "description": "紧凑"
+        },
+        "medium": {
+          "label": "中",
+          "description": "默认"
+        },
+        "large": {
+          "label": "大",
+          "description": "舒适"
+        }
+      },
+      "fullWidth": {
+        "legend": "全宽笔记",
+        "description": "让笔记正文横向铺满窗口，仅保留较小边距。"
+      },
+      "spellCheck": {
+        "legend": "拼写检查",
+        "description": "输入时为拼写错误的单词添加下划线。"
+      },
+      "defaultBullet": {
+        "legend": "以项目符号开始",
+        "description": "新建或空白笔记会默认出现一个项目符号，方便直接输入。"
+      },
+      "bulletAfterHeading": {
+        "legend": "标题后接项目符号",
+        "description": "在标题末尾按 Return 会开始一个新的项目符号。"
+      },
+      "keyboardShortcuts": {
+        "legend": "键盘快捷键",
+        "description": "查看所有应用和编辑器快捷键。",
+        "showAll": "显示全部"
+      }
+    },
+    "dateTimeSection": {
+      "dateFormat": {
+        "legend": "日期格式",
+        "description": "Reflect 各处显示日期的样式，包括每日笔记标题。",
+        "aria": "日期格式"
+      },
+      "weekStart": {
+        "legend": "每周开始于",
+        "description": "日历中显示的第一天。",
+        "aria": "每周开始于",
+        "monday": "星期一",
+        "sunday": "星期日"
+      },
+      "timeFormat": {
+        "legend": "时间格式",
+        "description": "Reflect 各处显示时间的方式，例如 8:22pm 或 20:22。",
+        "aria": "时间格式",
+        "12h": "12 小时制",
+        "24h": "24 小时制"
+      }
+    },
+    "allNotesSection": {
+      "filterTags": {
+        "legend": "筛选标签",
+        "description": "固定在“全部笔记”顶部的一键筛选标签。"
+      },
+      "empty": "暂无固定标签——该页面只会显示“全部”标签和“自定义”菜单。",
+      "removeTag": "移除 {{tag}}",
+      "addAria": "添加筛选标签",
+      "placeholder": "添加标签（例如 book）",
+      "add": "添加",
+      "invalidTag": "“{{tag}}” 不能作为标签——标签需以字母开头，可使用字母、数字、/、_ 或 -。"
+    },
+    "searchSection": {
+      "semantic": {
+        "legend": "语义搜索",
+        "description": "按含义查找笔记，而不只是关键词——让 ⌘K 结果和相似笔记更智能。完全在本设备运行；启用后会一次性下载一个小模型（约 90 MB）。"
+      },
+      "enable": "启用语义搜索",
+      "modelDownloaded": "模型已下载（{{model}}）",
+      "disable": "停用",
+      "loadFailed": "无法加载模型：{{message}}",
+      "tryAgain": "重试",
+      "rebuild": {
+        "legend": "重建索引",
+        "description": "Reflect 会维护本地笔记索引以支持搜索和链接。如果结果看起来过期或不完整，可以重建索引——你的笔记不会被修改。",
+        "button": "重建索引",
+        "rebuilding": "正在重建…"
+      },
+      "modelProgress": {
+        "preparing": "正在准备模型…",
+        "aria": "语义搜索模型下载",
+        "downloading": "正在下载模型 — {{downloaded}} / {{total}}"
+      }
+    },
+    "importSection": {
+      "reflectV1": {
+        "legend": "Reflect V1",
+        "description": "选择 Reflect V1 导出的 .zip 文件。其中的笔记和附件会被添加到当前图谱；已有内容不会被替换。"
+      },
+      "dialogTitle": "导入 Reflect V1 导出文件",
+      "zipArchives": "Zip 压缩包",
+      "importing": "正在导入...",
+      "importZip": "导入 zip..."
+    },
+    "aiProvidersSection": {
+      "empty": "尚未配置 AI 服务商。添加服务商 API 密钥后即可使用 AI 功能——密钥会保存在系统钥匙串中，调用会直接发往服务商。",
+      "addProvider": "添加服务商",
+      "apiKey": "API 密钥",
+      "default": "默认",
+      "makeDefault": "设为默认",
+      "remove": "移除 {{name}}"
+    },
+    "addAiProviderDialog": {
+      "title": "添加 AI 服务商",
+      "description": "API 密钥会保存在系统钥匙串中，绝不会写入你的图谱。",
+      "provider": "服务商",
+      "defaultModel": "默认模型",
+      "apiKey": "API 密钥",
+      "apiKeyRequired": "请输入 API 密钥。",
+      "useAsDefault": "设为默认服务商",
+      "verifyWarning": "无法连接 {{provider}} 验证密钥。再次提交将以未验证状态保存。",
+      "cancel": "取消",
+      "saveAnyway": "仍然保存",
+      "addProvider": "添加服务商"
+    },
+    "aiChatSection": {
+      "systemPrompt": {
+        "legend": "系统提示词",
+        "description": "随每次 AI 对话一起发送的附加指令（最多 {{count}} 个字符）。Reflect 的笔记搜索、引用和隐私规则仍然生效。",
+        "aria": "系统提示词",
+        "placeholder": "保持简洁。挑战我的假设，并提出澄清问题。",
+        "useDefault": "使用默认值"
+      }
+    },
+    "agentsSection": {
+      "legend": "智能体技能",
+      "description": "让 Claude Code 和其他智能体通过 reflect CLI 读取“{{graphName}}”。",
+      "conflict": "该位置已有一个非 Reflect 管理的文件。请先移走它再安装。",
+      "installed": "已安装",
+      "updateSkill": "更新技能",
+      "installSkill": "安装技能",
+      "remove": "移除"
+    },
+    "aboutSection": {
+      "appName": "Reflect Open"
+    },
+    "updateSection": {
+      "legend": "更新",
+      "description": "Reflect 会在启动时检查新版本，只有在你确认后才会安装。",
+      "checking": "检查中…",
+      "install": "安装 {{version}}",
+      "downloading": "下载中{{percent}}",
+      "downloadingPercent": " {{percent}}%",
+      "restart": "重启以更新",
+      "retryInstall": "重试安装",
+      "check": "检查更新",
+      "upToDate": "已是最新版本。"
+    },
+    "aiPromptsSection": {
+      "empty": "暂无保存的提示词。在笔记中选择文本并按 ⌘⇧J 可运行内置提示词；你在这里保存的提示词会显示在它们之后。",
+      "addPrompt": "添加提示词",
+      "addTitle": "添加提示词",
+      "editTitle": "编辑提示词",
+      "descriptionBefore": "提示词会作用于你在笔记中选中的文本。使用",
+      "descriptionAfter": "表示所选内容应出现的位置。",
+      "label": "标签",
+      "labelPlaceholder": "翻译成法语",
+      "prompt": "提示词",
+      "promptPlaceholder": "将以下文本翻译成法语。\n\n{{selectedText}}",
+      "result": "结果",
+      "replace": "替换所选内容",
+      "append": "插入到所选内容下方",
+      "cancel": "取消",
+      "save": "保存",
+      "edit": "编辑 {{label}}",
+      "remove": "移除 {{label}}"
+    },
+    "templatesSection": {
+      "legend": "笔记模板",
+      "description": "图谱 templates/ 文件夹中的 Markdown 文件，可从 ⌘K 面板插入。",
+      "rename": "重命名 {{title}}",
+      "delete": "删除 {{title}}",
+      "newTemplate": "新建模板",
+      "renameTitle": "重命名模板",
+      "renameDescription": "重命名模板——包括标题和文件 slug。",
+      "templateName": "模板名称",
+      "cancel": "取消",
+      "renameButton": "重命名",
+      "deleteTitle": "删除模板？",
+      "deleteDescription": "“{{title}}” 会移到废纸篓，可从那里恢复。",
+      "deleteButton": "删除",
+      "trashingOperation": "正在删除模板"
+    },
+    "modelCombobox": {
+      "defaultModel": "默认模型",
+      "placeholder": "搜索或输入模型名称…",
+      "emptyBefore": "按",
+      "emptyKey": "Enter",
+      "emptyAfter": "使用“{{model}}”"
+    },
+    "backupSection": {
+      "genericLegend": "备份",
+      "githubLegend": "GitHub 同步",
+      "genericDescription": "此图谱会备份到自己的 git 远端。停止输入几秒后会自动备份。",
+      "githubDescription": "将此图谱备份到 GitHub 仓库。停止输入几秒后会自动备份。",
+      "status": {
+        "idle": "已备份",
+        "syncing": "备份中…",
+        "authFailed": "备份失败 — 请重新连接 GitHub",
+        "failed": "备份失败：{{message}}"
+      },
+      "checking": "正在检查备份状态…",
+      "connect": "连接 GitHub…",
+      "noteNeedsReview": "1 篇笔记需要检查",
+      "notesNeedReview": "{{count}} 篇笔记需要检查",
+      "openToKeep": "— 打开{{target}}以保留你想要的版本：",
+      "targetIt": "它",
+      "targetOne": "其中一篇",
+      "backUpNow": "立即备份",
+      "stopTitle": "此图谱会停止备份；历史记录和 GitHub 登录状态会保留",
+      "stop": "停止备份",
+      "openRepo": "打开 GitHub 仓库",
+      "account": "GitHub 账号",
+      "accountDescription": "在此设备上退出登录；已连接的图谱会停止备份。",
+      "signOutTitle": "从此设备移除 GitHub token",
+      "signOut": "退出 GitHub…",
+      "signOutConfirmTitle": "退出 GitHub？",
+      "signOutConfirmDescription": "这会从此设备移除 GitHub token。所有 GitHub 备份图谱都会停止备份，直到你重新登录。",
+      "cancel": "取消",
+      "signOutButton": "退出登录",
+      "browserOpenFailed": "无法打开浏览器 — 请自行访问 {{url}}。",
+      "conflictedNotesAria": "需要检查的笔记"
+    },
+    "destructiveSection": {
+      "savedLegend": "已保存图谱",
+      "savedDescription": "忘记此图谱。文件会保留在磁盘上。",
+      "forget": "忘记图谱",
+      "deleteLegend": "删除图谱",
+      "deleteDescription": "将此图谱及其所有笔记移到废纸篓。",
+      "delete": "删除图谱",
+      "forgetTitle": "忘记图谱？",
+      "forgetDescription": "从已保存图谱中移除 {{graphId}}。文件会保留在磁盘上。",
+      "cancel": "取消",
+      "forgetting": "正在忘记…",
+      "deleteTitle": "删除图谱？",
+      "deleteConfirm": "将 {{graphId}} 及其所有笔记移到废纸篓。输入 {{graphName}} 以确认。",
+      "graphName": "图谱名称",
+      "deleting": "正在删除…",
+      "thisGraph": "此图谱"
+    },
+    "describeAssetsSection": {
+      "legend": "OCR 资源",
+      "description": "让图片和 PDF 中的文字可以被搜索。私密笔记会被跳过。",
+      "auto": "自动 OCR 新资源",
+      "backfilling": "正在回填…",
+      "backfill": "回填资源",
+      "needProvider": "添加 AI 服务商后即可启用。",
+      "confirmTitle": "回填资源？",
+      "confirmDescription": "非私密笔记中的图片和 PDF 会发送给你的 AI 服务商，使其中的文字可以出现在搜索中。已有 OCR 的资源会跳过。",
+      "cancel": "取消"
+    },
+    "integrationsSection": {
+      "contactsLegend": "通讯录",
+      "contactsDescription": "当笔记标题匹配联系人姓名时，建议其邮箱和电话。",
+      "contactsDeniedBefore": "Reflect 没有通讯录访问权限。",
+      "openSystemSettings": "打开系统设置",
+      "contactsDeniedAfter": "允许访问，然后回到这里。",
+      "contactsPromptBefore": "Reflect 尚未请求通讯录访问权限。",
+      "allowContacts": "允许通讯录访问",
+      "calendarDeniedInitial": "Reflect 需要权限才能读取你的日历。",
+      "calendarDenied": "Reflect 无法读取你的日历。请在“隐私与安全性 → 日历”中允许。",
+      "grantAccess": "授权访问",
+      "noCalendars": "未找到日历。请在“系统设置 → 互联网账户”中添加账号。",
+      "calendarsSelected": "已选择 {{enabled}}/{{total}} 个日历",
+      "chooseCalendars": "选择日历…",
+      "chooseCalendarsTitle": "选择日历",
+      "chooseCalendarsDescription": "选择 Reflect 在每日笔记旁显示的日历。",
+      "calendarLegend": "日历事件",
+      "calendarDescription": "在每日笔记旁显示 Apple 日历中的当天会议。"
+    },
+    "githubConnect": {
+      "title": "连接 GitHub",
+      "step": {
+        "repo": "将此图谱备份到私有 GitHub 仓库。",
+        "auth": "登录后 Reflect 才能推送备份。",
+        "finish": "正在连接你的仓库…"
+      },
+      "createNew": "创建新的私有仓库",
+      "newRepoName": "新仓库名称",
+      "useExisting": "使用现有仓库",
+      "existingRepo": "现有仓库",
+      "continue": "继续",
+      "changeRepo": "更换仓库",
+      "chooseAnother": "选择其他仓库",
+      "publicWarning": "{{repo}} 是公开仓库。",
+      "publicWarningDescription": "互联网上任何人都可以读取此图谱中的所有内容，包括标记为私密的笔记。",
+      "backupPublic": "备份到公开仓库",
+      "createInstruction": "在 GitHub 上创建 {{repo}}。Reflect 会在仓库创建后自动连接。",
+      "createOnGithub": "在 GitHub 上创建…",
+      "waitingRepo": "正在等待仓库…",
+      "grantAppBefore": "如果没有连接成功，请",
+      "grantAppLink": "授予 Reflect app 访问权限",
+      "grantAppAfter": "，仅限此仓库。",
+      "tokenAccessHint": "如果没有连接成功，请将它加入 token 的仓库访问范围。",
+      "grantAccessInstruction": "授予 Reflect 访问 {{repo}} 的权限，以便备份到这里。",
+      "grantAccessOnGithub": "在 GitHub 上授权…",
+      "repoSelectionHint": "在 GitHub 上选择“仅选择仓库”——Reflect 只需要这一个仓库。",
+      "waitingAccess": "正在等待授权…",
+      "connecting": "连接中…",
+      "signedInAs": "已登录为 {{login}}"
+    },
+    "githubAuth": {
+      "signIn": "使用 GitHub 登录",
+      "usePat": "改用个人访问令牌",
+      "patInstructionsPrefix": "粘贴一个 fine-grained personal access token，需要对",
+      "contents": "Contents",
+      "patInstructionsSuffix": "有读写权限（GitHub → Settings → Developer settings → Fine-grained tokens）。它会保存在系统钥匙串中，绝不会写入你的图谱。",
+      "theRepo": "{{repoName}} 仓库",
+      "yourBackupRepo": "你的备份仓库",
+      "patLabel": "个人访问令牌",
+      "pasteTokenFirst": "请先粘贴 token。",
+      "checking": "检查中…",
+      "saveToken": "保存 token",
+      "signInInstead": "改用 GitHub 登录",
+      "codeCopied": "代码已复制——请粘贴到 GitHub 页面：",
+      "codePrompt": "GitHub 会要求输入这个一次性代码：",
+      "openGithub": "打开 GitHub",
+      "copyAndOpen": "复制代码并打开 GitHub",
+      "copyFailed": "无法自动复制——请先选中上面的代码并复制。",
+      "openFailed": "无法打开浏览器——请自行访问 {{url}}。",
+      "rejected": "GitHub 拒绝了该 token——请检查后重试。"
+    },
+    "icloudSection": {
+      "legend": "iCloud 云盘",
+      "hostedDescription": "此图谱位于 iCloud 云盘中——编辑会同步到你的其他设备，冲突会尽可能自动解决。",
+      "availableDescription": "将此图谱复制到 iCloud 云盘，以便与其他设备同步。",
+      "unavailableDescription": "此应用无法访问 iCloud 云盘——请登录 iCloud，或使用已启用 iCloud 的构建。",
+      "noGraphs": "iCloud 云盘中还没有图谱。",
+      "oneGraph": "iCloud 云盘中有 1 个图谱。",
+      "manyGraphs": "iCloud 云盘中有 {{count}} 个图谱。",
+      "allDownloaded": "所有笔记文件均已下载。",
+      "onePending": "1 篇笔记仍在从 iCloud 下载。",
+      "manyPending": "{{count}} 篇笔记仍在从 iCloud 下载。",
+      "noReview": "没有笔记需要检查。",
+      "oneNeedsReview": "1 篇笔记需要检查",
+      "manyNeedReview": "{{count}} 篇笔记需要检查",
+      "oneFork": "1 个同步分叉",
+      "manyForks": "{{count}} 个同步分叉",
+      "checking": "正在检查已下载的笔记...",
+      "move": "将图谱移到 iCloud…",
+      "moveTitle": "将此图谱移到 iCloud 云盘？",
+      "moveDescription": "你的笔记会复制到 iCloud 云盘，并在那里重新打开图谱。当前文件夹会原样保留在磁盘上，作为恢复副本。",
+      "moveBackupDescription": "GitHub 同步会从恢复副本断开；iCloud 图谱打开后可重新连接 GitHub 同步。",
+      "cancel": "取消",
+      "moving": "正在移动…",
+      "moveButton": "移动到 iCloud",
+      "disconnectError": "图谱已移到 iCloud，但无法从原文件夹断开 GitHub 同步：{{message}}",
+      "openCopyError": "副本已写入 iCloud，但无法打开——请从已保存图谱中打开。"
+    },
+    "syncForkNotice": {
+      "one": "1 篇笔记在两台设备上被分别重命名，现在以独立文件存在",
+      "many": "{{count}} 篇笔记在两台设备上被分别重命名，现在以独立文件存在",
+      "suffix": "— 请手动合并，然后删除不需要的副本："
+    },
+    "sectionsAria": "设置分区"
   },
   "sidebar": {
     "primary-navigation": "主导航",
@@ -252,7 +652,27 @@
     "message-aria-label": "对话消息",
     "remove-attachment": "移除 {{name}}",
     "model-aria-label": "模型",
-    "choose-model": "选择模型"
+    "choose-model": "选择模型",
+    "history-aria": "对话历史",
+    "history-empty": "暂无历史对话",
+    "delete-conversation": "删除“{{title}}”",
+    "new-chat": "新建对话",
+    "stop": "停止",
+    "send": "发送",
+    "conversation-aria": "对话",
+    "thinking": "思考中…",
+    "tool": {
+      "searched": "搜索“{{query}}”",
+      "count-note": "{{count}} 篇笔记",
+      "count-day": "{{count}} 天",
+      "listed": "已列出",
+      "notes": "笔记",
+      "recent": "最近",
+      "listed-daily": "已列出每日笔记 {{start}} – {{end}}",
+      "read": "已读取",
+      "count-note_plural": "{{count}} 篇笔记",
+      "count-day_plural": "{{count}} 天"
+    }
   },
   "palette": {
     "title": "命令面板",
@@ -345,7 +765,9 @@
     },
     "group": {
       "add": "添加",
-      "empty": "暂无任务"
+      "empty": "暂无任务",
+      "add-to": "添加任务到 {{target}}",
+      "today": "今天"
     },
     "row": {
       "empty-task": "空任务",
@@ -441,7 +863,275 @@
     },
     "use-as-default-provider": "设为默认服务商",
     "save-anyway": "仍然保存",
-    "add-provider": "添加服务商"
+    "add-provider": "添加服务商",
+    "choose-model": "选择模型",
+    "attach-photo": "附加照片",
+    "stop": "停止",
+    "send": "发送",
+    "remove-attachment": "移除 {{name}}",
+    "chat-history": {
+      "aria": "对话历史",
+      "title": "历史",
+      "empty": "暂无历史对话",
+      "delete": "删除“{{title}}”"
+    },
+    "calendar": {
+      "settings": "设置",
+      "change-month": "更改月份",
+      "today": "今天",
+      "previous-year": "上一年",
+      "next-year": "下一年"
+    },
+    "app": {
+      "couldnt-open": "无法打开你的笔记",
+      "loading": "加载中…",
+      "unknown-error": "未知错误",
+      "something-broke": "出错了"
+    },
+    "note-actions": {
+      "aria": "笔记操作",
+      "title": "笔记操作",
+      "pin": "置顶",
+      "unpin": "取消置顶",
+      "share": "分享",
+      "delete": "删除",
+      "delete-title": "删除这篇笔记？",
+      "delete-description": "它会移到图谱的废纸篓并从笔记中消失。你可以在桌面端恢复。",
+      "cancel": "取消"
+    },
+    "onboarding": {
+      "title": "从 iCloud 同步开始",
+      "subtitle": "通过 iCloud 云盘，让你的笔记在 iPhone、iPad 和 Mac 间保持最新。",
+      "icloud-description-existing": "我们在 iCloud 云盘中找到了笔记。继续使用其中一个，或重新开始。",
+      "icloud-description-empty": "推荐给大多数人。你的笔记会通过 iCloud 云盘同步，并可离线使用。",
+      "checking-icloud": "正在检查 iCloud 云盘…",
+      "continue-with": "继续使用 {{name}}",
+      "start-fresh": "重新开始",
+      "graph-name": "图谱名称",
+      "personal-notes": "个人笔记",
+      "name-taken": "该名称已存在于 iCloud 云盘。",
+      "setting-up": "正在设置…",
+      "setup-graph": "设置图谱",
+      "local": "或者，仅使用此设备",
+      "unavailable-description": "开启 iCloud 云盘，以便在设备间同步笔记。",
+      "unavailable-instructions": "请在此设备上登录 iCloud，然后重新打开 Reflect。",
+      "icloud-sync": "iCloud 同步",
+      "recommended": "推荐"
+    },
+    "recording": {
+      "title": "语音备忘",
+      "description": "语音备忘会使用你自己的 OpenAI 或 Gemini API 密钥转写到笔记中。请先在设置中添加密钥。",
+      "open-settings": "打开设置",
+      "waiting-mic": "正在等待麦克风…",
+      "confirm-discard": "确认丢弃录音",
+      "tap-again-discard": "再次点击以丢弃"
+    },
+    "back": "返回",
+    "sections": "分区",
+    "formatting": {
+      "aria": "格式",
+      "slash": "斜杠命令",
+      "bullet": "项目符号列表",
+      "checklist": "切换清单和任务",
+      "link-note": "链接笔记",
+      "tag": "标签",
+      "outdent": "减少缩进",
+      "indent": "增加缩进",
+      "move-up": "上移",
+      "move-down": "下移",
+      "hide-keyboard": "隐藏键盘"
+    },
+    "incoming-backlink": "反向链接",
+    "incoming-backlinks": "反向链接",
+    "couldnt-load-backlinks": "无法加载反向链接。",
+    "preparing-notes": "正在准备笔记…",
+    "pinned": "置顶",
+    "new-icloud-graph": "新建 iCloud 图谱",
+    "name": "名称",
+    "matching-tags": "匹配的标签",
+    "no-matching-tags": "没有匹配的标签",
+    "loading-notes": "正在加载笔记",
+    "search-notes": "搜索笔记",
+    "ai-provider-actions": {
+      "manage": "管理 AI 服务商",
+      "remove": "移除服务商",
+      "default-model": "默认模型",
+      "default-provider": "默认服务商",
+      "use-as-default": "设为默认"
+    },
+    "chat-system-prompt": {
+      "aria": "系统提示词",
+      "title": "系统提示词",
+      "description": "随每次 AI 对话一起发送的附加指令（最多 {{count}} 个字符）。Reflect 的笔记搜索、引用和隐私规则仍然生效。",
+      "instructions": "系统提示词说明",
+      "placeholder": "保持简洁。挑战我的假设，并提出澄清问题。",
+      "use-default": "使用默认值",
+      "save": "保存"
+    },
+    "connect-github": {
+      "aria": "连接 GitHub",
+      "title": "连接 GitHub",
+      "step": {
+        "repo": "将此图谱备份到私有 GitHub 仓库，并与其他设备上的 Reflect 同步。",
+        "auth": "登录后 Reflect 才能推送备份。",
+        "finish": "正在连接你的仓库…"
+      },
+      "create-new": "创建新的私有仓库",
+      "repo-name": "仓库名称",
+      "use-existing": "使用现有仓库",
+      "repo": "仓库",
+      "continue": "继续"
+    },
+    "index-progress": "正在准备笔记… {{done}} / {{total}}",
+    "new-graph": {
+      "title": "新建 iCloud 图谱",
+      "name": "名称",
+      "new-name": "新名称",
+      "name-taken": "该名称已存在于 iCloud 云盘。",
+      "setting-up": "正在设置…",
+      "create": "创建"
+    },
+    "all-notes-screen": {
+      "back": "返回",
+      "placeholder": "搜索任何内容…",
+      "search": "搜索笔记",
+      "loading": "正在加载笔记",
+      "no-notes": "暂无笔记",
+      "no-matches": "无匹配结果",
+      "no-matching-tags": "没有匹配的标签",
+      "matching-tags": "匹配的标签"
+    },
+    "audio-memo": {
+      "record": "录制语音备忘",
+      "stop": "停止录音",
+      "discard": "丢弃语音备忘",
+      "show-error": "显示语音备忘错误"
+    },
+    "graph-chooser": {
+      "icloud-title": "iCloud"
+    },
+    "settings-screen": {
+      "title": "设置",
+      "graph": "图谱",
+      "appearance": "外观",
+      "theme": "主题",
+      "theme-system": "系统",
+      "theme-light": "浅色",
+      "theme-dark": "深色",
+      "text-size": "文字大小",
+      "text-small": "小",
+      "text-medium": "中",
+      "text-large": "大",
+      "editor": "编辑器",
+      "start-bullet": "以项目符号开始",
+      "bullet-after-heading": "标题后接项目符号",
+      "ai": "AI",
+      "ai-footer": "密钥保存在此设备的钥匙串中，绝不会同步。",
+      "default": "默认",
+      "custom": "自定义",
+      "backup": "备份",
+      "backup-footer-connect": "通过 GitHub 与其他设备上的 Reflect 同步笔记。",
+      "github": "GitHub",
+      "status": "状态",
+      "connect-github": "连接 GitHub",
+      "disconnect-github": "断开 GitHub",
+      "about": "关于",
+      "notes": "笔记",
+      "version": "版本",
+      "icloud-drive": "iCloud 云盘",
+      "this-device": "此设备"
+    },
+    "graphs-screen": {
+      "title": "图谱",
+      "icloud-drive": "iCloud 云盘",
+      "icloud-unavailable": "此设备上无法使用 iCloud 云盘。",
+      "icloud-footer": "与其他设备上的 Reflect 同步。",
+      "looking": "正在查找你的笔记…",
+      "new-graph": "新建图谱",
+      "local-footer": "笔记保留在此设备上。可在设置中通过 GitHub 同步。",
+      "this-device": "此设备"
+    },
+    "tasks-screen": {
+      "search-placeholder": "搜索任务…",
+      "search": "搜索任务",
+      "archive-completed": "归档 {{count}} 个已完成任务",
+      "filters": "任务筛选",
+      "load-failed": "无法加载任务。",
+      "loading": "正在加载任务",
+      "no-matching": "没有匹配的任务",
+      "no-tasks": "暂无任务可显示",
+      "add-task": "添加任务",
+      "new-task": "新建任务"
+    },
+    "task-edit": {
+      "title": "编辑任务",
+      "schedule": "安排日期",
+      "today": "今天",
+      "tomorrow": "明天",
+      "next-week": "下周",
+      "pick-date": "选择日期",
+      "clear": "清除",
+      "reopen": "重新打开",
+      "complete": "完成",
+      "convert": "转换为列表项",
+      "open-note": "打开笔记",
+      "delete": "删除"
+    },
+    "task-filters": {
+      "title": "任务筛选",
+      "pinned": "置顶笔记",
+      "current": "当前",
+      "overdue": "逾期",
+      "upcoming": "即将到期",
+      "other": "其他笔记",
+      "show-archived": "显示已归档"
+    },
+    "task-schedule-grid": {
+      "pick-date": "选择日期",
+      "previous-month": "上个月",
+      "next-month": "下个月"
+    },
+    "search-input": {
+      "clear": "清除搜索"
+    },
+    "filters": {
+      "updated": "更新时间",
+      "updated-from": "更新时间起",
+      "updated-to": "更新时间止",
+      "to": "至",
+      "apply-range": "应用范围",
+      "clear-filter": "清除筛选",
+      "tags": "标签",
+      "no-tags": "暂无标签",
+      "find-note": "查找笔记…",
+      "find-note-aria": "查找笔记",
+      "no-matches": "无匹配结果",
+      "linked-to": "链接到",
+      "linked-by": "被链接",
+      "daily-notes": "每日笔记",
+      "reset": "重置",
+      "pinned": "置顶"
+    },
+    "daily-screen": {
+      "new-note": "新建笔记"
+    },
+    "sync-status": {
+      "syncing": "同步中",
+      "needs-review": "需要检查",
+      "needs-attention": "需要处理",
+      "offline": "离线",
+      "backed-up": "已备份",
+      "one-conflict": "一篇笔记同时在两台设备上被编辑——打开它以选择要保留的版本。",
+      "many-conflicts": "{{count}} 篇笔记同时在两台设备上被编辑——打开它们以选择要保留的版本。"
+    },
+    "backlinks": {
+      "collapse": "收起来自 {{title}} 的引用",
+      "expand": "展开来自 {{title}} 的引用"
+    },
+    "note-screen": {
+      "new": "新建笔记",
+      "edit": "编辑笔记"
+    }
   },
   "commands": {
     "switch-to-graph": "切换到图谱 {{position}}",

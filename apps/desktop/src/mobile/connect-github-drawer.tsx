@@ -1,4 +1,5 @@
 import { useId, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { InlineAlert } from '@/components/inline-alert'
 import { ConnectGithubFinishStep } from '@/components/settings/connect-github-finish-step'
 import { GithubAuthStep } from '@/components/settings/github-auth-step'
@@ -14,10 +15,10 @@ interface ConnectGithubDrawerProps {
   pollIntervalMs?: number
 }
 
-const STEP_DESCRIPTIONS: Record<ConnectWizardStep, string> = {
-  repo: 'Back up this graph to a private GitHub repository and sync it with Reflect on your other devices.',
-  auth: 'Sign in so Reflect can push your backups.',
-  finish: 'Connecting your repository…',
+const STEP_DESCRIPTION_KEYS: Record<ConnectWizardStep, string> = {
+  repo: 'mobile.connect-github.step.repo',
+  auth: 'mobile.connect-github.step.auth',
+  finish: 'mobile.connect-github.step.finish',
 }
 
 const FIELD_LABEL_CLASS = 'text-xs font-medium text-text-secondary'
@@ -39,9 +40,10 @@ export function ConnectGithubDrawer({
   onOpenChange,
   pollIntervalMs,
 }: ConnectGithubDrawerProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent aria-label="Connect GitHub">
+      <DrawerContent aria-label={t('mobile.connect-github.aria')}>
         {open ? (
           <ConnectWizardSheet
             onClose={() => onOpenChange(false)}
@@ -70,11 +72,12 @@ function ConnectWizardSheet({
   })
   const createNameId = useId()
   const existingRepoId = useId()
+  const { t } = useTranslation()
 
   return (
     <div className="flex flex-col gap-3">
-      <DrawerTitle>Connect GitHub</DrawerTitle>
-      <p className="text-xs text-text-muted">{STEP_DESCRIPTIONS[wizard.step]}</p>
+      <DrawerTitle>{t('mobile.connect-github.title')}</DrawerTitle>
+      <p className="text-xs text-text-muted">{t(STEP_DESCRIPTION_KEYS[wizard.step])}</p>
 
       {wizard.step === 'repo' ? (
         <>
@@ -86,12 +89,12 @@ function ConnectWizardSheet({
                 checked={wizard.mode === 'create'}
                 onChange={() => wizard.setMode('create')}
               />
-              Create a new private repository
+              {t('mobile.connect-github.create-new')}
             </label>
             {wizard.mode === 'create' ? (
               <div className="flex flex-col gap-1.5">
                 <label htmlFor={createNameId} className={FIELD_LABEL_CLASS}>
-                  Repository name
+                  {t('mobile.connect-github.repo-name')}
                 </label>
                 <Input
                   id={createNameId}
@@ -113,12 +116,12 @@ function ConnectWizardSheet({
                 checked={wizard.mode === 'existing'}
                 onChange={() => wizard.setMode('existing')}
               />
-              Use an existing repository
+              {t('mobile.connect-github.use-existing')}
             </label>
             {wizard.mode === 'existing' ? (
               <div className="flex flex-col gap-1.5">
                 <label htmlFor={existingRepoId} className={FIELD_LABEL_CLASS}>
-                  Repository
+                  {t('mobile.connect-github.repo')}
                 </label>
                 <Input
                   id={existingRepoId}
@@ -137,7 +140,7 @@ function ConnectWizardSheet({
               </div>
             ) : null}
           </div>
-          <Button onClick={wizard.continueFromRepo}>Continue</Button>
+          <Button onClick={wizard.continueFromRepo}>{t('mobile.connect-github.continue')}</Button>
         </>
       ) : null}
 

@@ -1,6 +1,7 @@
 import { useRef, useState, type ReactElement } from 'react'
 import { aiModelLabel } from '@reflect/core'
 import { ArrowUp, ChevronDown, Plus, Square, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import {
   Attachment,
   AttachmentAction,
@@ -24,6 +25,7 @@ import { useRouter } from '@/routing/router'
  * empty and the composer lands on the keyboard's top edge (contract 6).
  */
 export function MobileChatComposer(): ReactElement {
+  const { t } = useTranslation()
   const { arrivalSeq, arrivalFocusEditor } = useRouter()
   const {
     status,
@@ -67,7 +69,7 @@ export function MobileChatComposer(): ReactElement {
               </AttachmentMedia>
               <AttachmentActions className="!top-0 !right-0 -translate-y-1/2 translate-x-1/2">
                 <AttachmentAction
-                  aria-label={`Remove ${attachment.name}`}
+                  aria-label={t('mobile.remove-attachment', { name: attachment.name })}
                   className="size-5 rounded-full border border-border bg-surface p-0 text-text-muted"
                   onClick={() => removeAttachment(attachment.id)}
                 >
@@ -82,8 +84,8 @@ export function MobileChatComposer(): ReactElement {
         ref={textareaRef}
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
-        placeholder="Ask about your notes…"
-        aria-label="Chat message"
+        placeholder={t('chat.placeholder')}
+        aria-label={t('chat.message-aria-label')}
         rows={1}
         data-slot="textarea"
         className="field-sizing-content max-h-40 w-full resize-none bg-transparent px-1 py-1.5 text-base text-text outline-none placeholder:text-text-muted"
@@ -109,33 +111,33 @@ export function MobileChatComposer(): ReactElement {
         <Button
           variant="ghost"
           size="icon-sm"
-          aria-label="Attach a photo"
+          aria-label={t('mobile.attach-photo')}
           onClick={() => fileInputRef.current?.click()}
         >
           <Plus aria-hidden />
         </Button>
         <button
           type="button"
-          aria-label="Model"
+          aria-label={t('chat.model-aria-label')}
           className="flex min-w-0 items-center gap-1 rounded-md px-1.5 py-1 text-xs text-text-muted"
           onClick={() => setModelOpen(true)}
         >
           <span className="min-w-0 truncate">
             {activeModel !== null
               ? aiModelLabel(activeModel.provider, activeModel.model)
-              : 'Choose a model'}
+              : t('mobile.choose-model')}
           </span>
           <ChevronDown aria-hidden className="size-3 shrink-0" />
         </button>
         <div className="flex-1" />
         {streaming ? (
-          <Button size="icon-sm" aria-label="Stop" onClick={stop}>
+          <Button size="icon-sm" aria-label={t('mobile.stop')} onClick={stop}>
             <Square aria-hidden className="size-3 fill-current" />
           </Button>
         ) : (
           <Button
             size="icon-sm"
-            aria-label="Send"
+            aria-label={t('mobile.send')}
             disabled={empty || activeModel === null}
             onClick={submit}
           >

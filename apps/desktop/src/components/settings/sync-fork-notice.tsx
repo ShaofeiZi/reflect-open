@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import type { DuplicateIdGroup } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 
 interface SyncForkNoticeProps {
   groups: DuplicateIdGroup[]
@@ -14,6 +15,7 @@ interface SyncForkNoticeProps {
  * there are no forks.
  */
 export function SyncForkNotice({ groups }: SyncForkNoticeProps): ReactElement | null {
+  const { t } = useTranslation()
   if (groups.length === 0) {
     return null
   }
@@ -21,9 +23,9 @@ export function SyncForkNotice({ groups }: SyncForkNoticeProps): ReactElement | 
     <div className="text-xs text-amber-700 dark:text-amber-300">
       <p>
         {groups.length === 1
-          ? '1 note was renamed differently on two devices and now exists as separate files'
-          : `${groups.length} notes were renamed differently on two devices and now exist as separate files`}{' '}
-        — merge by hand, then delete the copy you don’t want:
+          ? t('settings.syncForkNotice.one')
+          : t('settings.syncForkNotice.many', { count: groups.length })}{' '}
+        {t('settings.syncForkNotice.suffix')}
       </p>
       <ul className="mt-1 list-disc pl-4">
         {groups.map((group) => (

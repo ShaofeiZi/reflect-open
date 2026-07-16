@@ -243,7 +243,7 @@ function IcloudCard({
     <section className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-5 shadow-sm">
       <CardHeader
         icon={<Cloud aria-hidden className="size-4" strokeWidth={1.75} />}
-        title="iCloud"
+        title={t('mobile.graph-chooser.icloud-title')}
         badge={<Badge variant="secondary">{t('common.chooser.icloud-badge')}</Badge>}
         tinted
       >

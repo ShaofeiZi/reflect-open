@@ -1,5 +1,6 @@
 import { type ReactElement } from 'react'
 import { ExternalLinkIcon, XIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { LightboxDialog } from '@/editor/lightbox-dialog'
 import { useImageDismissDrag } from '@/editor/use-image-dismiss-drag'
@@ -31,6 +32,7 @@ export function ImageLightbox({
   onClose,
   onOpenImage,
 }: ImageLightboxProps): ReactElement | null {
+  const { t } = useTranslation()
   const mobileSurface = isMobileSurface()
   const dismissDrag = useImageDismissDrag({
     active: image !== null,
@@ -45,7 +47,7 @@ export function ImageLightbox({
     image.openPath !== null && image.openImage !== null && onOpenImage !== undefined
 
   return (
-    <LightboxDialog open title="Image preview" immersive={mobileSurface} onClose={onClose}>
+    <LightboxDialog open title={t('editor.image-preview-title')} immersive={mobileSurface} onClose={onClose}>
       {mobileSurface ? (
         <div aria-hidden className="absolute inset-0 bg-black" style={dismissDrag.backdropStyle} />
       ) : null}
@@ -58,7 +60,7 @@ export function ImageLightbox({
             type="button"
             variant="ghost"
             size="icon-lg"
-            aria-label="Close"
+            aria-label={t('editor.close')}
             className="rounded-full bg-white/15 text-white shadow-sm backdrop-blur-xl hover:bg-white/25 active:bg-white/20"
             onClick={onClose}
           >
@@ -79,13 +81,13 @@ export function ImageLightbox({
             onClick={() => onOpenImage(image)}
           >
             <ExternalLinkIcon data-icon="inline-start" />
-            Open
+            {t('editor.open')}
           </Button>
         </div>
       ) : null}
       <button
         type="button"
-        aria-label="Close image preview"
+        aria-label={t('editor.close-image-preview')}
         className={cn(
           'absolute inset-0 flex cursor-zoom-out items-center justify-center overflow-hidden bg-transparent',
           mobileSurface ? 'touch-none p-0' : 'p-6',

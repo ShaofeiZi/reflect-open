@@ -57,7 +57,7 @@ export function SettingsNavigator({ className }: SettingsNavigatorProps): ReactE
   }, [measure])
 
   return (
-    <nav ref={navRef} aria-label="Settings sections" className={cn('text-[13px]', className)}>
+    <nav ref={navRef} aria-label={t('settings.sectionsAria')} className={cn('text-[13px]', className)}>
       <div className="relative flex flex-col border-l border-border">
         {marker !== null && (
           <span

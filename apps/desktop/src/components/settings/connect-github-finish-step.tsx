@@ -1,4 +1,5 @@
 import type { ReactElement, ReactNode } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { InlineAlert } from '@/components/inline-alert'
 import { Button } from '@/components/ui/button'
 import type { ConnectGithubWizard } from '@/hooks/use-connect-github-wizard'
@@ -26,11 +27,12 @@ export function ConnectGithubFinishStep({
   wizard,
   layout,
 }: ConnectGithubFinishStepProps): ReactElement {
+  const { t } = useTranslation()
   const view = wizard.finishView
   const buttonSize = layout === 'row' ? ('sm' as const) : undefined
   const groupClass = layout === 'row' ? 'flex gap-2' : 'flex flex-col gap-2'
 
-  function changeRepository(label = 'Change repository'): ReactNode {
+  function changeRepository(label = t('settings.githubConnect.changeRepo')): ReactNode {
     return (
       <Button variant="outline" size={buttonSize} onClick={wizard.backToRepo}>
         {label}
@@ -42,7 +44,11 @@ export function ConnectGithubFinishStep({
     <div className="flex flex-col gap-3">
       {wizard.user !== null ? (
         <p className="text-xs text-text-muted">
-          Signed in as <strong className="text-text">{wizard.user.login}</strong>
+          <Trans
+            i18nKey="settings.githubConnect.signedInAs"
+            values={{ login: wizard.user.login }}
+            components={{ strong: <strong className="text-text" /> }}
+          />
         </p>
       ) : null}
 
@@ -50,22 +56,21 @@ export function ConnectGithubFinishStep({
         <>
           <InlineAlert tone="error">
             <strong>
-              {view.repo.owner}/{view.repo.name} is public.
+              {t('settings.githubConnect.publicWarning', { repo: `${view.repo.owner}/${view.repo.name}` })}
             </strong>{' '}
-            Anyone on the internet can read everything in this graph, including notes marked
-            private.
+            {t('settings.githubConnect.publicWarningDescription')}
           </InlineAlert>
           <div className={groupClass}>
-            {layout === 'row' ? changeRepository('Choose another repo') : null}
+            {layout === 'row' ? changeRepository(t('settings.githubConnect.chooseAnother')) : null}
             <Button
               variant="destructive"
               size={buttonSize}
               disabled={wizard.pending || wizard.user === null}
               onClick={wizard.confirmPublic}
             >
-              Back up to a public repo
+              {t('settings.githubConnect.backupPublic')}
             </Button>
-            {layout === 'stack' ? changeRepository('Choose another repo') : null}
+            {layout === 'stack' ? changeRepository(t('settings.githubConnect.chooseAnother')) : null}
           </div>
         </>
       ) : null}
@@ -73,30 +78,30 @@ export function ConnectGithubFinishStep({
       {view.kind === 'createGuide' ? (
         <>
           <p className="text-sm text-text">
-            Create{' '}
-            <strong>
-              {view.owner}/{view.name}
-            </strong>{' '}
-            on GitHub. Reflect will connect it as soon as it exists.
+            <Trans
+              i18nKey="settings.githubConnect.createInstruction"
+              values={{ repo: `${view.owner}/${view.name}` }}
+              components={{ strong: <strong /> }}
+            />
           </p>
           <div className={groupClass}>
             <Button size={buttonSize} onClick={wizard.openCreatePage}>
-              Create on GitHub…
+              {t('settings.githubConnect.createOnGithub')}
             </Button>
             {changeRepository()}
           </div>
-          <p className="text-xs text-text-muted">Waiting for the repository…</p>
+          <p className="text-xs text-text-muted">{t('settings.githubConnect.waitingRepo')}</p>
           {wizard.authKind === 'app' ? (
             <p className="text-xs text-text-muted">
-              If it doesn’t connect,{' '}
+              {t('settings.githubConnect.grantAppBefore')}{' '}
               <button type="button" className="underline" onClick={wizard.openInstallPage}>
-                grant the Reflect app access
+                {t('settings.githubConnect.grantAppLink')}
               </button>{' '}
-              to just this repository.
+              {t('settings.githubConnect.grantAppAfter')}
             </p>
           ) : (
             <p className="text-xs text-text-muted">
-              If it doesn’t connect, add it to your token’s repository access.
+              {t('settings.githubConnect.tokenAccessHint')}
             </p>
           )}
         </>
@@ -105,29 +110,28 @@ export function ConnectGithubFinishStep({
       {view.kind === 'grantAccess' ? (
         <>
           <p className="text-sm text-text">
-            Give Reflect access to{' '}
-            <strong>
-              {view.repo.owner}/{view.repo.name}
-            </strong>{' '}
-            so it can back up here.
+            <Trans
+              i18nKey="settings.githubConnect.grantAccessInstruction"
+              values={{ repo: `${view.repo.owner}/${view.repo.name}` }}
+              components={{ strong: <strong /> }}
+            />
           </p>
           <div className={groupClass}>
             <Button size={buttonSize} onClick={wizard.openInstallPage}>
-              Grant access on GitHub…
+              {t('settings.githubConnect.grantAccessOnGithub')}
             </Button>
             {changeRepository()}
           </div>
           {/* Steer to per-repo selection: the backup needs exactly one repo,
               so "All repositories" is needless account-wide risk. */}
           <p className="text-xs text-text-muted">
-            On GitHub, choose <strong>Only select repositories</strong> — Reflect only needs this
-            one.
+            {t('settings.githubConnect.repoSelectionHint')}
           </p>
-          <p className="text-xs text-text-muted">Waiting for access…</p>
+          <p className="text-xs text-text-muted">{t('settings.githubConnect.waitingAccess')}</p>
         </>
       ) : null}
 
-      {view.kind === 'connecting' ? <p className="text-sm text-text-muted">Connecting…</p> : null}
+      {view.kind === 'connecting' ? <p className="text-sm text-text-muted">{t('settings.githubConnect.connecting')}</p> : null}
 
       {!wizard.pending && wizard.error !== null ? (
         <>

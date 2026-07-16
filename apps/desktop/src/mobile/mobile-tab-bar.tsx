@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, type ReactElement } from 'react'
 import { CircleCheck, Files, MessageSquare, SquarePen } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { hapticImpactLight } from '@/mobile/haptics'
 import type { Route } from '@/routing/route'
@@ -44,6 +45,7 @@ interface MobileTabBarProps {
  */
 export function MobileTabBar({ tab, onSelect }: MobileTabBarProps): ReactElement {
   const navRef = useRef<HTMLElement | null>(null)
+  const { t } = useTranslation()
 
   useLayoutEffect(() => {
     const nav = navRef.current
@@ -67,30 +69,30 @@ export function MobileTabBar({ tab, onSelect }: MobileTabBarProps): ReactElement
   return (
     <nav
       ref={navRef}
-      aria-label="Sections"
+      aria-label={t('mobile.sections')}
       className="flex shrink-0 border-t border-border"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <TabButton
-        label="Daily"
+        label={t('sidebar.daily-notes')}
         icon={<SquarePen className="size-5" />}
         active={tab === 'daily'}
         onClick={() => onSelect('daily')}
       />
       <TabButton
-        label="All"
+        label={t('sidebar.all-notes')}
         icon={<Files className="size-5" />}
         active={tab === 'all'}
         onClick={() => onSelect('all')}
       />
       <TabButton
-        label="Tasks"
+        label={t('sidebar.tasks')}
         icon={<CircleCheck className="size-5" />}
         active={tab === 'tasks'}
         onClick={() => onSelect('tasks')}
       />
       <TabButton
-        label="Chat"
+        label={t('sidebar.chat')}
         icon={<MessageSquare className="size-5" />}
         active={tab === 'chat'}
         onClick={() => onSelect('chat')}

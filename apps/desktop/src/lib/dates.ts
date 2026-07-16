@@ -1,5 +1,7 @@
-import { format, isSameDay, isSameWeek, parse } from 'date-fns'
+import { format, formatDistanceToNow, isSameDay, isSameWeek, parse, type Locale } from 'date-fns'
+import { enUS, zhCN } from 'date-fns/locale'
 import type { DateFormat, TimeFormat } from '@reflect/core'
+import { getLanguage } from '@/lib/i18n'
 
 /**
  * The app's date layer (Plan 06). Daily notes are keyed by **local** calendar
@@ -13,6 +15,20 @@ import type { DateFormat, TimeFormat } from '@reflect/core'
 export { addDaysIso, isIsoDate } from '@reflect/utils'
 
 const ISO_DATE_FORMAT = 'yyyy-MM-dd'
+
+function currentDateLocale(): Locale {
+  return getLanguage() === 'zh-CN' ? zhCN : enUS
+}
+
+/** Format a display date in the active interface language. */
+export function formatLocalizedDate(date: Date | number, formatString: string): string {
+  return format(date, formatString, { locale: currentDateLocale() })
+}
+
+/** Relative date label in the active interface language. */
+export function formatDistanceToNowLocalized(date: Date | number, options?: { addSuffix?: boolean }): string {
+  return formatDistanceToNow(date, { ...options, locale: currentDateLocale() })
+}
 
 /** Parse an ISO `YYYY-MM-DD` string as a local Date (the one parsing path). */
 export function parseIsoDate(date: string): Date {
@@ -32,11 +48,11 @@ export function todayIso(): string {
 export function formatDayLabel(date: string, dateFormat: DateFormat): string {
   switch (dateFormat) {
     case 'dmy':
-      return format(parseIsoDate(date), 'EEE, do MMMM, yyyy')
+      return formatLocalizedDate(parseIsoDate(date), 'EEE, do MMMM, yyyy')
     case 'iso':
       return date
     case 'mdy':
-      return format(parseIsoDate(date), 'EEE, MMMM do, yyyy')
+      return formatLocalizedDate(parseIsoDate(date), 'EEE, MMMM do, yyyy')
   }
 }
 
@@ -64,11 +80,11 @@ export function formatShortDate(date: string, dateFormat: DateFormat): string {
 export function formatFullDate(date: Date, dateFormat: DateFormat): string {
   switch (dateFormat) {
     case 'dmy':
-      return format(date, 'do MMMM, yyyy')
+      return formatLocalizedDate(date, 'do MMMM, yyyy')
     case 'iso':
       return format(date, ISO_DATE_FORMAT)
     case 'mdy':
-      return format(date, 'MMMM do, yyyy')
+      return formatLocalizedDate(date, 'MMMM do, yyyy')
   }
 }
 
@@ -77,7 +93,7 @@ export function formatFullDate(date: Date, dateFormat: DateFormat): string {
  * `20:22` for `24h`. Every time the app displays goes through this.
  */
 export function formatTimeOfDay(date: Date, timeFormat: TimeFormat): string {
-  return format(date, timeFormat === '24h' ? 'HH:mm' : 'h:mmaaa')
+  return formatLocalizedDate(date, timeFormat === '24h' ? 'HH:mm' : 'h:mmaaa')
 }
 
 /**
@@ -105,7 +121,7 @@ export function formatRecencyLabel(
     return formatTimeOfDay(date, prefs.timeFormat)
   }
   if (isSameWeek(date, now)) {
-    return format(date, 'EEE')
+    return formatLocalizedDate(date, 'EEE')
   }
   switch (prefs.dateFormat) {
     case 'dmy':

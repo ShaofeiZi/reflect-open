@@ -174,22 +174,22 @@ export function ChatInput(): ReactElement {
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="sm" onClick={newChat}>
                   <Plus aria-hidden data-icon="inline-start" />
-                  New chat
+                  {t('chat.new-chat')}
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="top">
-                New chat {NEW_CHAT_BINDING ? <ShortcutKeys binding={NEW_CHAT_BINDING} /> : null}
+                {t('chat.new-chat')} {NEW_CHAT_BINDING ? <ShortcutKeys binding={NEW_CHAT_BINDING} /> : null}
               </TooltipContent>
             </Tooltip>
           ) : null}
           {streaming ? (
-            <Button size="icon-sm" aria-label="Stop" onClick={stop}>
+            <Button size="icon-sm" aria-label={t('chat.stop')} onClick={stop}>
               <Square aria-hidden className="size-3 fill-current" />
             </Button>
           ) : (
             <Button
               size="icon-sm"
-              aria-label="Send"
+              aria-label={t('chat.send')}
               disabled={empty || activeModel === null}
               onClick={submit}
             >

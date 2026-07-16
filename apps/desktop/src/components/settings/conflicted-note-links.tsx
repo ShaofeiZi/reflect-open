@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import type { ConflictedNote } from '@reflect/core'
 import { ChevronRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { useNoteLinkNavigation } from '@/hooks/use-note-link-navigation'
 
@@ -39,12 +40,13 @@ function ConflictedNoteLink({ note }: ConflictedNoteLinkProps): ReactElement {
 
 /** Links from a sync warning directly to every note carrying conflict markers. */
 export function ConflictedNoteLinks({ notes }: ConflictedNoteLinksProps): ReactElement | null {
+  const { t } = useTranslation()
   if (notes.length === 0) {
     return null
   }
 
   return (
-    <ul className="mt-1 flex flex-col gap-0.5" aria-label="Notes that need review">
+    <ul className="mt-1 flex flex-col gap-0.5" aria-label={t('settings.backupSection.conflictedNotesAria')}>
       {notes.map((note) => (
         <ConflictedNoteLink key={note.path} note={note} />
       ))}

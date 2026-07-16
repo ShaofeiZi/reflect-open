@@ -1,5 +1,6 @@
 import type { ReactElement, ReactNode } from 'react'
 import { ChevronLeft } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 
 interface MobileScreenHeaderProps {
@@ -16,13 +17,14 @@ interface MobileScreenHeaderProps {
  * screens so every card in the stack navigates the same way.
  */
 export function MobileScreenHeader({ title, onBack, trailing }: MobileScreenHeaderProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <header className="grid h-11 shrink-0 grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center border-b border-border px-1">
       <Button
         variant="ghost"
         size="icon"
         className="size-10 justify-self-center"
-        aria-label="Back"
+        aria-label={t('mobile.back')}
         onClick={onBack}
       >
         <ChevronLeft />

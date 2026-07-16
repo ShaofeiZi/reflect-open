@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import type { EmbedProgress } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 
 interface ModelDownloadProgressProps {
   /** Byte counts from an active download, once the runtime has reported them. */
@@ -17,20 +18,24 @@ function formatMegabytes(bytes: number): string {
  * phase after the last byte lands).
  */
 export function ModelDownloadProgress({ progress }: ModelDownloadProgressProps): ReactElement {
+  const { t } = useTranslation()
   const fraction =
     progress !== undefined && progress.total > 0
       ? Math.min(progress.downloaded / progress.total, 1)
       : null
   const label =
     progress !== undefined && fraction !== null && fraction < 1
-      ? `Downloading the model — ${formatMegabytes(progress.downloaded)} of ${formatMegabytes(progress.total)}`
-      : 'Preparing the model…'
+      ? t('settings.searchSection.modelProgress.downloading', {
+          downloaded: formatMegabytes(progress.downloaded),
+          total: formatMegabytes(progress.total),
+        })
+      : t('settings.searchSection.modelProgress.preparing')
 
   return (
     <div>
       <div
         role="progressbar"
-        aria-label="Semantic search model download"
+        aria-label={t('settings.searchSection.modelProgress.aria')}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={fraction !== null ? Math.round(fraction * 100) : undefined}

@@ -1,5 +1,6 @@
 import { type ReactElement } from 'react'
 import { Check } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
 import type { TaskFilters } from '@/lib/tasks/task-filters'
 import { cn } from '@/lib/utils'
@@ -12,12 +13,12 @@ interface TaskFiltersDrawerProps {
   toggle: (key: keyof TaskFilters) => void
 }
 
-const BUCKETS: ReadonlyArray<{ key: keyof TaskFilters; label: string }> = [
-  { key: 'pinned', label: 'Pinned notes' },
-  { key: 'current', label: 'Current' },
-  { key: 'overdue', label: 'Overdue' },
-  { key: 'upcoming', label: 'Upcoming' },
-  { key: 'other', label: 'Other notes' },
+const BUCKETS: ReadonlyArray<{ key: keyof TaskFilters; labelKey: string }> = [
+  { key: 'pinned', labelKey: 'mobile.task-filters.pinned' },
+  { key: 'current', labelKey: 'mobile.task-filters.current' },
+  { key: 'overdue', labelKey: 'mobile.task-filters.overdue' },
+  { key: 'upcoming', labelKey: 'mobile.task-filters.upcoming' },
+  { key: 'other', labelKey: 'mobile.task-filters.other' },
 ]
 
 /**
@@ -33,17 +34,18 @@ export function TaskFiltersDrawer({
   filters,
   toggle,
 }: TaskFiltersDrawerProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent aria-label="Task filters">
-        <DrawerTitle>Task filters</DrawerTitle>
+      <DrawerContent aria-label={t('mobile.task-filters.title')}>
+        <DrawerTitle>{t('mobile.task-filters.title')}</DrawerTitle>
         <div className="flex flex-col">
-          {BUCKETS.map(({ key, label }) => (
-            <FilterRow key={key} label={label} checked={filters[key]} onToggle={() => toggle(key)} />
+          {BUCKETS.map(({ key, labelKey }) => (
+            <FilterRow key={key} label={t(labelKey)} checked={filters[key]} onToggle={() => toggle(key)} />
           ))}
           <div className="my-1 border-t border-border" />
           <FilterRow
-            label="Show archived"
+            label={t('mobile.task-filters.show-archived')}
             checked={filters.archived}
             onToggle={() => toggle('archived')}
           />

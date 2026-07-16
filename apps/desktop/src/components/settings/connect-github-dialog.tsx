@@ -1,4 +1,5 @@
 import { type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { InlineAlert } from '@/components/inline-alert'
 import { ConnectGithubFinishStep } from '@/components/settings/connect-github-finish-step'
 import { GithubAuthStep } from '@/components/settings/github-auth-step'
@@ -22,10 +23,10 @@ interface ConnectGithubDialogProps {
   pollIntervalMs?: number
 }
 
-const STEP_DESCRIPTIONS: Record<ConnectWizardStep, string> = {
-  repo: 'Back up this graph to a private GitHub repository.',
-  auth: 'Sign in so Reflect can push your backups.',
-  finish: 'Connecting your repository…',
+const STEP_DESCRIPTION_KEYS: Record<ConnectWizardStep, string> = {
+  repo: 'settings.githubConnect.step.repo',
+  auth: 'settings.githubConnect.step.auth',
+  finish: 'settings.githubConnect.step.finish',
 }
 
 /**
@@ -41,6 +42,7 @@ export function ConnectGithubDialog({
   pollIntervalMs = 3000,
 }: ConnectGithubDialogProps): ReactElement {
   const wizard = useConnectGithubWizard({ suggestedRepoName, onClose, pollIntervalMs })
+  const { t } = useTranslation()
 
   useRestoreFocus()
 
@@ -55,8 +57,8 @@ export function ConnectGithubDialog({
     >
       <DialogContent showCloseButton={false} className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Connect GitHub</DialogTitle>
-          <DialogDescription>{STEP_DESCRIPTIONS[wizard.step]}</DialogDescription>
+          <DialogTitle>{t('settings.githubConnect.title')}</DialogTitle>
+          <DialogDescription>{t(STEP_DESCRIPTION_KEYS[wizard.step])}</DialogDescription>
         </DialogHeader>
 
         {wizard.step === 'repo' ? (
@@ -69,7 +71,7 @@ export function ConnectGithubDialog({
                   checked={wizard.mode === 'create'}
                   onChange={() => wizard.setMode('create')}
                 />
-                Create a new private repository
+                {t('settings.githubConnect.createNew')}
               </label>
               {wizard.mode === 'create' ? (
                 <Input
@@ -77,7 +79,7 @@ export function ConnectGithubDialog({
                   value={wizard.repoName}
                   onChange={(event) => wizard.setRepoName(event.target.value)}
                   className="ml-6 w-auto"
-                  aria-label="New repository name"
+                  aria-label={t('settings.githubConnect.newRepoName')}
                 />
               ) : null}
               <label className="flex items-center gap-2 text-sm text-text">
@@ -87,7 +89,7 @@ export function ConnectGithubDialog({
                   checked={wizard.mode === 'existing'}
                   onChange={() => wizard.setMode('existing')}
                 />
-                Use an existing repository
+                {t('settings.githubConnect.useExisting')}
               </label>
               {wizard.mode === 'existing' ? (
                 <Input
@@ -96,12 +98,12 @@ export function ConnectGithubDialog({
                   onChange={(event) => wizard.setExistingRepo(event.target.value)}
                   placeholder="owner/name"
                   className="ml-6 w-auto"
-                  aria-label="Existing repository"
+                  aria-label={t('settings.githubConnect.existingRepo')}
                 />
               ) : null}
             </div>
             <Button onClick={wizard.continueFromRepo} size="sm">
-              Continue
+              {t('settings.githubConnect.continue')}
             </Button>
           </div>
         ) : null}

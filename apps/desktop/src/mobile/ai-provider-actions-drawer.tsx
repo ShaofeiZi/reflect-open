@@ -1,5 +1,6 @@
 import { useState, type ReactElement } from 'react'
 import { aiModelLabel, aiProvider, errorMessage, type AiProviderConfig } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
 import { SettingsActionRow, SettingsGroup, SettingsSelectRow } from '@/mobile/settings-list'
 
@@ -31,6 +32,7 @@ export function AiProviderActionsDrawer({
   onSetDefaultModel,
   onRemove,
 }: AiProviderActionsDrawerProps): ReactElement {
+  const { t } = useTranslation()
   const [removing, setRemoving] = useState(false)
   const providerInfo = provider === null ? null : aiProvider(provider.provider)
   const models =
@@ -62,14 +64,14 @@ export function AiProviderActionsDrawer({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent aria-label="Manage AI provider">
+      <DrawerContent aria-label={t('mobile.ai-provider-actions.manage')}>
         {provider !== null && providerInfo !== null ? (
           <>
             <DrawerTitle className="px-4 pt-1">
               {`${providerInfo.label} ·····${provider.keyHint}`}
             </DrawerTitle>
             <div className="flex flex-col gap-6 px-4 pb-8 pt-4">
-              <SettingsGroup header="Default model">
+              <SettingsGroup header={t('mobile.ai-provider-actions.default-model')}>
                 {models.map((model) => (
                   <SettingsSelectRow
                     key={model.id}
@@ -84,7 +86,9 @@ export function AiProviderActionsDrawer({
               </SettingsGroup>
               <SettingsGroup>
                 <SettingsActionRow
-                  label={isDefault ? 'Default provider' : 'Use as default'}
+                  label={isDefault
+                    ? t('mobile.ai-provider-actions.default-provider')
+                    : t('mobile.ai-provider-actions.use-as-default')}
                   disabled={isDefault}
                   onPress={() => {
                     onMakeDefault(provider.id)
@@ -92,7 +96,7 @@ export function AiProviderActionsDrawer({
                   }}
                 />
                 <SettingsActionRow
-                  label="Remove provider"
+                  label={t('mobile.ai-provider-actions.remove')}
                   tone="destructive"
                   pending={removing}
                   onPress={() => void remove(provider.id)}

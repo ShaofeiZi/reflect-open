@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getConflictedNotes, hasBridge } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { INDEX_QUERY_SCOPE } from '@/lib/query-client'
 import { mobileSyncStatus, type MobileSyncStatus } from '@/mobile/sync-status'
 import { useGraph } from '@/providers/graph-provider'
@@ -17,6 +18,7 @@ import { useSyncContext } from '@/providers/sync-provider'
  * query cache entry and can never disagree.
  */
 export function useMobileSyncStatus(): MobileSyncStatus | null {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const sync = useSyncContext()
   const backup = sync?.backup ?? null
@@ -36,5 +38,5 @@ export function useMobileSyncStatus(): MobileSyncStatus | null {
   if (backup === null || (connected && conflicted === undefined && !countUnavailable)) {
     return null
   }
-  return mobileSyncStatus(backup, conflicted?.length ?? 0)
+  return mobileSyncStatus(backup, conflicted?.length ?? 0, (key, options) => t(key, options ?? {}))
 }

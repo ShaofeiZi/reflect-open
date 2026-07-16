@@ -1,5 +1,7 @@
 import { useState, type ReactElement } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import type { TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import {
   errorMessage,
   getConflictedNotes,
@@ -31,32 +33,32 @@ import { useSync } from '@/providers/sync-provider'
 const ICLOUD_PENDING_NOTES_QUERY_KEY = 'icloud-pending-notes'
 const PENDING_NOTES_REFETCH_MS = 5_000
 
-function graphCountLine(count: number): string {
+function graphCountLine(count: number, t: TFunction): string {
   if (count === 0) {
-    return 'No graphs in iCloud Drive yet.'
+    return t('settings.icloudSection.noGraphs')
   }
-  return count === 1 ? '1 graph in iCloud Drive.' : `${count} graphs in iCloud Drive.`
+  return count === 1 ? t('settings.icloudSection.oneGraph') : t('settings.icloudSection.manyGraphs', { count })
 }
 
-function pendingNotesLine(count: number): string {
+function pendingNotesLine(count: number, t: TFunction): string {
   if (count === 0) {
-    return 'All note files are downloaded.'
+    return t('settings.icloudSection.allDownloaded')
   }
   return count === 1
-    ? '1 note is still downloading from iCloud.'
-    : `${count} notes are still downloading from iCloud.`
+    ? t('settings.icloudSection.onePending')
+    : t('settings.icloudSection.manyPending', { count })
 }
 
-function reviewLine(conflictCount: number, forkCount: number): string {
+function reviewLine(conflictCount: number, forkCount: number, t: TFunction): string {
   if (conflictCount === 0 && forkCount === 0) {
-    return 'No notes need review.'
+    return t('settings.icloudSection.noReview')
   }
   const parts: string[] = []
   if (conflictCount > 0) {
-    parts.push(conflictCount === 1 ? '1 note needs review' : `${conflictCount} notes need review`)
+    parts.push(conflictCount === 1 ? t('settings.icloudSection.oneNeedsReview') : t('settings.icloudSection.manyNeedReview', { count: conflictCount }))
   }
   if (forkCount > 0) {
-    parts.push(forkCount === 1 ? '1 sync fork' : `${forkCount} sync forks`)
+    parts.push(forkCount === 1 ? t('settings.icloudSection.oneFork') : t('settings.icloudSection.manyForks', { count: forkCount }))
   }
   return parts.join(', ')
 }
@@ -76,6 +78,7 @@ function reviewLine(conflictCount: number, forkCount: number): string {
 export function IcloudSettingsField(): ReactElement | null {
   const { graph, openRecent } = useGraph()
   const { backup, disconnectGraph } = useSync()
+  const { t } = useTranslation()
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -138,7 +141,7 @@ export function IcloudSettingsField(): ReactElement | null {
           // graph regardless; the original folder keeping its backup is the
           // recovery copy working as intended. Tell the user, don't block.
           setError(
-            `The graph moved to iCloud, but GitHub sync could not be disconnected from the original folder: ${errorMessage(caught)}`,
+            t('settings.icloudSection.disconnectError', { message: errorMessage(caught) }),
           )
         }
       }
@@ -148,7 +151,7 @@ export function IcloudSettingsField(): ReactElement | null {
         // Append rather than replace: a disconnect failure above must stay
         // visible alongside this one — both tell the user something distinct.
         setError((previous) =>
-          [previous, 'The copy landed in iCloud but could not be opened — open it from Saved graphs.']
+          [previous, t('settings.icloudSection.openCopyError')]
             .filter(Boolean)
             .join(' '),
         )
@@ -163,29 +166,29 @@ export function IcloudSettingsField(): ReactElement | null {
   return (
     <>
       <SettingsField
-        legend="iCloud Drive"
+        legend={t('settings.icloudSection.legend')}
         description={
           hosted
-            ? 'This graph lives in iCloud Drive — edits sync to your other devices, and conflicts resolve automatically where possible.'
+            ? t('settings.icloudSection.hostedDescription')
             : status?.available === true
-              ? 'Copy this graph into iCloud Drive to sync it with your other devices.'
-              : 'iCloud Drive isn’t reachable from this app — sign in to iCloud, or use a build with iCloud enabled.'
+              ? t('settings.icloudSection.availableDescription')
+              : t('settings.icloudSection.unavailableDescription')
         }
       >
         {hosted ? (
           <div className="mt-3 flex flex-col gap-1 text-xs text-text-muted">
-            {pendingNotes.isPending ? <p>Checking downloaded notes...</p> : null}
-            {pendingNotes.data !== undefined ? <p>{pendingNotesLine(pendingNotes.data)}</p> : null}
+            {pendingNotes.isPending ? <p>{t('settings.icloudSection.checking')}</p> : null}
+            {pendingNotes.data !== undefined ? <p>{pendingNotesLine(pendingNotes.data, t)}</p> : null}
             {conflictCount !== undefined && forkCount !== undefined ? (
               <div className={hasReviewIssues ? 'text-amber-700 dark:text-amber-300' : undefined}>
-                <p>{reviewLine(conflictCount, forkCount)}</p>
+                <p>{reviewLine(conflictCount, forkCount, t)}</p>
                 <ConflictedNoteLinks notes={conflicted.data ?? []} />
               </div>
             ) : null}
           </div>
         ) : status?.available === true ? (
           <p className="mt-3 text-xs text-text-muted">
-            {graphCountLine(status.existingGraphRoots.length)}
+            {graphCountLine(status.existingGraphRoots.length, t)}
           </p>
         ) : null}
         {hosted ? null : (
@@ -193,28 +196,27 @@ export function IcloudSettingsField(): ReactElement | null {
             <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
               <DialogTrigger asChild>
                 <Button size="xs" variant="outline" disabled={status?.available !== true}>
-                  Move graph to iCloud…
+                  {t('settings.icloudSection.move')}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Move this graph to iCloud Drive?</DialogTitle>
+                  <DialogTitle>{t('settings.icloudSection.moveTitle')}</DialogTitle>
                   <DialogDescription>
-                    Your notes are copied into iCloud Drive and the graph reopens there. The
-                    current folder stays on disk, untouched, as a recovery copy.
+                    {t('settings.icloudSection.moveDescription')}
                     {backupConnected
-                      ? ' GitHub sync is disconnected from the recovery copy; you can reconnect GitHub sync after the iCloud graph opens.'
+                      ? ` ${t('settings.icloudSection.moveBackupDescription')}`
                       : ''}
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                   <DialogClose asChild>
                     <Button variant="ghost" disabled={busy}>
-                      Cancel
+                      {t('settings.icloudSection.cancel')}
                     </Button>
                   </DialogClose>
                   <Button disabled={busy} onClick={() => void moveToICloud()}>
-                    {busy ? 'Moving…' : 'Move to iCloud'}
+                    {busy ? t('settings.icloudSection.moving') : t('settings.icloudSection.moveButton')}
                   </Button>
                 </DialogFooter>
               </DialogContent>

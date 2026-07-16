@@ -1,6 +1,7 @@
 import { useEffect, type ReactElement } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import type { AiPrompt, AiPromptMode } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -37,6 +38,7 @@ const FIELD_LABEL_CLASS = 'text-xs font-medium text-text-secondary'
  * or is inserted below it.
  */
 export function AiPromptDialog({ prompt, onSave, onClose }: AiPromptDialogProps): ReactElement {
+  const { t } = useTranslation()
   const { register, control, handleSubmit, setValue, formState } = useForm<AiPromptDraft>({
     defaultValues: {
       label: prompt?.label ?? '',
@@ -72,11 +74,15 @@ export function AiPromptDialog({ prompt, onSave, onClose }: AiPromptDialogProps)
     >
       <DialogContent showCloseButton={false} className="max-w-md">
         <DialogHeader>
-          <DialogTitle>{prompt === null ? 'Add prompt' : 'Edit prompt'}</DialogTitle>
+          <DialogTitle>
+            {prompt === null
+              ? t('settings.aiPromptsSection.addTitle')
+              : t('settings.aiPromptsSection.editTitle')}
+          </DialogTitle>
           <DialogDescription>
-            The prompt runs on the text you select in a note. Use{' '}
-            <code className="font-mono text-xs">{'{{selectedText}}'}</code> where the selection
-            should appear.
+            {t('settings.aiPromptsSection.descriptionBefore')}{' '}
+            <code className="font-mono text-xs">{'{{selectedText}}'}</code>{' '}
+            {t('settings.aiPromptsSection.descriptionAfter')}
           </DialogDescription>
         </DialogHeader>
         <form
@@ -86,25 +92,25 @@ export function AiPromptDialog({ prompt, onSave, onClose }: AiPromptDialogProps)
           }}
         >
           <label className="flex flex-col gap-1.5">
-            <span className={FIELD_LABEL_CLASS}>Label</span>
+            <span className={FIELD_LABEL_CLASS}>{t('settings.aiPromptsSection.label')}</span>
             <Input
               {...register('label', { required: true })}
               aria-invalid={formState.errors.label !== undefined || undefined}
-              placeholder="Translate to French"
+              placeholder={t('settings.aiPromptsSection.labelPlaceholder')}
               autoFocus
             />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className={FIELD_LABEL_CLASS}>Prompt</span>
+            <span className={FIELD_LABEL_CLASS}>{t('settings.aiPromptsSection.prompt')}</span>
             <Textarea
               {...register('body', { required: true })}
               aria-invalid={formState.errors.body !== undefined || undefined}
               rows={5}
-              placeholder={'Translate the following text to French.\n\n{{selectedText}}'}
+              placeholder={t('settings.aiPromptsSection.promptPlaceholder')}
             />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className={FIELD_LABEL_CLASS}>Result</span>
+            <span className={FIELD_LABEL_CLASS}>{t('settings.aiPromptsSection.result')}</span>
             <Select
               value={mode}
               onValueChange={(value) => setValue('mode', value as AiPromptMode)}
@@ -113,16 +119,20 @@ export function AiPromptDialog({ prompt, onSave, onClose }: AiPromptDialogProps)
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="replace">Replaces the selection</SelectItem>
-                <SelectItem value="append">Inserted below the selection</SelectItem>
+                <SelectItem value="replace">{t('settings.aiPromptsSection.replace')}</SelectItem>
+                <SelectItem value="append">{t('settings.aiPromptsSection.append')}</SelectItem>
               </SelectContent>
             </Select>
           </label>
           <div className="flex justify-end gap-2">
             <Button type="button" variant="ghost" onClick={onClose}>
-              Cancel
+              {t('settings.aiPromptsSection.cancel')}
             </Button>
-            <Button type="submit">{prompt === null ? 'Add prompt' : 'Save'}</Button>
+            <Button type="submit">
+              {prompt === null
+                ? t('settings.aiPromptsSection.addPrompt')
+                : t('settings.aiPromptsSection.save')}
+            </Button>
           </div>
         </form>
       </DialogContent>

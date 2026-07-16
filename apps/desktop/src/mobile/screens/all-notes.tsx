@@ -1,6 +1,7 @@
 import { useDeferredValue, useMemo, useRef, type ReactElement } from 'react'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { ChevronLeft, FileText, SearchX } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import {
   foldTag,
   hasBridge,
@@ -78,6 +79,7 @@ export function MobileAllNotes({
   filters,
   onFiltersChange,
 }: MobileAllNotesProps): ReactElement {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const { navigate, back, arrivalSeq, arrivalFocusEditor } = useRouter()
   const enabled = hasBridge() && graph !== null
@@ -134,7 +136,7 @@ export function MobileAllNotes({
               variant="ghost"
               size="icon"
               className="-ml-2 size-9 shrink-0"
-              aria-label="Back"
+              aria-label={t('mobile.all-notes-screen.back')}
               onClick={back}
             >
               <ChevronLeft />
@@ -142,8 +144,8 @@ export function MobileAllNotes({
           )}
           <SearchInput
             ref={searchInputRef}
-            placeholder="Search anything…"
-            aria-label="Search notes"
+            placeholder={t('mobile.all-notes-screen.placeholder')}
+            aria-label={t('mobile.all-notes-screen.search')}
             value={query}
             onValueChange={onQueryChange}
           />
@@ -166,14 +168,14 @@ export function MobileAllNotes({
       {/* Undefined hits mean "still fetching" only while the query can run —
           with no bridge/graph it never will, and the empty state is honest. */}
       {enabled && hits === undefined ? (
-        <div className="flex flex-1 items-center justify-center" aria-label="Loading notes">
+        <div className="flex flex-1 items-center justify-center" aria-label={t('mobile.all-notes-screen.loading')}>
           <Spinner className="size-5 text-text-muted" />
         </div>
       ) : (hits ?? []).length === 0 ? (
         pristine ? (
-          <Empty icon={<FileText className="size-6" />} message="No notes yet" />
+          <Empty icon={<FileText className="size-6" />} message={t('mobile.all-notes-screen.no-notes')} />
         ) : (
-          <Empty icon={<SearchX className="size-6" />} message="No matches" />
+          <Empty icon={<SearchX className="size-6" />} message={t('mobile.all-notes-screen.no-matches')} />
         )
       ) : (
         <NoteRowList rows={rows} onOpen={(path) => navigate(routeForPath(path))} />
@@ -190,11 +192,12 @@ function TagSuggestions({
   facets: NoteTagFacet[]
   onPick: (facet: NoteTagFacet) => void
 }): ReactElement {
+  const { t } = useTranslation()
   if (facets.length === 0) {
-    return <p className="pb-1 text-xs text-text-muted">No matching tags</p>
+    return <p className="pb-1 text-xs text-text-muted">{t('mobile.all-notes-screen.no-matching-tags')}</p>
   }
   return (
-    <div className="flex gap-1.5 overflow-x-auto pb-1" role="listbox" aria-label="Matching tags">
+    <div className="flex gap-1.5 overflow-x-auto pb-1" role="listbox" aria-label={t('mobile.all-notes-screen.matching-tags')}>
       {facets.map((facet) => (
         <button
           key={facet.tag}

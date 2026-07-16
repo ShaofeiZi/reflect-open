@@ -2,6 +2,7 @@ import { type ReactElement, type ReactNode } from 'react'
 import { Pin } from 'lucide-react'
 import { Virtualizer } from 'virtua'
 import type { HighlightSegment } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { formatRecencyLabel } from '@/lib/dates'
 import { useSettings } from '@/providers/settings-provider'
 
@@ -44,6 +45,7 @@ function renderHighlightedSegments(segments: HighlightSegment[]): ReactNode {
  */
 export function NoteRowList({ rows, onOpen }: NoteRowListProps): ReactElement {
   const { settings } = useSettings()
+  const { t } = useTranslation()
 
   return (
     <div
@@ -65,7 +67,7 @@ export function NoteRowList({ rows, onOpen }: NoteRowListProps): ReactElement {
               {row.isPinned && (
                 <>
                   <Pin aria-hidden className="size-3 shrink-0 self-center text-text-muted" />
-                  <span className="sr-only">Pinned</span>
+                  <span className="sr-only">{t('mobile.pinned')}</span>
                 </>
               )}
               <span className="min-w-0 flex-1 truncate text-sm font-medium">

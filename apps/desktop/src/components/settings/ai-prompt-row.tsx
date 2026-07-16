@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import { Pencil, Trash2 } from 'lucide-react'
 import type { AiPrompt } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 
 interface AiPromptRowProps {
@@ -11,6 +12,7 @@ interface AiPromptRowProps {
 
 /** One saved AI prompt in the settings list: label, body preview, edit/delete. */
 export function AiPromptRow({ prompt, onEdit, onRemove }: AiPromptRowProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <div className="flex items-center justify-between gap-4 px-4 py-3">
       <div className="min-w-0">
@@ -22,7 +24,7 @@ export function AiPromptRow({ prompt, onEdit, onRemove }: AiPromptRowProps): Rea
           type="button"
           variant="ghost"
           size="icon-sm"
-          aria-label={`Edit ${prompt.label}`}
+          aria-label={t('settings.aiPromptsSection.edit', { label: prompt.label })}
           onClick={() => onEdit(prompt)}
           className="text-text-muted hover:bg-surface-hover hover:text-text"
         >
@@ -32,7 +34,7 @@ export function AiPromptRow({ prompt, onEdit, onRemove }: AiPromptRowProps): Rea
           type="button"
           variant="ghost"
           size="icon-sm"
-          aria-label={`Remove ${prompt.label}`}
+          aria-label={t('settings.aiPromptsSection.remove', { label: prompt.label })}
           onClick={() => onRemove(prompt.id)}
           className="text-text-muted hover:bg-surface-hover hover:text-text"
         >

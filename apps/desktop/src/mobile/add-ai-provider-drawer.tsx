@@ -1,5 +1,6 @@
 import { useState, type ReactElement } from 'react'
 import { AI_PROVIDERS, aiProvider, aiProviderIdSchema, type AiProviderId } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { InlineAlert } from '@/components/inline-alert'
 import { Button } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
@@ -37,9 +38,10 @@ export function AddAiProviderDrawer({
   onOpenChange,
   onAdd,
 }: AddAiProviderDrawerProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent aria-label="Add AI provider">
+      <DrawerContent aria-label={t('mobile.add-ai-provider.aria-label')}>
         {open ? <AddAiProviderSheet onAdd={onAdd} onClose={() => onOpenChange(false)} /> : null}
       </DrawerContent>
     </Drawer>
@@ -54,6 +56,7 @@ function AddAiProviderSheet({
   onAdd: (draft: NewAiProvider) => Promise<void>
   onClose: () => void
 }): ReactElement {
+  const { t } = useTranslation()
   const [providerId, setProviderId] = useState<AiProviderId>(AI_PROVIDERS[0].id)
   const [model, setModel] = useState(AI_PROVIDERS[0].models[0].id)
   const [apiKey, setApiKey] = useState('')
@@ -76,15 +79,14 @@ function AddAiProviderSheet({
 
   return (
     <>
-      <DrawerTitle className="px-4 pt-1">Add AI provider</DrawerTitle>
+      <DrawerTitle className="px-4 pt-1">{t('mobile.add-ai-provider.title')}</DrawerTitle>
       <div className="flex max-h-[75dvh] flex-col gap-4 overflow-y-auto px-4 pb-8 pt-3">
         <p className="text-sm text-text-muted">
-          The API key is stored in this device’s keychain, never in your graph — add it on each
-          device you chat from.
+          {t('mobile.add-ai-provider.key-hint')}
         </p>
 
         <div className="flex flex-col gap-1">
-          <span className={FIELD_LABEL_CLASS}>Provider</span>
+          <span className={FIELD_LABEL_CLASS}>{t('mobile.provider.label')}</span>
           <Select
             value={provider.id}
             onValueChange={(value) => {
@@ -94,7 +96,7 @@ function AddAiProviderSheet({
               resetUnverified()
             }}
           >
-            <SelectTrigger aria-label="Provider" className="w-full">
+            <SelectTrigger aria-label={t('mobile.provider.aria-label')} className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -108,9 +110,9 @@ function AddAiProviderSheet({
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className={FIELD_LABEL_CLASS}>Default model</span>
+          <span className={FIELD_LABEL_CLASS}>{t('mobile.default-model.label')}</span>
           <Select value={model} onValueChange={setModel}>
-            <SelectTrigger aria-label="Default model" className="w-full">
+            <SelectTrigger aria-label={t('mobile.default-model.aria-label')} className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -124,7 +126,7 @@ function AddAiProviderSheet({
         </div>
 
         <label className="flex flex-col gap-1">
-          <span className={FIELD_LABEL_CLASS}>API key</span>
+          <span className={FIELD_LABEL_CLASS}>{t('mobile.api-key.label')}</span>
           <Input
             type="password"
             placeholder={provider.keyPlaceholder}
@@ -145,17 +147,17 @@ function AddAiProviderSheet({
             checked={isDefault}
             onChange={(event) => setIsDefault(event.target.checked)}
           />
-          <span className="text-sm text-text">Use as the default provider</span>
+          <span className="text-sm text-text">{t('mobile.use-as-default-provider')}</span>
         </label>
 
         {submitError !== null ? <InlineAlert tone="error">{submitError}</InlineAlert> : null}
         {unverified ? (
           <InlineAlert tone="warning">
-            Couldn’t reach {provider.label} to verify the key. Submit again to save it unverified.
+            {t('mobile.add-ai-provider.verify-warning', { provider: provider.label })}
           </InlineAlert>
         ) : null}
         <Button disabled={apiKey.trim() === '' || submitting} onClick={() => void submitDraft()}>
-          {unverified ? 'Save anyway' : 'Add provider'}
+          {unverified ? t('mobile.save-anyway') : t('mobile.add-provider')}
         </Button>
       </div>
     </>

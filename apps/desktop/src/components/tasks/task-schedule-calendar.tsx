@@ -1,6 +1,7 @@
 import { useState, type ReactElement, type ReactNode } from 'react'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { type WeekStartDay } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { formatDayLabel } from '@/lib/dates'
 import { addMonths, buildMonthGrid, monthLabel, monthOf, weekdayLabels } from '@/lib/month-grid'
@@ -40,6 +41,7 @@ export function TaskScheduleCalendar({
   children,
 }: TaskScheduleCalendarProps): ReactElement {
   const { settings } = useSettings()
+  const { t } = useTranslation()
   const weekStartsOn = toWeekStartsOn(settings.weekStartDay)
   const [month, setMonth] = useState(() => monthOf(today))
   // Re-anchor to today's month each time the popover opens, without an effect.
@@ -60,13 +62,13 @@ export function TaskScheduleCalendar({
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent align="end" className="w-auto p-0" aria-label="Schedule">
+      <PopoverContent align="end" className="w-auto p-0" aria-label={t('tasks.calendar.aria-label')}>
         <header className="flex items-center justify-between px-4 pt-3 pb-1">
           <div className="text-sm font-semibold text-text">{monthLabel(month)}</div>
           <nav className="flex items-center gap-1 text-text-muted">
             <button
               type="button"
-              aria-label="Previous month"
+              aria-label={t('tasks.calendar.aria.previous-month')}
               onClick={() => setMonth(addMonths(month, -1))}
               className="rounded-md p-0.5 transition-colors hover:bg-surface-hover hover:text-text"
             >
@@ -74,7 +76,7 @@ export function TaskScheduleCalendar({
             </button>
             <button
               type="button"
-              aria-label="Next month"
+              aria-label={t('tasks.calendar.aria.next-month')}
               onClick={() => setMonth(addMonths(month, 1))}
               className="rounded-md p-0.5 transition-colors hover:bg-surface-hover hover:text-text"
             >
@@ -122,7 +124,7 @@ export function TaskScheduleCalendar({
             className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-xs text-text-muted transition-colors hover:bg-surface-hover hover:text-text focus-visible:outline-none"
           >
             <X className="size-3.5" />
-            Clear date
+            {t('tasks.calendar.clear-date')}
           </button>
         </div>
       </PopoverContent>

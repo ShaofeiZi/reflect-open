@@ -155,6 +155,10 @@
       "light-mode": "Light mode",
       "dark-mode": "Dark mode",
       "settings-tooltip": "Settings"
+    },
+    "appState": {
+      "secondaryWindowGraphError": "This window couldn’t open the graph. Close it and reopen from the main window.",
+      "loading": "Loading…"
     }
   },
   "settings": {
@@ -180,7 +184,403 @@
     "sync": "Sync",
     "import": "Import",
     "about": "About",
-    "destructive": "Danger zone"
+    "destructive": "Danger zone",
+    "appearanceSection": {
+      "theme": {
+        "legend": "Theme",
+        "description": "System follows your OS appearance. Saved with your settings."
+      },
+      "themeOptions": {
+        "system": "System",
+        "light": "Light",
+        "dark": "Dark"
+      }
+    },
+    "editorSection": {
+      "markdownSyntax": {
+        "legend": "Markdown syntax",
+        "description": "How literal markdown characters (**, `, etc.) are displayed while editing."
+      },
+      "markdownOptions": {
+        "hide": {
+          "label": "Hide",
+          "description": "Always hidden"
+        },
+        "hybrid": {
+          "label": "Hybrid",
+          "description": "Only around the cursor"
+        },
+        "show": {
+          "label": "Show",
+          "description": "Always visible"
+        }
+      },
+      "textSize": {
+        "legend": "Text size",
+        "description": "The reading size of the note editor."
+      },
+      "textSizeOptions": {
+        "small": {
+          "label": "Small",
+          "description": "Compact"
+        },
+        "medium": {
+          "label": "Medium",
+          "description": "Default"
+        },
+        "large": {
+          "label": "Large",
+          "description": "Comfortable"
+        }
+      },
+      "fullWidth": {
+        "legend": "Full-width notes",
+        "description": "Stretch note text across the window with a small edge margin."
+      },
+      "spellCheck": {
+        "legend": "Spell check",
+        "description": "Underline misspelled words while you type."
+      },
+      "defaultBullet": {
+        "legend": "Start with a bullet",
+        "description": "New and empty notes open with a single bullet point, ready to type."
+      },
+      "bulletAfterHeading": {
+        "legend": "Bullet after a heading",
+        "description": "Pressing Return at the end of a heading starts a new bullet."
+      },
+      "keyboardShortcuts": {
+        "legend": "Keyboard shortcuts",
+        "description": "Show every app and editor shortcut.",
+        "showAll": "Show all"
+      }
+    },
+    "dateTimeSection": {
+      "dateFormat": {
+        "legend": "Date format",
+        "description": "The style for dates shown throughout Reflect, including daily note titles.",
+        "aria": "Date format"
+      },
+      "weekStart": {
+        "legend": "Start week on",
+        "description": "The first day shown in calendars.",
+        "aria": "Start week on",
+        "monday": "Monday",
+        "sunday": "Sunday"
+      },
+      "timeFormat": {
+        "legend": "Time format",
+        "description": "How times are shown throughout Reflect — 8:22pm or 20:22.",
+        "aria": "Time format",
+        "12h": "12-hour",
+        "24h": "24-hour"
+      }
+    },
+    "allNotesSection": {
+      "filterTags": {
+        "legend": "Filter tags",
+        "description": "Tags pinned as one-click filters at the top of the All Notes screen."
+      },
+      "empty": "No pinned tags — the screen shows only the All tab and the Custom menu.",
+      "removeTag": "Remove {{tag}}",
+      "addAria": "Add filter tag",
+      "placeholder": "Add a tag (e.g. book)",
+      "add": "Add",
+      "invalidTag": "\"{{tag}}\" can't be a tag — tags start with a letter and use letters, numbers, /, _ or -."
+    },
+    "searchSection": {
+      "semantic": {
+        "legend": "Semantic search",
+        "description": "Find notes by meaning, not just keywords — smarter ⌘K results and related notes. Runs entirely on this device; enabling downloads a small model (~90 MB) once."
+      },
+      "enable": "Enable semantic search",
+      "modelDownloaded": "Model downloaded ({{model}})",
+      "disable": "Disable",
+      "loadFailed": "Couldn’t load the model: {{message}}",
+      "tryAgain": "Try again",
+      "rebuild": {
+        "legend": "Rebuild index",
+        "description": "Reflect keeps a local index of your notes to power search and links. If results ever look stale or incomplete, rebuild it — your notes are never changed.",
+        "button": "Rebuild index",
+        "rebuilding": "Rebuilding…"
+      },
+      "modelProgress": {
+        "preparing": "Preparing the model…",
+        "aria": "Semantic search model download",
+        "downloading": "Downloading the model — {{downloaded}} of {{total}}"
+      }
+    },
+    "importSection": {
+      "reflectV1": {
+        "legend": "Reflect V1",
+        "description": "Choose the .zip export from Reflect V1. Its notes and attachments are added to this graph; nothing already here is replaced."
+      },
+      "dialogTitle": "Import Reflect V1 export",
+      "zipArchives": "Zip archives",
+      "importing": "Importing...",
+      "importZip": "Import zip..."
+    },
+    "aiProvidersSection": {
+      "empty": "No AI providers configured. Add a provider API key to use AI features — keys are stored in your OS keychain and calls go directly to the provider.",
+      "addProvider": "Add provider",
+      "apiKey": "API key",
+      "default": "Default",
+      "makeDefault": "Make default",
+      "remove": "Remove {{name}}"
+    },
+    "addAiProviderDialog": {
+      "title": "Add AI provider",
+      "description": "The API key is stored in your OS keychain, never in your graph.",
+      "provider": "Provider",
+      "defaultModel": "Default model",
+      "apiKey": "API key",
+      "apiKeyRequired": "Enter an API key.",
+      "useAsDefault": "Use as the default provider",
+      "verifyWarning": "Couldn't reach {{provider}} to verify the key. Submit again to save it unverified.",
+      "cancel": "Cancel",
+      "saveAnyway": "Save anyway",
+      "addProvider": "Add provider"
+    },
+    "aiChatSection": {
+      "systemPrompt": {
+        "legend": "System prompt",
+        "description": "Additional instructions sent with every AI chat (up to {{count}} characters). Reflect’s note-search, citation, and privacy rules still apply.",
+        "aria": "System prompt",
+        "placeholder": "Be concise. Challenge my assumptions and ask clarifying questions.",
+        "useDefault": "Use default"
+      }
+    },
+    "agentsSection": {
+      "legend": "Agent skill",
+      "description": "Teach Claude Code and other agents to read “{{graphName}}” with the reflect CLI.",
+      "conflict": "A file Reflect doesn’t manage already exists there. Move it aside to install.",
+      "installed": "Installed",
+      "updateSkill": "Update skill",
+      "installSkill": "Install skill",
+      "remove": "Remove"
+    },
+    "aboutSection": {
+      "appName": "Reflect Open"
+    },
+    "updateSection": {
+      "legend": "Updates",
+      "description": "Reflect checks for new versions on launch and installs them only when you say so.",
+      "checking": "Checking…",
+      "install": "Install {{version}}",
+      "downloading": "Downloading{{percent}}",
+      "downloadingPercent": " {{percent}}%",
+      "restart": "Restart to update",
+      "retryInstall": "Retry install",
+      "check": "Check for updates",
+      "upToDate": "You're up to date."
+    },
+    "aiPromptsSection": {
+      "empty": "No saved prompts. Select text in a note and press ⌘⇧J to run the built-in prompts; prompts you save here appear after them.",
+      "addPrompt": "Add prompt",
+      "addTitle": "Add prompt",
+      "editTitle": "Edit prompt",
+      "descriptionBefore": "The prompt runs on the text you select in a note. Use",
+      "descriptionAfter": "where the selection should appear.",
+      "label": "Label",
+      "labelPlaceholder": "Translate to French",
+      "prompt": "Prompt",
+      "promptPlaceholder": "Translate the following text to French.\n\n{{selectedText}}",
+      "result": "Result",
+      "replace": "Replaces the selection",
+      "append": "Inserted below the selection",
+      "cancel": "Cancel",
+      "save": "Save",
+      "edit": "Edit {{label}}",
+      "remove": "Remove {{label}}"
+    },
+    "templatesSection": {
+      "legend": "Note templates",
+      "description": "Markdown files in your graph's templates/ folder, inserted from the ⌘K palette.",
+      "rename": "Rename {{title}}",
+      "delete": "Delete {{title}}",
+      "newTemplate": "New template",
+      "renameTitle": "Rename template",
+      "renameDescription": "Renames the template — its title and its file's slug.",
+      "templateName": "Template name",
+      "cancel": "Cancel",
+      "renameButton": "Rename",
+      "deleteTitle": "Delete template?",
+      "deleteDescription": "“{{title}}” moves to the trash and can be recovered from there.",
+      "deleteButton": "Delete",
+      "trashingOperation": "Trashing template"
+    },
+    "modelCombobox": {
+      "defaultModel": "Default model",
+      "placeholder": "Search or type a model name…",
+      "emptyBefore": "Press",
+      "emptyKey": "Enter",
+      "emptyAfter": "to use “{{model}}”"
+    },
+    "backupSection": {
+      "genericLegend": "Backup",
+      "githubLegend": "GitHub sync",
+      "genericDescription": "This graph backs up to its own git remote. Edits back up automatically a few moments after you stop typing.",
+      "githubDescription": "Back up this graph to a GitHub repository. Edits back up automatically a few moments after you stop typing.",
+      "status": {
+        "idle": "Backed up",
+        "syncing": "Backing up…",
+        "authFailed": "Backup failed — reconnect GitHub",
+        "failed": "Backup failed: {{message}}"
+      },
+      "checking": "Checking backup status…",
+      "connect": "Connect GitHub…",
+      "noteNeedsReview": "1 note needs review",
+      "notesNeedReview": "{{count}} notes need review",
+      "openToKeep": "— open {{target}} to keep the version you want:",
+      "targetIt": "it",
+      "targetOne": "one",
+      "backUpNow": "Back up now",
+      "stopTitle": "This graph stops backing up; its history and your GitHub sign-in stay",
+      "stop": "Stop backing up",
+      "openRepo": "Open GitHub repo",
+      "account": "GitHub account",
+      "accountDescription": "Sign out on this machine; connected graphs stop backing up.",
+      "signOutTitle": "Removes the GitHub token from this machine",
+      "signOut": "Sign out of GitHub…",
+      "signOutConfirmTitle": "Sign out of GitHub?",
+      "signOutConfirmDescription": "This removes the GitHub token from this machine. Every GitHub-backed graph will stop backing up until you sign in again.",
+      "cancel": "Cancel",
+      "signOutButton": "Sign out",
+      "browserOpenFailed": "Couldn’t open the browser — visit {{url}} yourself.",
+      "conflictedNotesAria": "Notes that need review"
+    },
+    "destructiveSection": {
+      "savedLegend": "Saved graph",
+      "savedDescription": "Forget this graph. Files stay on disk.",
+      "forget": "Forget graph",
+      "deleteLegend": "Delete graph",
+      "deleteDescription": "Move this graph and all of its notes to the trash.",
+      "delete": "Delete graph",
+      "forgetTitle": "Forget graph?",
+      "forgetDescription": "Remove {{graphId}} from saved graphs. Files stay on disk.",
+      "cancel": "Cancel",
+      "forgetting": "Forgetting…",
+      "deleteTitle": "Delete graph?",
+      "deleteConfirm": "Move {{graphId}} and all of its notes to the trash. Type {{graphName}} to confirm.",
+      "graphName": "Graph name",
+      "deleting": "Deleting…",
+      "thisGraph": "this graph"
+    },
+    "describeAssetsSection": {
+      "legend": "OCR assets",
+      "description": "Make text in images and PDFs searchable. Private notes are skipped.",
+      "auto": "OCR new assets automatically",
+      "backfilling": "Backfilling…",
+      "backfill": "Backfill assets",
+      "needProvider": "Add an AI provider to enable this.",
+      "confirmTitle": "Backfill assets?",
+      "confirmDescription": "Images and PDFs in non-private notes will be sent to your AI provider so their text can appear in search. Assets that already have OCR are skipped.",
+      "cancel": "Cancel"
+    },
+    "integrationsSection": {
+      "contactsLegend": "Contacts",
+      "contactsDescription": "Suggest a contact's email and phone when a note's title matches their name.",
+      "contactsDeniedBefore": "Reflect doesn’t have contacts access.",
+      "openSystemSettings": "Open System Settings",
+      "contactsDeniedAfter": "to allow it, then return here.",
+      "contactsPromptBefore": "Reflect hasn’t asked for contacts access yet.",
+      "allowContacts": "Allow contacts access",
+      "calendarDeniedInitial": "Reflect needs permission to read your calendars.",
+      "calendarDenied": "Reflect can’t read your calendars. Allow it under Privacy & Security → Calendars.",
+      "grantAccess": "Grant access",
+      "noCalendars": "No calendars found. Add accounts in System Settings → Internet Accounts.",
+      "calendarsSelected": "{{enabled}}/{{total}} calendars selected",
+      "chooseCalendars": "Choose calendars…",
+      "chooseCalendarsTitle": "Choose calendars",
+      "chooseCalendarsDescription": "Select the calendars Reflect shows beside your daily note.",
+      "calendarLegend": "Calendar events",
+      "calendarDescription": "Show the day's meetings from Apple Calendar beside the daily note."
+    },
+    "githubConnect": {
+      "title": "Connect GitHub",
+      "step": {
+        "repo": "Back up this graph to a private GitHub repository.",
+        "auth": "Sign in so Reflect can push your backups.",
+        "finish": "Connecting your repository…"
+      },
+      "createNew": "Create a new private repository",
+      "newRepoName": "New repository name",
+      "useExisting": "Use an existing repository",
+      "existingRepo": "Existing repository",
+      "continue": "Continue",
+      "changeRepo": "Change repository",
+      "chooseAnother": "Choose another repo",
+      "publicWarning": "{{repo}} is public.",
+      "publicWarningDescription": "Anyone on the internet can read everything in this graph, including notes marked private.",
+      "backupPublic": "Back up to a public repo",
+      "createInstruction": "Create {{repo}} on GitHub. Reflect will connect it as soon as it exists.",
+      "createOnGithub": "Create on GitHub…",
+      "waitingRepo": "Waiting for the repository…",
+      "grantAppBefore": "If it doesn’t connect,",
+      "grantAppLink": "grant the Reflect app access",
+      "grantAppAfter": "to just this repository.",
+      "tokenAccessHint": "If it doesn’t connect, add it to your token’s repository access.",
+      "grantAccessInstruction": "Give Reflect access to {{repo}} so it can back up here.",
+      "grantAccessOnGithub": "Grant access on GitHub…",
+      "repoSelectionHint": "On GitHub, choose Only select repositories — Reflect only needs this one.",
+      "waitingAccess": "Waiting for access…",
+      "connecting": "Connecting…",
+      "signedInAs": "Signed in as {{login}}"
+    },
+    "githubAuth": {
+      "signIn": "Sign in with GitHub",
+      "usePat": "Use a personal access token instead",
+      "patInstructionsPrefix": "Paste a fine-grained personal access token with",
+      "contents": "Contents",
+      "patInstructionsSuffix": "read/write access. It is stored in your OS keychain, never in your graph.",
+      "theRepo": "the {{repoName}} repository",
+      "yourBackupRepo": "your backup repository",
+      "patLabel": "Personal access token",
+      "pasteTokenFirst": "Paste a token first.",
+      "checking": "Checking…",
+      "saveToken": "Save token",
+      "signInInstead": "Sign in with GitHub instead",
+      "codeCopied": "Code copied — paste it on the GitHub page:",
+      "codePrompt": "GitHub will ask for this one-time code:",
+      "openGithub": "Open GitHub",
+      "copyAndOpen": "Copy code and open GitHub",
+      "copyFailed": "Couldn’t copy automatically — select the code above and copy it first.",
+      "openFailed": "Couldn’t open the browser — visit {{url}} yourself.",
+      "rejected": "GitHub rejected that token — check it and try again."
+    },
+    "icloudSection": {
+      "legend": "iCloud Drive",
+      "hostedDescription": "This graph lives in iCloud Drive — edits sync to your other devices, and conflicts resolve automatically where possible.",
+      "availableDescription": "Copy this graph into iCloud Drive to sync it with your other devices.",
+      "unavailableDescription": "iCloud Drive isn’t reachable from this app — sign in to iCloud, or use a build with iCloud enabled.",
+      "noGraphs": "No graphs in iCloud Drive yet.",
+      "oneGraph": "1 graph in iCloud Drive.",
+      "manyGraphs": "{{count}} graphs in iCloud Drive.",
+      "allDownloaded": "All note files are downloaded.",
+      "onePending": "1 note is still downloading from iCloud.",
+      "manyPending": "{{count}} notes are still downloading from iCloud.",
+      "noReview": "No notes need review.",
+      "oneNeedsReview": "1 note needs review",
+      "manyNeedReview": "{{count}} notes need review",
+      "oneFork": "1 sync fork",
+      "manyForks": "{{count}} sync forks",
+      "checking": "Checking downloaded notes...",
+      "move": "Move graph to iCloud…",
+      "moveTitle": "Move this graph to iCloud Drive?",
+      "moveDescription": "Your notes are copied into iCloud Drive and the graph reopens there. The current folder stays on disk, untouched, as a recovery copy.",
+      "moveBackupDescription": "GitHub sync is disconnected from the recovery copy; you can reconnect GitHub sync after the iCloud graph opens.",
+      "cancel": "Cancel",
+      "moving": "Moving…",
+      "moveButton": "Move to iCloud",
+      "disconnectError": "The graph moved to iCloud, but GitHub sync could not be disconnected from the original folder: {{message}}",
+      "openCopyError": "The copy landed in iCloud but could not be opened — open it from Saved graphs."
+    },
+    "syncForkNotice": {
+      "one": "1 note was renamed differently on two devices and now exists as separate files",
+      "many": "{{count}} notes were renamed differently on two devices and now exist as separate files",
+      "suffix": "— merge by hand, then delete the copy you don’t want:"
+    },
+    "sectionsAria": "Settings sections"
   },
   "sidebar": {
     "primary-navigation": "Primary",
@@ -252,7 +652,27 @@
     "message-aria-label": "Chat message",
     "remove-attachment": "Remove {{name}}",
     "model-aria-label": "Model",
-    "choose-model": "Choose a model"
+    "choose-model": "Choose a model",
+    "history-aria": "Chat history",
+    "history-empty": "No past chats",
+    "delete-conversation": "Delete “{{title}}”",
+    "new-chat": "New chat",
+    "stop": "Stop",
+    "send": "Send",
+    "conversation-aria": "Chat conversation",
+    "thinking": "Thinking…",
+    "tool": {
+      "searched": "Searched “{{query}}”",
+      "count-note": "{{count}} note",
+      "count-note_plural": "{{count}} notes",
+      "count-day": "{{count}} day",
+      "count-day_plural": "{{count}} days",
+      "listed": "Listed",
+      "notes": "notes",
+      "recent": "recent",
+      "listed-daily": "Listed daily notes {{start}} – {{end}}",
+      "read": "Read"
+    }
   },
   "palette": {
     "title": "Command palette",
@@ -345,7 +765,9 @@
     },
     "group": {
       "add": "Add",
-      "empty": "No tasks"
+      "empty": "No tasks",
+      "add-to": "Add a task to {{target}}",
+      "today": "today"
     },
     "row": {
       "empty-task": "Empty task",
@@ -441,7 +863,275 @@
     },
     "use-as-default-provider": "Use as the default provider",
     "save-anyway": "Save anyway",
-    "add-provider": "Add provider"
+    "add-provider": "Add provider",
+    "choose-model": "Choose a model",
+    "attach-photo": "Attach a photo",
+    "stop": "Stop",
+    "send": "Send",
+    "remove-attachment": "Remove {{name}}",
+    "chat-history": {
+      "aria": "Chat history",
+      "title": "History",
+      "empty": "No past chats",
+      "delete": "Delete “{{title}}”"
+    },
+    "calendar": {
+      "settings": "Settings",
+      "change-month": "Change month",
+      "today": "Today",
+      "previous-year": "Previous year",
+      "next-year": "Next year"
+    },
+    "app": {
+      "couldnt-open": "Couldn’t open your notes",
+      "loading": "Loading…",
+      "unknown-error": "Unknown error",
+      "something-broke": "Something broke"
+    },
+    "note-actions": {
+      "aria": "Note actions",
+      "title": "Note actions",
+      "pin": "Pin",
+      "unpin": "Unpin",
+      "share": "Share",
+      "delete": "Delete",
+      "delete-title": "Delete this note?",
+      "delete-description": "It moves to the graph’s trash and disappears from your notes. You can recover it on desktop.",
+      "cancel": "Cancel"
+    },
+    "onboarding": {
+      "title": "Start with iCloud sync",
+      "subtitle": "Keep your notes up to date across iPhone, iPad, and Mac with iCloud Drive.",
+      "icloud-description-existing": "We found notes in iCloud Drive. Continue with one, or start fresh.",
+      "icloud-description-empty": "Recommended for most people. Your notes sync through iCloud Drive and stay available offline.",
+      "checking-icloud": "Checking iCloud Drive…",
+      "continue-with": "Continue with {{name}}",
+      "start-fresh": "Start fresh",
+      "graph-name": "Graph name",
+      "personal-notes": "Personal notes",
+      "name-taken": "That name already exists in iCloud Drive.",
+      "setting-up": "Setting up…",
+      "setup-graph": "Setup graph",
+      "local": "Or, use this device only",
+      "unavailable-description": "Turn on iCloud Drive to keep your notes synced between devices.",
+      "unavailable-instructions": "Sign in to iCloud on this device, then reopen Reflect.",
+      "icloud-sync": "iCloud sync",
+      "recommended": "Recommended"
+    },
+    "recording": {
+      "title": "Audio memo",
+      "description": "Audio memos are transcribed into your notes with your own OpenAI or Gemini API key. Add one in Settings to start recording.",
+      "open-settings": "Open Settings",
+      "waiting-mic": "Waiting for the microphone…",
+      "confirm-discard": "Confirm discard recording",
+      "tap-again-discard": "Tap again to discard"
+    },
+    "back": "Back",
+    "sections": "Sections",
+    "formatting": {
+      "aria": "Formatting",
+      "slash": "Slash command",
+      "bullet": "Bullet list",
+      "checklist": "Cycle checklist and task",
+      "link-note": "Link note",
+      "tag": "Tag",
+      "outdent": "Outdent",
+      "indent": "Indent",
+      "move-up": "Move up",
+      "move-down": "Move down",
+      "hide-keyboard": "Hide keyboard"
+    },
+    "incoming-backlink": "Incoming backlink",
+    "incoming-backlinks": "Incoming backlinks",
+    "couldnt-load-backlinks": "Couldn’t load backlinks.",
+    "preparing-notes": "Preparing notes…",
+    "pinned": "Pinned",
+    "new-icloud-graph": "New iCloud graph",
+    "name": "Name",
+    "matching-tags": "Matching tags",
+    "no-matching-tags": "No matching tags",
+    "loading-notes": "Loading notes",
+    "search-notes": "Search notes",
+    "ai-provider-actions": {
+      "manage": "Manage AI provider",
+      "remove": "Remove provider",
+      "default-model": "Default model",
+      "default-provider": "Default provider",
+      "use-as-default": "Use as default"
+    },
+    "chat-system-prompt": {
+      "aria": "System prompt",
+      "title": "System prompt",
+      "description": "Additional instructions sent with every AI chat (up to {{count}} characters). Reflect’s note-search, citation, and privacy rules still apply.",
+      "instructions": "System prompt instructions",
+      "placeholder": "Be concise. Challenge my assumptions and ask clarifying questions.",
+      "use-default": "Use default",
+      "save": "Save"
+    },
+    "connect-github": {
+      "aria": "Connect GitHub",
+      "title": "Connect GitHub",
+      "step": {
+        "repo": "Back up this graph to a private GitHub repository and sync it with Reflect on your other devices.",
+        "auth": "Sign in so Reflect can push your backups.",
+        "finish": "Connecting your repository…"
+      },
+      "create-new": "Create a new private repository",
+      "repo-name": "Repository name",
+      "use-existing": "Use an existing repository",
+      "repo": "Repository",
+      "continue": "Continue"
+    },
+    "index-progress": "Preparing notes… {{done}} of {{total}}",
+    "new-graph": {
+      "title": "New iCloud graph",
+      "name": "Name",
+      "new-name": "New name",
+      "name-taken": "That name already exists in iCloud Drive.",
+      "setting-up": "Setting up…",
+      "create": "Create"
+    },
+    "all-notes-screen": {
+      "back": "Back",
+      "placeholder": "Search anything…",
+      "search": "Search notes",
+      "loading": "Loading notes",
+      "no-notes": "No notes yet",
+      "no-matches": "No matches",
+      "no-matching-tags": "No matching tags",
+      "matching-tags": "Matching tags"
+    },
+    "audio-memo": {
+      "record": "Record audio memo",
+      "stop": "Stop recording",
+      "discard": "Discard audio memo",
+      "show-error": "Show audio memo error"
+    },
+    "graph-chooser": {
+      "icloud-title": "iCloud"
+    },
+    "settings-screen": {
+      "title": "Settings",
+      "graph": "Graph",
+      "appearance": "Appearance",
+      "theme": "Theme",
+      "theme-system": "System",
+      "theme-light": "Light",
+      "theme-dark": "Dark",
+      "text-size": "Text size",
+      "text-small": "Small",
+      "text-medium": "Medium",
+      "text-large": "Large",
+      "editor": "Editor",
+      "start-bullet": "Start with a bullet",
+      "bullet-after-heading": "Bullet after a heading",
+      "ai": "AI",
+      "ai-footer": "Keys stay in this device’s keychain and are never synced.",
+      "default": "Default",
+      "custom": "Custom",
+      "backup": "Backup",
+      "backup-footer-connect": "Sync notes with Reflect on your other devices.",
+      "github": "GitHub",
+      "status": "Status",
+      "connect-github": "Connect GitHub",
+      "disconnect-github": "Disconnect GitHub",
+      "about": "About",
+      "notes": "Notes",
+      "version": "Version",
+      "icloud-drive": "iCloud Drive",
+      "this-device": "This device"
+    },
+    "graphs-screen": {
+      "title": "Graphs",
+      "icloud-drive": "iCloud Drive",
+      "icloud-unavailable": "iCloud Drive isn’t available on this device.",
+      "icloud-footer": "Syncs with Reflect on your other devices.",
+      "looking": "Looking for your notes…",
+      "new-graph": "New graph",
+      "local-footer": "Notes stay on this device. Sync with GitHub from Settings.",
+      "this-device": "This device"
+    },
+    "tasks-screen": {
+      "search-placeholder": "Search tasks…",
+      "search": "Search tasks",
+      "archive-completed": "Archive {{count}} completed",
+      "filters": "Task filters",
+      "load-failed": "Couldn’t load tasks.",
+      "loading": "Loading tasks",
+      "no-matching": "No matching tasks",
+      "no-tasks": "No tasks to show",
+      "add-task": "Add a task",
+      "new-task": "New task"
+    },
+    "task-edit": {
+      "title": "Edit task",
+      "schedule": "Schedule",
+      "today": "Today",
+      "tomorrow": "Tomorrow",
+      "next-week": "Next week",
+      "pick-date": "Pick date",
+      "clear": "Clear",
+      "reopen": "Reopen",
+      "complete": "Complete",
+      "convert": "Convert to bullet",
+      "open-note": "Open note",
+      "delete": "Delete"
+    },
+    "task-filters": {
+      "title": "Task filters",
+      "pinned": "Pinned notes",
+      "current": "Current",
+      "overdue": "Overdue",
+      "upcoming": "Upcoming",
+      "other": "Other notes",
+      "show-archived": "Show archived"
+    },
+    "task-schedule-grid": {
+      "pick-date": "Pick a date",
+      "previous-month": "Previous month",
+      "next-month": "Next month"
+    },
+    "search-input": {
+      "clear": "Clear search"
+    },
+    "filters": {
+      "updated": "Updated",
+      "updated-from": "Updated from",
+      "updated-to": "Updated to",
+      "to": "to",
+      "apply-range": "Apply range",
+      "clear-filter": "Clear filter",
+      "tags": "Tags",
+      "no-tags": "No tags yet",
+      "find-note": "Find a note…",
+      "find-note-aria": "Find a note",
+      "no-matches": "No matches",
+      "linked-to": "Linked to",
+      "linked-by": "Linked by",
+      "daily-notes": "Daily notes",
+      "reset": "Reset",
+      "pinned": "Pinned"
+    },
+    "daily-screen": {
+      "new-note": "New note"
+    },
+    "sync-status": {
+      "syncing": "Syncing",
+      "needs-review": "Needs review",
+      "needs-attention": "Needs attention",
+      "offline": "Offline",
+      "backed-up": "Backed up",
+      "one-conflict": "A note was edited on two devices at once — open it to choose what to keep.",
+      "many-conflicts": "{{count}} notes were edited on two devices at once — open them to choose what to keep."
+    },
+    "backlinks": {
+      "collapse": "Collapse references from {{title}}",
+      "expand": "Expand references from {{title}}"
+    },
+    "note-screen": {
+      "new": "New note",
+      "edit": "Edit note"
+    }
   },
   "commands": {
     "switch-to-graph": "Switch to graph {{position}}",

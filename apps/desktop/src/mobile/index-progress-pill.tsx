@@ -1,4 +1,5 @@
 import { useSyncExternalStore, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getIndexProgress, subscribeIndexProgress } from '@/lib/index-progress'
 import { useKeyboardVisible } from '@/mobile/use-keyboard'
 
@@ -27,6 +28,7 @@ const MIN_WORKED = 100
  */
 export function IndexProgressPill(): ReactElement | null {
   const progress = useSyncExternalStore(subscribeIndexProgress, getIndexProgress)
+  const { t } = useTranslation()
   const keyboardVisible = useKeyboardVisible()
 
   if (
@@ -44,7 +46,10 @@ export function IndexProgressPill(): ReactElement | null {
       className="flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium tabular-nums shadow-sm"
     >
       <span aria-hidden className="size-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
-      Preparing notes… {progress.done.toLocaleString()} of {progress.total.toLocaleString()}
+      {t('mobile.index-progress', {
+        done: progress.done.toLocaleString(),
+        total: progress.total.toLocaleString(),
+      })}
     </div>
   )
 }

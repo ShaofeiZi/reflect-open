@@ -1,4 +1,5 @@
 import { useEffect, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { installBackgroundFlush } from '@/lib/background-flush'
 import { MobileAudioMemoProvider } from '@/mobile/audio-memo-provider'
 import { MobileErrorBoundary } from '@/mobile/mobile-error-boundary'
@@ -29,6 +30,7 @@ import { RouterProvider } from '@/routing/router'
  */
 export function MobileApp(): ReactElement {
   const { status, graph, error, needsOnboarding } = useGraph()
+  const { t } = useTranslation()
   useKeyboardHeightVar()
   useKeyboardCaretReveal()
   useTaskCheckboxHaptics()
@@ -90,15 +92,15 @@ export function MobileApp(): ReactElement {
   if (status === 'choosing') {
     return (
       <div className="flex h-dvh w-screen flex-col items-center justify-center gap-2 px-8 text-center">
-        <p className="text-sm font-medium">Couldn’t open your notes</p>
-        <p className="text-sm text-text-muted">{error ?? 'Unknown error'}</p>
+        <p className="text-sm font-medium">{t('mobile.app.couldnt-open')}</p>
+        <p className="text-sm text-text-muted">{error ?? t('mobile.app.unknown-error')}</p>
       </div>
     )
   }
 
   return (
     <div className="flex h-dvh w-screen items-center justify-center text-sm text-text-muted">
-      Loading…
+      {t('mobile.app.loading')}
     </div>
   )
 }

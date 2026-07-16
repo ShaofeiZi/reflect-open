@@ -1,5 +1,6 @@
 import { useId, useState, type ReactElement } from 'react'
 import { Cloud, FolderOpen } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
@@ -34,6 +35,7 @@ interface OnboardingIcloudSectionProps {
  */
 export function OnboardingIcloudSection(props: OnboardingIcloudSectionProps): ReactElement {
   const { pending, documentsRoot, graphs, busy, pendingChoice, onOpen, onCreate } = props
+  const { t } = useTranslation()
   const [typedName, setTypedName] = useState<string | null>(null)
   const nameId = useId()
 
@@ -53,8 +55,8 @@ export function OnboardingIcloudSection(props: OnboardingIcloudSectionProps): Re
 
   const description =
     graphs.length > 0
-      ? 'We found notes in iCloud Drive. Continue with one, or start fresh.'
-      : 'Recommended for most people. Your notes sync through iCloud Drive and stay available offline.'
+      ? t('mobile.onboarding.icloud-description-existing')
+      : t('mobile.onboarding.icloud-description-empty')
 
   return (
     <section className="flex flex-col gap-4 rounded-lg border border-primary/20 bg-surface p-4">
@@ -63,7 +65,7 @@ export function OnboardingIcloudSection(props: OnboardingIcloudSectionProps): Re
       {pending ? (
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <Spinner />
-          Checking iCloud Drive…
+          {t('mobile.onboarding.checking-icloud')}
         </div>
       ) : (
         <>
@@ -83,7 +85,9 @@ export function OnboardingIcloudSection(props: OnboardingIcloudSectionProps): Re
                     ) : (
                       <FolderOpen aria-hidden strokeWidth={1.75} />
                     )}
-                    <span className="truncate">Continue with {graphNameFromRoot(root, root)}</span>
+                    <span className="truncate">
+                      {t('mobile.onboarding.continue-with', { name: graphNameFromRoot(root, root) })}
+                    </span>
                   </Button>
                 </li>
               ))}
@@ -91,15 +95,15 @@ export function OnboardingIcloudSection(props: OnboardingIcloudSectionProps): Re
           ) : null}
 
           <div className="space-y-2">
-            {graphs.length > 0 ? <MobileDivider>Start fresh</MobileDivider> : null}
+            {graphs.length > 0 ? <MobileDivider>{t('mobile.onboarding.start-fresh')}</MobileDivider> : null}
             <div className="flex flex-col gap-1.5">
               <label htmlFor={nameId} className="text-xs font-medium text-text-secondary">
-                Graph name
+                {t('mobile.onboarding.graph-name')}
               </label>
               <Input
                 id={nameId}
                 value={name}
-                placeholder={graphs.length > 0 ? 'Personal notes' : undefined}
+                placeholder={graphs.length > 0 ? t('mobile.onboarding.personal-notes') : undefined}
                 enterKeyHint="go"
                 onChange={(event) => setTypedName(event.target.value)}
                 onKeyDown={(event) => {
@@ -113,7 +117,7 @@ export function OnboardingIcloudSection(props: OnboardingIcloudSectionProps): Re
             </div>
             {nameTaken ? (
               <p className="text-xs text-destructive">
-                That name already exists in iCloud Drive.
+                {t('mobile.onboarding.name-taken')}
               </p>
             ) : null}
             <Button
@@ -127,7 +131,9 @@ export function OnboardingIcloudSection(props: OnboardingIcloudSectionProps): Re
               ) : (
                 <Cloud aria-hidden strokeWidth={1.75} />
               )}
-              {pendingChoice === 'icloud-create' ? 'Setting up…' : 'Setup graph'}
+              {pendingChoice === 'icloud-create'
+                ? t('mobile.onboarding.setting-up')
+                : t('mobile.onboarding.setup-graph')}
             </Button>
           </div>
         </>

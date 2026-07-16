@@ -16,6 +16,7 @@ import {
   Undo2,
   X,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Priority } from '@meowdown/core'
 import { useKeymap } from '@meowdown/react'
 import type { OpenTask } from '@reflect/core'
@@ -78,6 +79,7 @@ export function MobileTaskEditSheet({
   onOpenNote,
   autoFocusEditor = false,
 }: MobileTaskEditSheetProps): ReactElement {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   const { settings } = useSettings()
   const generation = graph?.generation ?? null
@@ -179,7 +181,7 @@ export function MobileTaskEditSheet({
     onOpenNote(task.notePath)
   }
 
-  // A link tapped *inside* the draft navigates like "Open note": commit the
+  // A link tapped *inside* the draft navigates like "{t('mobile.task-edit.open-note')}": commit the
   // draft first, then resolve the target (the shared editor hooks).
   const openWikiLink = (target: string): void => {
     closeNavigate()
@@ -217,7 +219,7 @@ export function MobileTaskEditSheet({
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
       <DrawerContent
-        aria-label="Edit task"
+        aria-label={t('mobile.task-edit.title')}
         // On the "+"-add path the editor takes focus instead of the sheet
         // container, so typing can start immediately.
         onOpenAutoFocus={(event) => {
@@ -227,7 +229,7 @@ export function MobileTaskEditSheet({
           }
         }}
       >
-        <DrawerTitle className="sr-only">Edit task</DrawerTitle>
+        <DrawerTitle className="sr-only">{t('mobile.task-edit.title')}</DrawerTitle>
         {/* vaul must not turn a drag inside the editor (text selection) into a
             sheet drag. */}
         <div
@@ -253,25 +255,25 @@ export function MobileTaskEditSheet({
             <TaskSheetKeymap onDone={finishEdit} />
           </NoteEditor>
         </div>
-        <div className="flex flex-wrap items-center gap-1.5" aria-label="Schedule">
+        <div className="flex flex-wrap items-center gap-1.5" aria-label={t('mobile.task-edit.schedule')}>
           <ScheduleChip
-            label="Today"
+            label={t('mobile.task-edit.today')}
             active={dueDate === today}
             onClick={() => schedule(today)}
           />
           <ScheduleChip
-            label="Tomorrow"
+            label={t('mobile.task-edit.tomorrow')}
             active={dueDate === addDaysIso(today, 1)}
             onClick={() => schedule(addDaysIso(today, 1))}
           />
           <ScheduleChip
-            label="Next week"
+            label={t('mobile.task-edit.next-week')}
             active={dueDate === addDaysIso(today, 7)}
             onClick={() => schedule(addDaysIso(today, 7))}
           />
           <ScheduleChip
             label={
-              dueDate !== null ? formatDayLabel(dueDate, settings.dateFormat) : 'Pick date'
+              dueDate !== null ? formatDayLabel(dueDate, settings.dateFormat) : t('mobile.task-edit.pick-date')
             }
             icon={<CalendarDays aria-hidden className="size-3.5" />}
             active={showCalendar}
@@ -279,7 +281,7 @@ export function MobileTaskEditSheet({
           />
           {dueDate !== null ? (
             <ScheduleChip
-              label="Clear"
+              label={t('mobile.task-edit.clear')}
               icon={<X aria-hidden className="size-3.5" />}
               active={false}
               onClick={() => schedule(null)}
@@ -297,7 +299,7 @@ export function MobileTaskEditSheet({
             onClick={complete}
           >
             {task.checked ? <Undo2 /> : <CircleCheck />}
-            {task.checked ? 'Reopen' : 'Complete'}
+            {task.checked ? t('mobile.task-edit.reopen') : t('mobile.task-edit.complete')}
           </Button>
           <Button
             variant="ghost"
@@ -306,7 +308,7 @@ export function MobileTaskEditSheet({
             onClick={convertToBullet}
           >
             <List />
-            Convert to bullet
+            {t('mobile.task-edit.convert')}
           </Button>
           <Button
             variant="ghost"
@@ -315,7 +317,7 @@ export function MobileTaskEditSheet({
             onClick={openNote}
           >
             <ArrowRight />
-            Open note
+            {t('mobile.task-edit.open-note')}
           </Button>
           <Button
             variant="ghost"
@@ -324,7 +326,7 @@ export function MobileTaskEditSheet({
             onClick={remove}
           >
             <Trash2 />
-            Delete
+            {t('mobile.task-edit.delete')}
           </Button>
         </div>
       </DrawerContent>

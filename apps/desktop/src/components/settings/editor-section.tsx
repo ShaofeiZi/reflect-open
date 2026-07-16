@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import type { EditorMarkdownSyntax, EditorTextSize } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { useSettings } from '@/providers/settings-provider'
 import { SettingsField } from './field'
@@ -10,60 +11,61 @@ import { SettingsSwitchField } from './switch-field'
 
 interface MarkdownSyntaxOption {
   value: EditorMarkdownSyntax
-  label: string
-  description: string
+  labelKey: string
+  descriptionKey: string
 }
 
 const MARKDOWN_SYNTAX_OPTIONS: MarkdownSyntaxOption[] = [
   {
     value: 'hide',
-    label: 'Hide',
-    description: 'Always hidden',
+    labelKey: 'settings.editorSection.markdownOptions.hide.label',
+    descriptionKey: 'settings.editorSection.markdownOptions.hide.description',
   },
   {
     value: 'hybrid',
-    label: 'Hybrid',
-    description: 'Only around the cursor',
+    labelKey: 'settings.editorSection.markdownOptions.hybrid.label',
+    descriptionKey: 'settings.editorSection.markdownOptions.hybrid.description',
   },
   {
     value: 'show',
-    label: 'Show',
-    description: 'Always visible',
+    labelKey: 'settings.editorSection.markdownOptions.show.label',
+    descriptionKey: 'settings.editorSection.markdownOptions.show.description',
   },
 ]
 
 interface TextSizeOption {
   value: EditorTextSize
-  label: string
-  description: string
+  labelKey: string
+  descriptionKey: string
 }
 
 const TEXT_SIZE_OPTIONS: TextSizeOption[] = [
   {
     value: 'small',
-    label: 'Small',
-    description: 'Compact',
+    labelKey: 'settings.editorSection.textSizeOptions.small.label',
+    descriptionKey: 'settings.editorSection.textSizeOptions.small.description',
   },
   {
     value: 'medium',
-    label: 'Medium',
-    description: 'Default',
+    labelKey: 'settings.editorSection.textSizeOptions.medium.label',
+    descriptionKey: 'settings.editorSection.textSizeOptions.medium.description',
   },
   {
     value: 'large',
-    label: 'Large',
-    description: 'Comfortable',
+    labelKey: 'settings.editorSection.textSizeOptions.large.label',
+    descriptionKey: 'settings.editorSection.textSizeOptions.large.description',
   },
 ]
 
 export function EditorSection(): ReactElement {
   const { settings, updateSettings } = useSettings()
+  const { t } = useTranslation()
 
   return (
     <SettingsSection id="editor">
       <SettingsField
-        legend="Markdown syntax"
-        description="How literal markdown characters (**, `, etc.) are displayed while editing."
+        legend={t('settings.editorSection.markdownSyntax.legend')}
+        description={t('settings.editorSection.markdownSyntax.description')}
       >
         <div className="mt-3 @container">
           <div className="grid grid-cols-1 gap-2 @xl:grid-cols-3">
@@ -82,10 +84,10 @@ export function EditorSection(): ReactElement {
                         selected && 'text-accent-soft-text',
                       )}
                     >
-                      {option.label}
+                      {t(option.labelKey)}
                     </span>
                     <span className="mt-0.5 block text-xs text-text-muted">
-                      {option.description}
+                      {t(option.descriptionKey)}
                     </span>
                   </span>
                   <input
@@ -104,8 +106,8 @@ export function EditorSection(): ReactElement {
       </SettingsField>
 
       <SettingsField
-        legend="Text size"
-        description="The reading size of the note editor."
+        legend={t('settings.editorSection.textSize.legend')}
+        description={t('settings.editorSection.textSize.description')}
       >
         <div className="mt-3 @container">
           <div className="grid grid-cols-1 gap-2 @xl:grid-cols-3">
@@ -124,10 +126,10 @@ export function EditorSection(): ReactElement {
                         selected && 'text-accent-soft-text',
                       )}
                     >
-                      {option.label}
+                      {t(option.labelKey)}
                     </span>
                     <span className="mt-0.5 block text-xs text-text-muted">
-                      {option.description}
+                      {t(option.descriptionKey)}
                     </span>
                   </span>
                   <input
@@ -146,29 +148,29 @@ export function EditorSection(): ReactElement {
       </SettingsField>
 
       <SettingsSwitchField
-        legend="Full-width notes"
-        description="Stretch note text across the window with a small edge margin."
+        legend={t('settings.editorSection.fullWidth.legend')}
+        description={t('settings.editorSection.fullWidth.description')}
         checked={settings.editorFullWidth}
         onCheckedChange={(checked) => updateSettings({ editorFullWidth: checked })}
       />
 
       <SettingsSwitchField
-        legend="Spell check"
-        description="Underline misspelled words while you type."
+        legend={t('settings.editorSection.spellCheck.legend')}
+        description={t('settings.editorSection.spellCheck.description')}
         checked={settings.editorSpellCheck}
         onCheckedChange={(checked) => updateSettings({ editorSpellCheck: checked })}
       />
 
       <SettingsSwitchField
-        legend="Start with a bullet"
-        description="New and empty notes open with a single bullet point, ready to type."
+        legend={t('settings.editorSection.defaultBullet.legend')}
+        description={t('settings.editorSection.defaultBullet.description')}
         checked={settings.editorDefaultBullet}
         onCheckedChange={(checked) => updateSettings({ editorDefaultBullet: checked })}
       />
 
       <SettingsSwitchField
-        legend="Bullet after a heading"
-        description="Pressing Return at the end of a heading starts a new bullet."
+        legend={t('settings.editorSection.bulletAfterHeading.legend')}
+        description={t('settings.editorSection.bulletAfterHeading.description')}
         checked={settings.editorBulletAfterHeading}
         onCheckedChange={(checked) => updateSettings({ editorBulletAfterHeading: checked })}
       />

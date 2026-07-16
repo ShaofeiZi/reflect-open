@@ -2,6 +2,7 @@ import { useMemo, type ReactElement, type ReactNode } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { openUrl } from '@tauri-apps/plugin-opener'
 import { canReadCalendars, requestCalendarAccess, type CalendarInfo } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { InlineAlert } from '@/components/inline-alert'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -42,6 +43,7 @@ const ACTION_BUTTON_CLASS =
  */
 export function CalendarIntegrationField(): ReactElement | null {
   const { settings, updateSettings, updateSettingsWith } = useSettings()
+  const { t } = useTranslation()
   const queryClient = useQueryClient()
   const status = useCalendarAuthorization(settings.calendarEnabled)
   const canRead = status !== undefined && canReadCalendars(status)
@@ -98,13 +100,13 @@ export function CalendarIntegrationField(): ReactElement | null {
       <div>
         <InlineAlert tone="error">
           {status === 'notDetermined'
-            ? 'Reflect needs permission to read your calendars.'
-            : 'Reflect can’t read your calendars. Allow it under Privacy & Security → Calendars.'}
+            ? t('settings.integrationsSection.calendarDeniedInitial')
+            : t('settings.integrationsSection.calendarDenied')}
         </InlineAlert>
         <div className="mt-2">
           {status === 'notDetermined' ? (
             <button type="button" onClick={requestAccess} className={ACTION_BUTTON_CLASS}>
-              Grant access
+              {t('settings.integrationsSection.grantAccess')}
             </button>
           ) : (
             <button
@@ -116,7 +118,7 @@ export function CalendarIntegrationField(): ReactElement | null {
               }}
               className={ACTION_BUTTON_CLASS}
             >
-              Open System Settings
+              {t('settings.integrationsSection.openSystemSettings')}
             </button>
           )}
         </div>
@@ -131,24 +133,27 @@ export function CalendarIntegrationField(): ReactElement | null {
     detail =
       groups.length === 0 ? (
         <p className="text-xs text-text-muted">
-          No calendars found. Add accounts in System Settings → Internet Accounts.
+          {t('settings.integrationsSection.noCalendars')}
         </p>
       ) : (
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-xs text-text-muted">
-            {enabledCount}/{calendars.length} calendars selected
+            {t('settings.integrationsSection.calendarsSelected', {
+              enabled: enabledCount,
+              total: calendars.length,
+            })}
           </p>
           <Dialog>
             <DialogTrigger asChild>
               <Button type="button" variant="outline" size="sm">
-                Choose calendars…
+                {t('settings.integrationsSection.chooseCalendars')}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Choose calendars</DialogTitle>
+                <DialogTitle>{t('settings.integrationsSection.chooseCalendarsTitle')}</DialogTitle>
                 <DialogDescription>
-                  Select the calendars Reflect shows beside your daily note.
+                  {t('settings.integrationsSection.chooseCalendarsDescription')}
                 </DialogDescription>
               </DialogHeader>
               <div className="max-h-[min(28rem,70vh)] overflow-y-auto pr-1">
@@ -193,8 +198,8 @@ export function CalendarIntegrationField(): ReactElement | null {
   return (
     <div>
       <SettingsSwitchField
-        legend="Calendar events"
-        description="Show the day's meetings from Apple Calendar beside the daily note."
+        legend={t('settings.integrationsSection.calendarLegend')}
+        description={t('settings.integrationsSection.calendarDescription')}
         checked={settings.calendarEnabled}
         onCheckedChange={handleToggle}
       />

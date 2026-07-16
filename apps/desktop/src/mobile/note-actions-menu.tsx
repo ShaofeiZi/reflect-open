@@ -1,6 +1,7 @@
 import { useState, type ReactElement } from 'react'
 import { MoreHorizontal, Pin, PinOff, Share, Trash2 } from 'lucide-react'
 import { errorMessage } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -39,6 +40,7 @@ interface NoteActionsMenuProps {
  */
 export function NoteActionsMenu({ path, onDeleted }: NoteActionsMenuProps): ReactElement {
   const { graph } = useGraph()
+  const { t } = useTranslation()
   const isPinned = usePinnedNotes().some((note) => note.path === path)
   const [actionsOpen, setActionsOpen] = useState(false)
   const [confirmingDelete, setConfirmingDelete] = useState(false)
@@ -74,12 +76,12 @@ export function NoteActionsMenu({ path, onDeleted }: NoteActionsMenuProps): Reac
     <>
       <Drawer open={actionsOpen} onOpenChange={setActionsOpen}>
         <DrawerTrigger asChild>
-          <Button variant="ghost" size="icon" className="size-10" aria-label="Note actions">
+          <Button variant="ghost" size="icon" className="size-10" aria-label={t('mobile.note-actions.aria')}>
             <MoreHorizontal />
           </Button>
         </DrawerTrigger>
         <DrawerContent>
-          <DrawerTitle className="sr-only">Note actions</DrawerTitle>
+          <DrawerTitle className="sr-only">{t('mobile.note-actions.title')}</DrawerTitle>
           <div className="flex flex-col gap-1">
             <Button
               variant="ghost"
@@ -91,7 +93,7 @@ export function NoteActionsMenu({ path, onDeleted }: NoteActionsMenuProps): Reac
               }}
             >
               {isPinned ? <PinOff /> : <Pin />}
-              {isPinned ? 'Unpin' : 'Pin'}
+              {isPinned ? t('mobile.note-actions.unpin') : t('mobile.note-actions.pin')}
             </Button>
             <Button
               variant="ghost"
@@ -103,7 +105,7 @@ export function NoteActionsMenu({ path, onDeleted }: NoteActionsMenuProps): Reac
               }}
             >
               <Share />
-              Share
+              {t('mobile.note-actions.share')}
             </Button>
             <Button
               variant="ghost"
@@ -115,7 +117,7 @@ export function NoteActionsMenu({ path, onDeleted }: NoteActionsMenuProps): Reac
               }}
             >
               <Trash2 />
-              Delete
+              {t('mobile.note-actions.delete')}
             </Button>
           </div>
         </DrawerContent>
@@ -123,20 +125,19 @@ export function NoteActionsMenu({ path, onDeleted }: NoteActionsMenuProps): Reac
 
       <Dialog open={confirmingDelete} onOpenChange={(open) => !busy && setConfirmingDelete(open)}>
         <DialogContent>
-          <DialogTitle>Delete this note?</DialogTitle>
+          <DialogTitle>{t('mobile.note-actions.delete-title')}</DialogTitle>
           <DialogDescription>
-            It moves to the graph’s trash and disappears from your notes. You can recover it on
-            desktop.
+            {t('mobile.note-actions.delete-description')}
           </DialogDescription>
           {error !== null && <p className="text-sm text-destructive">{error}</p>}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="ghost" disabled={busy}>
-                Cancel
+                {t('mobile.note-actions.cancel')}
               </Button>
             </DialogClose>
             <Button variant="destructive" disabled={busy} onClick={confirmDelete}>
-              Delete
+              {t('mobile.note-actions.delete')}
             </Button>
           </DialogFooter>
         </DialogContent>

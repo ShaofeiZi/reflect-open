@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactElement } from 'react'
 import { useCommandState } from 'cmdk'
 import { ChevronsUpDownIcon } from 'lucide-react'
 import { aiModelLabel, type AiModelOption, type AiProviderId } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -53,8 +54,9 @@ export function ModelCombobox({
   provider,
   models,
   onChange,
-  ariaLabel = 'Default model',
+  ariaLabel,
 }: ModelComboboxProps): ReactElement {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const filteredCountRef = useRef(models.length)
@@ -95,7 +97,7 @@ export function ModelCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          aria-label={ariaLabel}
+          aria-label={ariaLabel ?? t('settings.modelCombobox.defaultModel')}
           className="w-full justify-between font-normal"
         >
           <span className="truncate">{aiModelLabel(provider, value)}</span>
@@ -110,16 +112,18 @@ export function ModelCombobox({
         <Command>
           <FilterCountSync countRef={filteredCountRef} />
           <CommandInput
-            placeholder="Search or type a model name…"
+            placeholder={t('settings.modelCombobox.placeholder')}
             value={inputValue}
             onValueChange={setInputValue}
             onKeyDown={handleKeyDown}
           />
           <CommandList>
             <CommandEmpty>
-              Press{' '}
-              <kbd className="rounded bg-muted px-1 py-0.5 font-mono text-xs">Enter</kbd>{' '}
-              to use &ldquo;{inputValue}&rdquo;
+              {t('settings.modelCombobox.emptyBefore')}{' '}
+              <kbd className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
+                {t('settings.modelCombobox.emptyKey')}
+              </kbd>{' '}
+              {t('settings.modelCombobox.emptyAfter', { model: inputValue })}
             </CommandEmpty>
             <CommandGroup>
               {models.map((model) => (

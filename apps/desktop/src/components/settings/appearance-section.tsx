@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import type { ThemePreference } from '@reflect/core'
 import { Monitor, Moon, Sun, type LucideIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { useSettings } from '@/providers/settings-provider'
 import { SettingsField } from './field'
@@ -9,14 +10,14 @@ import { SettingsSection } from './section'
 
 interface ThemeOption {
   value: ThemePreference
-  label: string
+  labelKey: string
   icon: LucideIcon
 }
 
 const THEME_OPTIONS: ThemeOption[] = [
-  { value: 'system', label: 'System', icon: Monitor },
-  { value: 'light', label: 'Light', icon: Sun },
-  { value: 'dark', label: 'Dark', icon: Moon },
+  { value: 'system', labelKey: 'settings.appearanceSection.themeOptions.system', icon: Monitor },
+  { value: 'light', labelKey: 'settings.appearanceSection.themeOptions.light', icon: Sun },
+  { value: 'dark', labelKey: 'settings.appearanceSection.themeOptions.dark', icon: Moon },
 ]
 
 /**
@@ -26,15 +27,16 @@ const THEME_OPTIONS: ThemeOption[] = [
  */
 export function AppearanceSection(): ReactElement {
   const { settings, updateSettings } = useSettings()
+  const { t } = useTranslation()
 
   return (
     <SettingsSection id="appearance">
       <SettingsField
-        legend="Theme"
-        description="System follows your OS appearance. Saved with your settings."
+        legend={t('settings.appearanceSection.theme.legend')}
+        description={t('settings.appearanceSection.theme.description')}
       >
         <div className="mt-3 grid grid-cols-3 gap-2">
-          {THEME_OPTIONS.map(({ value, label, icon: Icon }) => {
+          {THEME_OPTIONS.map(({ value, labelKey, icon: Icon }) => {
             const selected = settings.theme === value
             return (
               <SettingsOptionCard
@@ -54,7 +56,7 @@ export function AppearanceSection(): ReactElement {
                   className="sr-only"
                 />
                 <Icon aria-hidden strokeWidth={1.75} className="size-4" />
-                <span className="text-xs font-medium">{label}</span>
+                <span className="text-xs font-medium">{t(labelKey)}</span>
               </SettingsOptionCard>
             )
           })}

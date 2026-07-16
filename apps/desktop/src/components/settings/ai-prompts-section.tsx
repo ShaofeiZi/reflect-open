@@ -1,6 +1,7 @@
 import { useState, type ReactElement } from 'react'
 import { Plus } from 'lucide-react'
 import type { AiPrompt } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { useAiPrompts, type AiPromptDraft } from '@/hooks/use-ai-prompts'
 import { AiPromptDialog } from './ai-prompt-dialog'
@@ -14,6 +15,7 @@ import { SettingsSection } from './section'
  */
 export function AiPromptsSection(): ReactElement {
   const { prompts, addPrompt, updatePrompt, removePrompt } = useAiPrompts()
+  const { t } = useTranslation()
   // null = closed; 'new' = adding; an AiPrompt = editing that prompt.
   const [editing, setEditing] = useState<AiPrompt | 'new' | null>(null)
 
@@ -29,8 +31,7 @@ export function AiPromptsSection(): ReactElement {
     <SettingsSection id="ai-prompts">
       {prompts.length === 0 ? (
         <p className="px-4 py-3.5 text-xs text-text-muted">
-          No saved prompts. Select text in a note and press ⌘⇧J to run the built-in prompts;
-          prompts you save here appear after them.
+          {t('settings.aiPromptsSection.empty')}
         </p>
       ) : (
         prompts.map((prompt) => (
@@ -46,7 +47,7 @@ export function AiPromptsSection(): ReactElement {
           className="text-accent hover:bg-surface-hover"
         >
           <Plus aria-hidden strokeWidth={1.75} />
-          Add prompt
+          {t('settings.aiPromptsSection.addPrompt')}
         </Button>
       </div>
       {editing !== null ? (

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react'
 import { ChevronDown, Settings } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { addDaysIso } from '@/lib/dates'
 import { monthOf } from '@/lib/month-grid'
@@ -46,6 +47,7 @@ interface CalendarStripProps {
  */
 export function CalendarStrip({ date, today, resetSeq, onSelect }: CalendarStripProps): ReactElement {
   const { settings } = useSettings()
+  const { t } = useTranslation()
   const { navigate } = useRouter()
   const { emblaRef, weekWindow, displayedWeekStart, showWeekOf } = useWeekStrip(
     date,
@@ -110,7 +112,7 @@ export function CalendarStrip({ date, today, resetSeq, onSelect }: CalendarStrip
             variant="ghost"
             size="icon"
             className="size-9"
-            aria-label="Settings"
+            aria-label={t('mobile.calendar.settings')}
             onClick={openSettings}
           >
             <Settings />
@@ -119,7 +121,7 @@ export function CalendarStrip({ date, today, resetSeq, onSelect }: CalendarStrip
         <h1 className="min-w-0 text-center text-base font-semibold">
           <button
             type="button"
-            aria-label="Change month"
+            aria-label={t('mobile.calendar.change-month')}
             className="flex min-w-0 items-center gap-1"
             onClick={openMonthPicker}
           >
@@ -139,7 +141,7 @@ export function CalendarStrip({ date, today, resetSeq, onSelect }: CalendarStrip
             )}
             onClick={jumpToToday}
           >
-            Today
+            {t('mobile.calendar.today')}
           </Button>
         </div>
       </div>

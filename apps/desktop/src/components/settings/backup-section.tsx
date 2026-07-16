@@ -3,6 +3,8 @@ import { openUrl } from '@tauri-apps/plugin-opener'
 import { useQuery } from '@tanstack/react-query'
 import { getConflictedNotes, getDuplicateNoteIds, hasBridge } from '@reflect/core'
 import { ExternalLink } from 'lucide-react'
+import type { TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
 import { ConnectGithubDialog } from '@/components/settings/connect-github-dialog'
 import { ConflictedNoteLinks } from '@/components/settings/conflicted-note-links'
 import { SettingsField } from '@/components/settings/field'
@@ -25,20 +27,20 @@ import { useGraph } from '@/providers/graph-provider'
 import { useSync, type BackupState } from '@/providers/sync-provider'
 
 /** A short, plain-language line for each backup state — never Git jargon. */
-function statusLine(backup: Extract<BackupState, { phase: 'connected' }>): string {
+function statusLine(backup: Extract<BackupState, { phase: 'connected' }>, t: TFunction): string {
   switch (backup.status.state) {
     case 'idle':
-      return 'Backed up'
+      return t('settings.backupSection.status.idle')
     case 'syncing':
-      return 'Backing up…'
+      return t('settings.backupSection.status.syncing')
     case 'offline':
       return backup.status.message
     case 'error':
       // "Reconnect GitHub" only helps when GitHub is the remote; a generic
       // remote's auth message already names the fix (ssh-add, known_hosts…).
       return backup.status.errorKind === 'auth' && backup.repo !== null
-        ? 'Backup failed — reconnect GitHub'
-        : `Backup failed: ${backup.status.message}`
+        ? t('settings.backupSection.status.authFailed')
+        : t('settings.backupSection.status.failed', { message: backup.status.message })
   }
 }
 
@@ -55,6 +57,7 @@ function githubRepoBrowserUrl(repo: NonNullable<Extract<BackupState, { phase: 'c
 export function BackupSettingsField(): ReactElement {
   const { backup, disconnectGraph, signOut, backUpNow } = useSync()
   const { graph } = useGraph()
+  const { t } = useTranslation()
   const [connectOpen, setConnectOpen] = useState(false)
   const [signOutOpen, setSignOutOpen] = useState(false)
   const openRepoAttempt = useRef(0)
@@ -102,7 +105,7 @@ export function BackupSettingsField(): ReactElement {
       })
       .catch(() => {
         if (openRepoAttempt.current === attempt) {
-          action.setError(`Couldn’t open the browser — visit ${url} yourself.`)
+          action.setError(t('settings.backupSection.browserOpenFailed', { url }))
         }
       })
   }
@@ -124,22 +127,22 @@ export function BackupSettingsField(): ReactElement {
   return (
     <>
       <SettingsField
-        legend={genericRemote ? 'Backup' : 'GitHub sync'}
+        legend={genericRemote ? t('settings.backupSection.genericLegend') : t('settings.backupSection.githubLegend')}
         description={
           genericRemote
-            ? 'This graph backs up to its own git remote. Edits back up automatically a few moments after you stop typing.'
-            : 'Back up this graph to a GitHub repository. Edits back up automatically a few moments after you stop typing.'
+            ? t('settings.backupSection.genericDescription')
+            : t('settings.backupSection.githubDescription')
         }
       >
         <div className="mt-3 flex flex-col gap-2">
           {backup.phase === 'loading' ? (
-            <p className="text-xs text-text-muted">Checking backup status…</p>
+            <p className="text-xs text-text-muted">{t('settings.backupSection.checking')}</p>
           ) : null}
 
           {backup.phase === 'disconnected' ? (
             <div>
               <Button size="sm" onClick={() => setConnectOpen(true)}>
-                Connect GitHub…
+                {t('settings.backupSection.connect')}
               </Button>
             </div>
           ) : null}
@@ -148,15 +151,19 @@ export function BackupSettingsField(): ReactElement {
             <>
               <p className="text-sm text-text">
                 <span className="font-medium">{repoLabel}</span>
-                <span className="ml-2 text-xs text-text-muted">{statusLine(backup)}</span>
+                <span className="ml-2 text-xs text-text-muted">{statusLine(backup, t)}</span>
               </p>
               {conflictCount > 0 ? (
                 <div className="text-xs text-amber-700 dark:text-amber-300">
                   <p>
                     {conflictCount === 1
-                      ? '1 note needs review'
-                      : `${conflictCount} notes need review`}{' '}
-                    — open {conflictCount === 1 ? 'it' : 'one'} to keep the version you want:
+                      ? t('settings.backupSection.noteNeedsReview')
+                      : t('settings.backupSection.notesNeedReview', { count: conflictCount })}{' '}
+                    {t('settings.backupSection.openToKeep', {
+                      target: conflictCount === 1
+                        ? t('settings.backupSection.targetIt')
+                        : t('settings.backupSection.targetOne'),
+                    })}
                   </p>
                   <ConflictedNoteLinks notes={conflictedNotes} />
                 </div>
@@ -169,29 +176,29 @@ export function BackupSettingsField(): ReactElement {
                   disabled={backup.status.state === 'syncing' || action.pending}
                   onClick={() => void action.run(backUpNow)}
                 >
-                  Back up now
+                  {t('settings.backupSection.backUpNow')}
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
-                  title="This graph stops backing up; its history and your GitHub sign-in stay"
+                  title={t('settings.backupSection.stopTitle')}
                   onClick={() => void action.run(disconnectGraph)}
                 >
-                  Stop backing up
+                  {t('settings.backupSection.stop')}
                 </Button>
                 {backup.repo !== null ? (
                   <Button variant="ghost" size="sm" onClick={openGithubRepo}>
                     <ExternalLink aria-hidden />
-                    Open GitHub repo
+                    {t('settings.backupSection.openRepo')}
                   </Button>
                 ) : null}
               </div>
               {backup.repo !== null ? (
                 <div className="mt-2 flex flex-col gap-2 border-t border-border/70 pt-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-xs font-medium text-text">GitHub account</p>
+                    <p className="text-xs font-medium text-text">{t('settings.backupSection.account')}</p>
                     <p className="text-xs text-text-muted">
-                      Sign out on this machine; connected graphs stop backing up.
+                      {t('settings.backupSection.accountDescription')}
                     </p>
                   </div>
                   <Dialog open={signOutOpen} onOpenChange={setSignOutDialogOpen}>
@@ -199,18 +206,17 @@ export function BackupSettingsField(): ReactElement {
                       <Button
                         variant="destructive"
                         size="sm"
-                        title="Removes the GitHub token from this machine"
+                        title={t('settings.backupSection.signOutTitle')}
                         disabled={signOutAction.pending}
                       >
-                        Sign out of GitHub…
+                        {t('settings.backupSection.signOut')}
                       </Button>
                     </DialogTrigger>
                     <DialogContent showCloseButton={!signOutAction.pending}>
                       <DialogHeader>
-                        <DialogTitle>Sign out of GitHub?</DialogTitle>
+                        <DialogTitle>{t('settings.backupSection.signOutConfirmTitle')}</DialogTitle>
                         <DialogDescription>
-                          This removes the GitHub token from this machine. Every
-                          GitHub-backed graph will stop backing up until you sign in again.
+                          {t('settings.backupSection.signOutConfirmDescription')}
                         </DialogDescription>
                       </DialogHeader>
                       {signOutAction.error !== null ? (
@@ -221,7 +227,7 @@ export function BackupSettingsField(): ReactElement {
                       <DialogFooter>
                         <DialogClose asChild>
                           <Button variant="outline" disabled={signOutAction.pending}>
-                            Cancel
+                            {t('settings.backupSection.cancel')}
                           </Button>
                         </DialogClose>
                         <Button
@@ -229,7 +235,7 @@ export function BackupSettingsField(): ReactElement {
                           disabled={signOutAction.pending}
                           onClick={() => void confirmSignOut()}
                         >
-                          Sign out
+                          {t('settings.backupSection.signOutButton')}
                         </Button>
                       </DialogFooter>
                     </DialogContent>

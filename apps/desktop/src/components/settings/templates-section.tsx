@@ -2,6 +2,7 @@ import { useState, type ReactElement } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { errorMessage, listTemplates, type TemplateEntry } from '@reflect/core'
 import { Pencil, Plus, Trash2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -30,6 +31,7 @@ import { SettingsSection } from './section'
  */
 export function TemplatesSection(): ReactElement {
   const { graph } = useGraph()
+  const { t } = useTranslation()
   const navigateNoteLink = useNoteLinkNavigation()
   const { openTemplateCreate } = useNoteTemplates()
   const [renaming, setRenaming] = useState<TemplateEntry | null>(null)
@@ -43,8 +45,8 @@ export function TemplatesSection(): ReactElement {
   return (
     <SettingsSection id="templates">
       <SettingsField
-        legend="Note templates"
-        description="Markdown files in your graph's templates/ folder, inserted from the ⌘K palette."
+        legend={t('settings.templatesSection.legend')}
+        description={t('settings.templatesSection.description')}
       >
         {templates !== undefined && templates.length > 0 ? (
           <ul className="mt-3 divide-y divide-border rounded-md border border-border">
@@ -65,7 +67,7 @@ export function TemplatesSection(): ReactElement {
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label={`Rename ${template.title}`}
+                  aria-label={t('settings.templatesSection.rename', { title: template.title })}
                   onClick={() => setRenaming(template)}
                 >
                   <Pencil aria-hidden strokeWidth={1.75} />
@@ -73,7 +75,7 @@ export function TemplatesSection(): ReactElement {
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label={`Delete ${template.title}`}
+                  aria-label={t('settings.templatesSection.delete', { title: template.title })}
                   onClick={() => setDeleting(template)}
                 >
                   <Trash2 aria-hidden strokeWidth={1.75} />
@@ -85,7 +87,7 @@ export function TemplatesSection(): ReactElement {
         <div className="mt-3">
           <Button variant="outline" size="sm" onClick={openTemplateCreate}>
             <Plus aria-hidden strokeWidth={1.75} />
-            New template
+            {t('settings.templatesSection.newTemplate')}
           </Button>
         </div>
       </SettingsField>
@@ -107,6 +109,7 @@ interface TemplateDialogProps {
 /** Rename = move onto the new name's slug and rewrite the authored title. */
 function TemplateRenameDialog({ template, onClose }: TemplateDialogProps): ReactElement {
   const { graph } = useGraph()
+  const { t } = useTranslation()
   const [name, setName] = useState(template.title)
   const [error, setError] = useState<string | null>(null)
 
@@ -135,9 +138,9 @@ function TemplateRenameDialog({ template, onClose }: TemplateDialogProps): React
       }}
     >
       <DialogContent showCloseButton={false} className="max-w-sm">
-        <DialogTitle>Rename template</DialogTitle>
+        <DialogTitle>{t('settings.templatesSection.renameTitle')}</DialogTitle>
         <DialogDescription className="sr-only">
-          Renames the template — its title and its file's slug.
+          {t('settings.templatesSection.renameDescription')}
         </DialogDescription>
         <form
           className="flex flex-col gap-3"
@@ -150,7 +153,7 @@ function TemplateRenameDialog({ template, onClose }: TemplateDialogProps): React
             autoFocus
             value={name}
             onChange={(event) => setName(event.target.value)}
-            aria-label="Template name"
+            aria-label={t('settings.templatesSection.templateName')}
             autoComplete="off"
             spellCheck={false}
           />
@@ -161,10 +164,10 @@ function TemplateRenameDialog({ template, onClose }: TemplateDialogProps): React
           ) : null}
           <DialogFooter>
             <Button type="button" variant="outline" size="sm" onClick={onClose}>
-              Cancel
+              {t('settings.templatesSection.cancel')}
             </Button>
             <Button type="submit" size="sm" disabled={name.trim() === ''}>
-              Rename
+              {t('settings.templatesSection.renameButton')}
             </Button>
           </DialogFooter>
         </form>
@@ -176,6 +179,7 @@ function TemplateRenameDialog({ template, onClose }: TemplateDialogProps): React
 /** Delete = move the file to the trash (recoverable), confirmed first. */
 function TemplateDeleteDialog({ template, onClose }: TemplateDialogProps): ReactElement {
   const { graph } = useGraph()
+  const { t } = useTranslation()
   const [error, setError] = useState<string | null>(null)
 
   const trash = async (): Promise<void> => {
@@ -183,7 +187,7 @@ function TemplateDeleteDialog({ template, onClose }: TemplateDialogProps): React
     if (generation === undefined) {
       return
     }
-    const operation = startOperation('Trashing template')
+    const operation = startOperation(t('settings.templatesSection.trashingOperation'))
     setError(null)
     try {
       await deleteOpenNote(template.path, generation)
@@ -205,9 +209,9 @@ function TemplateDeleteDialog({ template, onClose }: TemplateDialogProps): React
       }}
     >
       <DialogContent showCloseButton={false} className="max-w-sm">
-        <DialogTitle>Delete template?</DialogTitle>
+        <DialogTitle>{t('settings.templatesSection.deleteTitle')}</DialogTitle>
         <DialogDescription>
-          “{template.title}” moves to the trash and can be recovered from there.
+          {t('settings.templatesSection.deleteDescription', { title: template.title })}
         </DialogDescription>
         {error !== null ? (
           <span role="alert" className="text-xs text-red-600 dark:text-red-400">
@@ -217,7 +221,7 @@ function TemplateDeleteDialog({ template, onClose }: TemplateDialogProps): React
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="outline" size="sm">
-              Cancel
+              {t('settings.templatesSection.cancel')}
             </Button>
           </DialogClose>
           <Button
@@ -228,7 +232,7 @@ function TemplateDeleteDialog({ template, onClose }: TemplateDialogProps): React
               void trash()
             }}
           >
-            Delete
+            {t('settings.templatesSection.deleteButton')}
           </Button>
         </DialogFooter>
       </DialogContent>

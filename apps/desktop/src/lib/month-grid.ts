@@ -10,6 +10,7 @@ import {
   startOfWeek,
 } from 'date-fns'
 import { addDaysIso } from './dates'
+import { formatLocalizedDate } from './dates'
 
 /**
  * Pure month-grid math for the daily sidebar's calendar (no DOM, no queries).
@@ -56,12 +57,12 @@ export function monthOf(date: string): string {
 
 /** Human label for a `YYYY-MM` month, e.g. `June 2026`. */
 export function monthLabel(month: string): string {
-  return format(parseMonth(month), 'MMMM yyyy')
+  return formatLocalizedDate(parseMonth(month), 'MMMM yyyy')
 }
 
 /** Short label for a `YYYY-MM` month, e.g. `Jun` — month-picker grid cells. */
 export function monthShortLabel(month: string): string {
-  return format(parseMonth(month), 'MMM')
+  return formatLocalizedDate(parseMonth(month), 'MMM')
 }
 
 /** The `YYYY-MM` month `delta` months after `month` (negative for before). */
@@ -76,7 +77,7 @@ export function addMonths(month: string, delta: number): string {
 export function weekdayLabels(weekStartsOn: 0 | 1 = 1): string[] {
   const weekStart = startOfWeek(new Date(), { weekStartsOn })
   return [...Array(7).keys()].map((dayOffset) =>
-    format(addDays(weekStart, dayOffset), 'EEEEEE'),
+    formatLocalizedDate(addDays(weekStart, dayOffset), 'EEEEEE'),
   )
 }
 

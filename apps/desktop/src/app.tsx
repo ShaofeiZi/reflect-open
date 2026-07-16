@@ -1,4 +1,5 @@
 import { useEffect, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GraphChooser } from '@/components/graph-chooser'
 import { GraphWorkspace } from '@/components/graph-workspace'
 import { installQuitFlush } from '@/lib/quit-flush'
@@ -12,6 +13,7 @@ import { useGraph } from '@/providers/graph-provider'
  */
 export function App(): ReactElement {
   const { status, graph, error } = useGraph()
+  const { t } = useTranslation()
 
   // Quit-time persistence: flush dirty note buffers before the webview dies
   // (secondary-window close, ⌘Q, reload) or the macOS main window hides.
@@ -32,7 +34,7 @@ export function App(): ReactElement {
     if (!isMainWindow()) {
       return (
         <div className="flex h-screen w-screen flex-col items-center justify-center gap-1 px-8 text-center text-sm text-text-muted">
-          <p>This window couldn’t open the graph. Close it and reopen from the main window.</p>
+          <p>{t('common.appState.secondaryWindowGraphError')}</p>
           {error !== null ? <p className="text-xs">{error}</p> : null}
         </div>
       )
@@ -43,7 +45,7 @@ export function App(): ReactElement {
   // 'loading' | 'opening'
   return (
     <div className="flex h-screen w-screen items-center justify-center text-sm text-text-muted">
-      Loading…
+      {t('common.appState.loading')}
     </div>
   )
 }

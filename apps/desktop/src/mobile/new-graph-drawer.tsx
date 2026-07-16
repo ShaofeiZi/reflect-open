@@ -1,5 +1,6 @@
 import { useId, useState, type ReactElement } from 'react'
 import { errorMessage } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
 import { Input } from '@/components/ui/input'
@@ -34,6 +35,7 @@ export function NewGraphDrawer({
   onCreate,
 }: NewGraphDrawerProps): ReactElement {
   const nameId = useId()
+  const { t } = useTranslation()
   // The usual first graph name pre-fills only a fresh container — next to an
   // existing list it would likely collide and paint the sheet invalid.
   const [typedName, setTypedName] = useState<string | null>(null)
@@ -70,17 +72,17 @@ export function NewGraphDrawer({
 
   return (
     <Drawer open={open} onOpenChange={handleOpenChange}>
-      <DrawerContent aria-label="New iCloud graph">
-        <DrawerTitle>New iCloud graph</DrawerTitle>
+      <DrawerContent aria-label={t('mobile.new-graph.title')}>
+        <DrawerTitle>{t('mobile.new-graph.title')}</DrawerTitle>
         <div className="flex flex-col gap-3 pt-3">
           <div className="flex flex-col gap-1.5">
             <label htmlFor={nameId} className="text-xs font-medium text-text-secondary">
-              Name
+              {t('mobile.new-graph.name')}
             </label>
             <Input
               id={nameId}
               value={name}
-              placeholder={existingRoots.length > 0 ? 'New name' : undefined}
+              placeholder={existingRoots.length > 0 ? t('mobile.new-graph.new-name') : undefined}
               enterKeyHint="go"
               onChange={(event) => setTypedName(event.target.value)}
               onKeyDown={(event) => {
@@ -93,12 +95,12 @@ export function NewGraphDrawer({
             />
           </div>
           {nameTaken ? (
-            <p className="text-xs text-destructive">That name already exists in iCloud Drive.</p>
+            <p className="text-xs text-destructive">{t('mobile.new-graph.name-taken')}</p>
           ) : null}
           {error !== null ? <p className="text-xs text-destructive">{error}</p> : null}
           <Button type="button" disabled={!canCreate} onClick={create}>
             {busy ? <Spinner /> : null}
-            {busy ? 'Setting up…' : 'Create'}
+            {busy ? t('mobile.new-graph.setting-up') : t('mobile.new-graph.create')}
           </Button>
         </div>
       </DrawerContent>

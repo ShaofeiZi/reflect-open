@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Square } from 'lucide-react'
 import { MicIcon } from '@/components/icons/mic-icon'
 import { Button } from '@/components/ui/button'
@@ -16,6 +17,7 @@ import { useMobileAudioMemo } from '@/mobile/audio-memo-provider'
  * drawer's key-setup guidance instead of recording.
  */
 export function AudioMemoFab(): ReactElement | null {
+  const { t } = useTranslation()
   const memo = useMobileAudioMemo()
 
   if (!memo.available) {
@@ -25,10 +27,10 @@ export function AudioMemoFab(): ReactElement | null {
   const recording = memo.phase === 'recording' || memo.phase === 'requesting'
   const label =
     memo.phase === 'error'
-      ? 'Show audio memo error'
+      ? t('mobile.audio-memo.show-error')
       : recording
-        ? 'Stop recording'
-        : 'Record audio memo'
+        ? t('audioMemo.stop-recording')
+        : t('audioMemo.record-audio-memo')
 
   return (
     <Button

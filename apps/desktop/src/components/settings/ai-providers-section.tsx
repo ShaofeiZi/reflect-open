@@ -1,5 +1,6 @@
 import { useState, type ReactElement } from 'react'
 import { Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAiProviders } from '@/hooks/use-ai-providers'
 import { Button } from '@/components/ui/button'
 import { AddAiProviderDialog } from './add-ai-provider-dialog'
@@ -13,6 +14,7 @@ import { SettingsSection } from './section'
  * which is the app-wide default and only the key's trailing characters.
  */
 export function AiProvidersSection(): ReactElement {
+  const { t } = useTranslation()
   const {
     providers,
     defaultProvider,
@@ -27,8 +29,7 @@ export function AiProvidersSection(): ReactElement {
     <SettingsSection id="ai-providers">
       {providers.length === 0 ? (
         <p className="px-4 py-3.5 text-xs text-text-muted">
-          No AI providers configured. Add a provider API key to use AI features — keys
-          are stored in your OS keychain and calls go directly to the provider.
+          {t('settings.aiProvidersSection.empty')}
         </p>
       ) : (
         providers.map((config) => (
@@ -51,7 +52,7 @@ export function AiProvidersSection(): ReactElement {
           className="text-accent hover:bg-surface-hover"
         >
           <Plus aria-hidden strokeWidth={1.75} />
-          Add provider
+          {t('settings.aiProvidersSection.addProvider')}
         </Button>
       </div>
       {adding ? <AddAiProviderDialog onAdd={addProvider} onClose={() => setAdding(false)} /> : null}

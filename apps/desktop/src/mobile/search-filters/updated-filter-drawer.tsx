@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
@@ -28,6 +29,7 @@ export function UpdatedFilterDrawer({
   current,
   onApply,
 }: UpdatedFilterDrawerProps): ReactElement {
+  const { t } = useTranslation()
   const [fromIso, setFromIso] = useState('')
   const [toIso, setToIso] = useState('')
 
@@ -51,9 +53,11 @@ export function UpdatedFilterDrawer({
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent>
-        <DrawerTitle>Updated</DrawerTitle>
+        <DrawerTitle>{t('mobile.filters.updated')}</DrawerTitle>
         <div className="flex flex-col">
-          {UPDATED_PRESETS.map(({ preset, label }) => (
+          {UPDATED_PRESETS.map(({ preset }) => {
+            const label = updatedPresetFilter(preset).label
+            return (
             <button
               key={preset}
               type="button"
@@ -63,31 +67,32 @@ export function UpdatedFilterDrawer({
               <span className="min-w-0 flex-1">{label}</span>
               {current?.label === label && <Check className="size-4 text-primary" />}
             </button>
-          ))}
+            )
+          })}
         </div>
         <div className="flex items-center gap-2">
           <Input
             type="date"
-            aria-label="Updated from"
+            aria-label={t('mobile.filters.updated-from')}
             value={fromIso}
             onChange={(event) => setFromIso(event.target.value)}
             className="text-base"
           />
-          <span className="text-xs text-text-muted">to</span>
+          <span className="text-xs text-text-muted">{t('mobile.filters.to')}</span>
           <Input
             type="date"
-            aria-label="Updated to"
+            aria-label={t('mobile.filters.updated-to')}
             value={toIso}
             onChange={(event) => setToIso(event.target.value)}
             className="text-base"
           />
         </div>
         <Button disabled={range === null} onClick={() => apply(range)}>
-          Apply range
+          {t('mobile.filters.apply-range')}
         </Button>
         {current !== null && (
           <Button variant="ghost" onClick={() => apply(null)}>
-            Clear filter
+            {t('mobile.filters.clear-filter')}
           </Button>
         )}
       </DrawerContent>

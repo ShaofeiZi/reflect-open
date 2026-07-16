@@ -1,10 +1,11 @@
 import type { ReactElement } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { formatDistanceToNow } from 'date-fns'
 import { hasBridge, listChatConversations } from '@reflect/core'
 import { Check, Trash2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
 import { CHAT_QUERY_SCOPE } from '@/lib/query-client'
+import { formatDistanceToNowLocalized } from '@/lib/dates'
 import { useChatSession } from '@/providers/chat-provider'
 import { useGraph } from '@/providers/graph-provider'
 
@@ -21,6 +22,7 @@ interface ChatHistoryDrawerProps {
  * come from the session, this is only the touch shell.
  */
 export function ChatHistoryDrawer({ open, onOpenChange }: ChatHistoryDrawerProps): ReactElement {
+  const { t } = useTranslation()
   const { graph, indexGeneration } = useGraph()
   const { activeConversationId, openConversation, deleteConversation } = useChatSession()
 
@@ -35,11 +37,11 @@ export function ChatHistoryDrawer({ open, onOpenChange }: ChatHistoryDrawerProps
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent aria-label="Chat history">
-        <DrawerTitle className="px-4 pt-1">History</DrawerTitle>
+      <DrawerContent aria-label={t('mobile.chat-history.aria')}>
+        <DrawerTitle className="px-4 pt-1">{t('mobile.chat-history.title')}</DrawerTitle>
         <div className="max-h-[60dvh] overflow-y-auto px-4 pb-8 pt-4">
           {conversations === undefined || conversations.length === 0 ? (
-            <p className="py-6 text-center text-sm text-text-muted">No past chats</p>
+            <p className="py-6 text-center text-sm text-text-muted">{t('mobile.chat-history.empty')}</p>
           ) : (
             <ul className="overflow-hidden rounded-xl bg-surface">
               {conversations.map((conversation) => {
@@ -61,7 +63,7 @@ export function ChatHistoryDrawer({ open, onOpenChange }: ChatHistoryDrawerProps
                     >
                       <span className="min-w-0 flex-1 truncate text-sm">{conversation.title}</span>
                       <span className="shrink-0 text-xs text-text-muted">
-                        {formatDistanceToNow(conversation.updatedMs, { addSuffix: true })}
+                        {formatDistanceToNowLocalized(conversation.updatedMs, { addSuffix: true })}
                       </span>
                     </button>
                     {current ? (
@@ -71,7 +73,7 @@ export function ChatHistoryDrawer({ open, onOpenChange }: ChatHistoryDrawerProps
                     ) : (
                       <button
                         type="button"
-                        aria-label={`Delete “${conversation.title}”`}
+                        aria-label={t('mobile.chat-history.delete', { title: conversation.title })}
                         className="flex size-10 shrink-0 items-center justify-center text-text-muted"
                         onClick={() => void deleteConversation(conversation.id)}
                       >

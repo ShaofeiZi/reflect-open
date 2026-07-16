@@ -1,10 +1,11 @@
-import { format } from 'date-fns'
 import {
   foldTag,
   parseSearchQuery,
   type FilteredSearchOptions,
   type ParsedSearchQuery,
 } from '@reflect/core'
+import { formatLocalizedDate } from '@/lib/dates'
+import { getLanguage } from '@/lib/i18n'
 
 /**
  * The All tab's badge-filter model (Plan 19, V1 parity): AND-composed filters
@@ -173,11 +174,23 @@ export function searchPlanFor(parsed: ParsedSearchQuery): FilteredSearchOptions 
 /** The updated-at badge's relative presets. */
 export type UpdatedPreset = 'today' | 'week' | 'month'
 
-export const UPDATED_PRESETS: readonly { preset: UpdatedPreset; label: string }[] = [
-  { preset: 'today', label: 'Today' },
-  { preset: 'week', label: 'Last 7 days' },
-  { preset: 'month', label: 'Last 30 days' },
+export const UPDATED_PRESETS: readonly { preset: UpdatedPreset; labelKey: string }[] = [
+  { preset: 'today', labelKey: 'today' },
+  { preset: 'week', labelKey: 'week' },
+  { preset: 'month', labelKey: 'month' },
 ]
+
+function updatedPresetLabel(preset: UpdatedPreset): string {
+  const zh = getLanguage() === 'zh-CN'
+  switch (preset) {
+    case 'today':
+      return zh ? '今天' : 'Today'
+    case 'week':
+      return zh ? '最近 7 天' : 'Last 7 days'
+    case 'month':
+      return zh ? '最近 30 天' : 'Last 30 days'
+  }
+}
 
 /** Epoch ms of the local start of `now`'s day, shifted by `days`. */
 function localDayStartMs(now: Date, days: number): number {
@@ -187,7 +200,7 @@ function localDayStartMs(now: Date, days: number): number {
 /** Resolve a relative preset against `now` (injectable for tests). */
 export function updatedPresetFilter(preset: UpdatedPreset, now: Date = new Date()): UpdatedFilter {
   const days = preset === 'today' ? 0 : preset === 'week' ? -6 : -29
-  const label = UPDATED_PRESETS.find((entry) => entry.preset === preset)!.label
+  const label = updatedPresetLabel(preset)
   return { label, afterMs: localDayStartMs(now, days), beforeMs: null }
 }
 
@@ -208,14 +221,15 @@ export function updatedRangeFilter(fromIso: string, toIso: string): UpdatedFilte
   if (from === null && to === null) {
     return null
   }
-  const dayLabel = (iso: string): string => format(isoDayStartMs(iso), 'MMM d')
+  const dayLabel = (iso: string): string => formatLocalizedDate(isoDayStartMs(iso), 'MMM d')
+  const zh = getLanguage() === 'zh-CN'
   const label =
     from !== null && to !== null
       ? `${dayLabel(from)} – ${dayLabel(to)}`
       : from !== null
-        ? `Since ${dayLabel(from)}`
+        ? (zh ? `${dayLabel(from)} 以来` : `Since ${dayLabel(from)}`)
         : // The empty-both case returned above, so `to` is set here.
-          `Until ${dayLabel(to!)}`
+          (zh ? `截至 ${dayLabel(to!)}` : `Until ${dayLabel(to!)}`)
   return {
     label,
     afterMs: from === null ? null : isoDayStartMs(from),

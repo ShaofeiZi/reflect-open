@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react'
 import { CHAT_SYSTEM_PROMPT_MAX_LENGTH, normalizeChatSystemPrompt } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useSettings } from '@/providers/settings-provider'
@@ -9,6 +10,7 @@ import { SettingsSection } from './section'
 /** Additional user instructions applied to every AI chat turn. */
 export function AiChatSection(): ReactElement {
   const { settings, updateSettings } = useSettings()
+  const { t } = useTranslation()
   const [draft, setDraft] = useState(settings.chatSystemPrompt)
   const [dirty, setDirty] = useState(false)
   const draftRef = useRef(draft)
@@ -55,11 +57,13 @@ export function AiChatSection(): ReactElement {
   return (
     <SettingsSection id="ai-chat">
       <SettingsField
-        legend="System prompt"
-        description={`Additional instructions sent with every AI chat (up to ${CHAT_SYSTEM_PROMPT_MAX_LENGTH.toLocaleString()} characters). Reflect’s note-search, citation, and privacy rules still apply.`}
+        legend={t('settings.aiChatSection.systemPrompt.legend')}
+        description={t('settings.aiChatSection.systemPrompt.description', {
+          count: CHAT_SYSTEM_PROMPT_MAX_LENGTH.toLocaleString(),
+        })}
       >
         <Textarea
-          aria-label="System prompt"
+          aria-label={t('settings.aiChatSection.systemPrompt.aria')}
           value={currentDraft}
           onChange={(event) => {
             const nextDraft = event.target.value
@@ -71,7 +75,7 @@ export function AiChatSection(): ReactElement {
           onBlur={saveDraft}
           maxLength={CHAT_SYSTEM_PROMPT_MAX_LENGTH}
           rows={6}
-          placeholder="Be concise. Challenge my assumptions and ask clarifying questions."
+          placeholder={t('settings.aiChatSection.systemPrompt.placeholder')}
           className="mt-3 min-h-28 resize-y text-sm"
         />
         <div className="mt-2 flex justify-end">
@@ -82,7 +86,7 @@ export function AiChatSection(): ReactElement {
             disabled={normalizeChatSystemPrompt(currentDraft) === ''}
             onClick={useDefault}
           >
-            Use default
+            {t('settings.aiChatSection.systemPrompt.useDefault')}
           </Button>
         </div>
       </SettingsField>

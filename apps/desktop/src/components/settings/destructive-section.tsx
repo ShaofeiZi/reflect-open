@@ -1,5 +1,6 @@
 import { useState, type ReactElement } from 'react'
 import { errorMessage } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -16,13 +17,14 @@ import { SettingsSection } from './section'
 
 export function DestructiveSection(): ReactElement {
   const { graph, forget, deleteGraph } = useGraph()
+  const { t } = useTranslation()
   const [confirming, setConfirming] = useState(false)
   const [forgetting, setForgetting] = useState(false)
   const [confirmingDelete, setConfirmingDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [deleteName, setDeleteName] = useState('')
   const [deleteError, setDeleteError] = useState<string | null>(null)
-  const graphId = graph?.root ?? 'this graph'
+  const graphId = graph?.root ?? t('settings.destructiveSection.thisGraph')
   const graphName = graph?.name ?? ''
   // GitHub-style guard: the delete button stays dead until the typed name
   // matches the graph's folder name exactly.
@@ -67,8 +69,8 @@ export function DestructiveSection(): ReactElement {
     <>
       <SettingsSection id="destructive">
         <SettingsField
-          legend="Saved graph"
-          description="Forget this graph. Files stay on disk."
+          legend={t('settings.destructiveSection.savedLegend')}
+          description={t('settings.destructiveSection.savedDescription')}
         >
           <div className="mt-3 flex justify-start">
             <Button
@@ -78,13 +80,13 @@ export function DestructiveSection(): ReactElement {
               disabled={graph === null || forgetting}
               onClick={() => setConfirming(true)}
             >
-              Forget graph
+              {t('settings.destructiveSection.forget')}
             </Button>
           </div>
         </SettingsField>
         <SettingsField
-          legend="Delete graph"
-          description="Move this graph and all of its notes to the trash."
+          legend={t('settings.destructiveSection.deleteLegend')}
+          description={t('settings.destructiveSection.deleteDescription')}
         >
           <div className="mt-3 flex justify-start">
             <Button
@@ -94,7 +96,7 @@ export function DestructiveSection(): ReactElement {
               disabled={graph === null || deleting}
               onClick={openDeleteDialog}
             >
-              Delete graph
+              {t('settings.destructiveSection.delete')}
             </Button>
           </div>
         </SettingsField>
@@ -102,20 +104,18 @@ export function DestructiveSection(): ReactElement {
 
       <Dialog open={confirming} onOpenChange={(open) => !forgetting && setConfirming(open)}>
         <DialogContent>
-          <DialogTitle>Forget graph?</DialogTitle>
+          <DialogTitle>{t('settings.destructiveSection.forgetTitle')}</DialogTitle>
           <DialogDescription className="min-w-0">
-            Remove{' '}
-            <span className="font-mono text-text [overflow-wrap:anywhere]">{graphId}</span> from
-            saved graphs. Files stay on disk.
+            {t('settings.destructiveSection.forgetDescription', { graphId })}
           </DialogDescription>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="ghost" disabled={forgetting}>
-                Cancel
+                {t('settings.destructiveSection.cancel')}
               </Button>
             </DialogClose>
             <Button variant="destructive" disabled={forgetting} onClick={() => void forgetGraph()}>
-              {forgetting ? 'Forgetting…' : 'Forget graph'}
+              {forgetting ? t('settings.destructiveSection.forgetting') : t('settings.destructiveSection.forget')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -126,15 +126,12 @@ export function DestructiveSection(): ReactElement {
         onOpenChange={(open) => !deleting && setConfirmingDelete(open)}
       >
         <DialogContent>
-          <DialogTitle>Delete graph?</DialogTitle>
+          <DialogTitle>{t('settings.destructiveSection.deleteTitle')}</DialogTitle>
           <DialogDescription className="min-w-0">
-            Move{' '}
-            <span className="font-mono text-text [overflow-wrap:anywhere]">{graphId}</span> and
-            all of its notes to the trash. Type{' '}
-            <span className="font-mono text-text">{graphName}</span> to confirm.
+            {t('settings.destructiveSection.deleteConfirm', { graphId, graphName })}
           </DialogDescription>
           <Input
-            aria-label="Graph name"
+            aria-label={t('settings.destructiveSection.graphName')}
             placeholder={graphName}
             value={deleteName}
             autoComplete="off"
@@ -156,7 +153,7 @@ export function DestructiveSection(): ReactElement {
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="ghost" disabled={deleting}>
-                Cancel
+                {t('settings.destructiveSection.cancel')}
               </Button>
             </DialogClose>
             <Button
@@ -164,7 +161,7 @@ export function DestructiveSection(): ReactElement {
               disabled={!nameConfirmed || deleting}
               onClick={() => void deleteGraphToTrash()}
             >
-              {deleting ? 'Deleting…' : 'Delete graph'}
+              {deleting ? t('settings.destructiveSection.deleting') : t('settings.destructiveSection.delete')}
             </Button>
           </DialogFooter>
         </DialogContent>

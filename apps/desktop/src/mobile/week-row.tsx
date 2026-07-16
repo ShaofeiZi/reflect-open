@@ -1,6 +1,5 @@
 import { memo, type ReactElement } from 'react'
-import { format } from 'date-fns'
-import { addDaysIso, parseIsoDate } from '@/lib/dates'
+import { addDaysIso, formatLocalizedDate, parseIsoDate } from '@/lib/dates'
 import { cn } from '@/lib/utils'
 import { hapticImpactLight } from '@/mobile/haptics'
 
@@ -61,7 +60,7 @@ function WeekRowComponent({
           <button
             key={day}
             type="button"
-            aria-label={format(parseIsoDate(day), 'EEEE, MMMM do')}
+            aria-label={formatLocalizedDate(parseIsoDate(day), 'EEEE, MMMM do')}
             aria-current={selected ? 'date' : undefined}
             onClick={() => {
               hapticImpactLight()
@@ -70,7 +69,7 @@ function WeekRowComponent({
             className="relative flex flex-1 flex-col items-center gap-0.5 py-1"
           >
             <span className="text-[11px] font-medium text-text-muted">
-              {format(parseIsoDate(day), 'EEEEE')}
+              {formatLocalizedDate(parseIsoDate(day), 'EEEEE')}
             </span>
             <span
               className={cn(
@@ -80,7 +79,7 @@ function WeekRowComponent({
                 !selected && !isToday && 'text-text',
               )}
             >
-              {format(parseIsoDate(day), 'd')}
+              {formatLocalizedDate(parseIsoDate(day), 'd')}
             </span>
             {/* Today dot (V1) — a fixed-height slot so cells stay aligned;
                 shown only when today isn't the selected (circled) day. */}

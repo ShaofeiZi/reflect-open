@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import { Trash2 } from 'lucide-react'
 import { aiModelLabel, aiProvider, errorMessage, type AiProviderConfig } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { startOperation } from '@/lib/operations'
 import { ModelCombobox } from './model-combobox'
@@ -30,6 +31,7 @@ export function AiProviderRow({
   onSetDefaultModel,
   onRemove,
 }: AiProviderRowProps): ReactElement {
+  const { t } = useTranslation()
   const provider = aiProvider(config.provider)
   const providerLabel = provider.label
   const modelLabel = aiModelLabel(config.provider, config.model)
@@ -46,7 +48,8 @@ export function AiProviderRow({
       <div className="min-w-0">
         <div className="truncate text-sm font-medium text-text">{providerLabel}</div>
         <p className="mt-0.5 text-xs text-text-muted">
-          API key <span className="font-mono">·····{config.keyHint}</span>
+          {t('settings.aiProvidersSection.apiKey')}{' '}
+          <span className="font-mono">·····{config.keyHint}</span>
         </p>
       </div>
       <ModelCombobox
@@ -59,7 +62,7 @@ export function AiProviderRow({
       <div className="flex shrink-0 items-center gap-2">
         {isDefault ? (
           <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent-soft-text">
-            Default
+            {t('settings.aiProvidersSection.default')}
           </span>
         ) : (
           <Button
@@ -69,14 +72,14 @@ export function AiProviderRow({
             onClick={() => onMakeDefault(config.id)}
             className="text-text-secondary hover:bg-surface-hover hover:text-text"
           >
-            Make default
+            {t('settings.aiProvidersSection.makeDefault')}
           </Button>
         )}
         <Button
           type="button"
           variant="ghost"
           size="icon-sm"
-          aria-label={`Remove ${name}`}
+          aria-label={t('settings.aiProvidersSection.remove', { name })}
           onClick={remove}
           className="text-text-muted hover:bg-surface-hover hover:text-text"
         >

@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ChevronRight } from 'lucide-react'
 import type { WikilinkClickHandler } from '@meowdown/core'
 import { BacklinkSnippet } from '@/components/backlink-snippet'
@@ -41,6 +42,7 @@ export function IncomingBacklinkGroup({
   onWikilinkClick,
   resolveImageUrl,
 }: IncomingBacklinkGroupProps): ReactElement {
+  const { t } = useTranslation()
   const [expanded, setExpanded] = useState(expandedOverride)
 
   // Reset to the section-level toggle whenever it changes; the group chevron
@@ -70,7 +72,7 @@ export function IncomingBacklinkGroup({
           <button
             type="button"
             aria-expanded={expanded}
-            aria-label={`${expanded ? 'Collapse' : 'Expand'} references from ${source.title}`}
+            aria-label={t(expanded ? 'mobile.backlinks.collapse' : 'mobile.backlinks.expand', { title: source.title })}
             onClick={() => setExpanded(!expanded)}
             className="flex size-11 shrink-0 items-center justify-center text-text-muted"
           >

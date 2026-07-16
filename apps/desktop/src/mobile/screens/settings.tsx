@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import {
   aiProvider,
@@ -34,17 +35,21 @@ import { useSettings } from '@/providers/settings-provider'
 import { useSyncContext } from '@/providers/sync-provider'
 import { useRouter } from '@/routing/router'
 
-const THEME_OPTIONS: readonly SegmentedOption<ThemePreference>[] = [
-  { value: 'system', label: 'System' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
-]
+function themeOptions(t: (key: string) => string): readonly SegmentedOption<ThemePreference>[] {
+  return [
+    { value: 'system', label: t('mobile.settings-screen.theme-system') },
+    { value: 'light', label: t('mobile.settings-screen.theme-light') },
+    { value: 'dark', label: t('mobile.settings-screen.theme-dark') },
+  ]
+}
 
-const TEXT_SIZE_OPTIONS: readonly SegmentedOption<EditorTextSize>[] = [
-  { value: 'small', label: 'Small' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'large', label: 'Large' },
-]
+function textSizeOptions(t: (key: string) => string): readonly SegmentedOption<EditorTextSize>[] {
+  return [
+    { value: 'small', label: t('mobile.settings-screen.text-small') },
+    { value: 'medium', label: t('mobile.settings-screen.text-medium') },
+    { value: 'large', label: t('mobile.settings-screen.text-large') },
+  ]
+}
 
 /**
  * The mobile Settings screen — a pushed card (route kind `settings`) in the
@@ -56,6 +61,7 @@ const TEXT_SIZE_OPTIONS: readonly SegmentedOption<EditorTextSize>[] = [
  * graphs sync through the container instead, Plan 21), and can disconnect.
  */
 export function MobileSettings(): ReactElement {
+  const { t } = useTranslation()
   const { back, canBack, navigate } = useRouter()
   const { graph, mobileStorageKind } = useGraph()
   const { settings, updateSettings } = useSettings()
@@ -117,9 +123,9 @@ export function MobileSettings(): ReactElement {
 
   const storageLabel =
     mobileStorageKind === 'icloud'
-      ? 'iCloud Drive'
+      ? t('mobile.settings-screen.icloud-drive')
       : mobileStorageKind === 'local'
-        ? 'This device'
+        ? t('mobile.settings-screen.this-device')
         : undefined
 
   return (
@@ -128,7 +134,7 @@ export function MobileSettings(): ReactElement {
       style={{ paddingTop: 'env(safe-area-inset-top)' }}
     >
       <MobileScreenHeader
-        title="Settings"
+        title={t('mobile.settings-screen.title')}
         onBack={() => (canBack ? back() : navigate({ kind: 'today' }))}
       />
       <main
@@ -136,7 +142,7 @@ export function MobileSettings(): ReactElement {
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       >
         <div className="flex flex-col gap-6 px-4 py-4">
-          <SettingsGroup header="Graph">
+          <SettingsGroup header={t('mobile.settings-screen.graph')}>
             <SettingsNavRow
               label={graph?.name ?? '—'}
               value={storageLabel}
@@ -144,29 +150,29 @@ export function MobileSettings(): ReactElement {
             />
           </SettingsGroup>
 
-          <SettingsGroup header="Appearance">
+          <SettingsGroup header={t('mobile.settings-screen.appearance')}>
             <SettingsSegmentedRow
-              label="Theme"
+              label={t('mobile.settings-screen.theme')}
               value={settings.theme}
-              options={THEME_OPTIONS}
+              options={themeOptions(t)}
               onChange={(theme) => updateSettings({ theme })}
             />
             <SettingsSegmentedRow
-              label="Text size"
+              label={t('mobile.settings-screen.text-size')}
               value={settings.editorTextSize}
-              options={TEXT_SIZE_OPTIONS}
+              options={textSizeOptions(t)}
               onChange={(editorTextSize) => updateSettings({ editorTextSize })}
             />
           </SettingsGroup>
 
-          <SettingsGroup header="Editor">
+          <SettingsGroup header={t('mobile.settings-screen.editor')}>
             <SettingsSwitchRow
-              label="Start with a bullet"
+              label={t('mobile.settings-screen.start-bullet')}
               checked={settings.editorDefaultBullet}
               onCheckedChange={(editorDefaultBullet) => updateSettings({ editorDefaultBullet })}
             />
             <SettingsSwitchRow
-              label="Bullet after a heading"
+              label={t('mobile.settings-screen.bullet-after-heading')}
               checked={settings.editorBulletAfterHeading}
               onCheckedChange={(editorBulletAfterHeading) =>
                 updateSettings({ editorBulletAfterHeading })
@@ -175,47 +181,47 @@ export function MobileSettings(): ReactElement {
           </SettingsGroup>
 
           <SettingsGroup
-            header="AI"
-            footer="Keys stay in this device’s keychain and are never synced."
+            header={t('mobile.settings-screen.ai')}
+            footer={t('mobile.settings-screen.ai-footer')}
           >
             {providers.map((provider) => (
               <SettingsNavRow
                 key={provider.id}
                 label={aiProvider(provider.provider).label}
-                value={`·····${provider.keyHint}${provider.id === defaultProvider?.id ? ' · Default' : ''}`}
+                value={`·····${provider.keyHint}${provider.id === defaultProvider?.id ? ` · ${t('mobile.settings-screen.default')}` : ''}`}
                 onPress={() => {
                   setManagedProvider(provider)
                   setManageOpen(true)
                 }}
               />
             ))}
-            <SettingsActionRow label="Add AI provider" onPress={() => setAddProviderOpen(true)} />
+            <SettingsActionRow label={t('mobile.add-ai-provider.title')} onPress={() => setAddProviderOpen(true)} />
             <SettingsNavRow
-              label="System prompt"
-              value={normalizeChatSystemPrompt(settings.chatSystemPrompt) === '' ? 'Default' : 'Custom'}
+              label={t('mobile.chat-system-prompt.title')}
+              value={normalizeChatSystemPrompt(settings.chatSystemPrompt) === '' ? t('mobile.settings-screen.default') : t('mobile.settings-screen.custom')}
               onPress={() => setSystemPromptOpen(true)}
             />
           </SettingsGroup>
 
           {repo !== null || status !== null || canConnect ? (
             <SettingsGroup
-              header="Backup"
+              header={t('mobile.settings-screen.backup')}
               footer={
                 canConnect
-                  ? 'Sync notes with Reflect on your other devices.'
+                  ? t('mobile.settings-screen.backup-footer-connect')
                   : (status?.detail ?? null)
               }
             >
               {repo !== null ? (
-                <SettingsValueRow label="GitHub" value={`${repo.owner}/${repo.name}`} />
+                <SettingsValueRow label={t('mobile.settings-screen.github')} value={`${repo.owner}/${repo.name}`} />
               ) : null}
-              {status !== null ? <SettingsValueRow label="Status" value={status.label} /> : null}
+              {status !== null ? <SettingsValueRow label={t('mobile.settings-screen.status')} value={status.label} /> : null}
               {canConnect ? (
-                <SettingsActionRow label="Connect GitHub" onPress={() => setConnectOpen(true)} />
+                <SettingsActionRow label={t('mobile.settings-screen.connect-github')} onPress={() => setConnectOpen(true)} />
               ) : null}
               {repo !== null ? (
                 <SettingsActionRow
-                  label="Disconnect GitHub"
+                  label={t('mobile.settings-screen.disconnect-github')}
                   tone="destructive"
                   pending={disconnecting}
                   onPress={() => void disconnect()}
@@ -224,13 +230,13 @@ export function MobileSettings(): ReactElement {
             </SettingsGroup>
           ) : null}
 
-          <SettingsGroup header="About">
+          <SettingsGroup header={t('mobile.settings-screen.about')}>
             <SettingsValueRow
-              label="Notes"
+              label={t('mobile.settings-screen.notes')}
               value={notes === undefined ? '…' : String(notes.length)}
             />
             <SettingsValueRow
-              label="Version"
+              label={t('mobile.settings-screen.version')}
               value={version === null ? '…' : marketingVersion(version)}
             />
           </SettingsGroup>

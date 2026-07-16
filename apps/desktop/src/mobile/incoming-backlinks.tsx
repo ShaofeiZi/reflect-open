@@ -1,5 +1,6 @@
 import { type ReactElement } from 'react'
 import { ChevronRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { BacklinkLoadMore } from '@/components/backlink-load-more'
 import { useBacklinkNavigation } from '@/hooks/use-backlink-navigation'
 import { useBacklinkSources } from '@/hooks/use-backlink-sources'
@@ -30,6 +31,7 @@ interface IncomingBacklinksProps {
  * is broken, not that the note is unlinked.
  */
 export function IncomingBacklinks({ path, className }: IncomingBacklinksProps): ReactElement | null {
+  const { t } = useTranslation()
   const {
     groups,
     count,
@@ -44,9 +46,9 @@ export function IncomingBacklinks({ path, className }: IncomingBacklinksProps): 
 
   if (isError) {
     return (
-      <section aria-label="Incoming backlinks" className={cn('mt-6', className)}>
+      <section aria-label={t('mobile.incoming-backlinks')} className={cn('mt-6', className)}>
         <p role="alert" className="text-sm text-text-muted">
-          Couldn’t load backlinks.
+          {t('mobile.couldnt-load-backlinks')}
         </p>
       </section>
     )
@@ -57,7 +59,7 @@ export function IncomingBacklinks({ path, className }: IncomingBacklinksProps): 
   }
 
   return (
-    <section aria-label="Incoming backlinks" className={cn('mt-6', className)}>
+    <section aria-label={t('mobile.incoming-backlinks')} className={cn('mt-6', className)}>
       <h3 className="text-sm font-medium text-text-muted">
         <button
           type="button"
@@ -70,7 +72,7 @@ export function IncomingBacklinks({ path, className }: IncomingBacklinksProps): 
             className={cn('size-4 shrink-0 transition-transform', expanded && 'rotate-90')}
           />
           <span>
-            Incoming backlink{count === 1 ? '' : 's'} ({count})
+            {count === 1 ? t('mobile.incoming-backlink') : t('mobile.incoming-backlinks')} ({count})
           </span>
         </button>
       </h3>

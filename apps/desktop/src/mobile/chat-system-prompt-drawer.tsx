@@ -1,5 +1,6 @@
 import { useState, type ReactElement } from 'react'
 import { CHAT_SYSTEM_PROMPT_MAX_LENGTH, normalizeChatSystemPrompt } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Drawer, DrawerContent, DrawerTitle } from '@/components/ui/drawer'
 import { Textarea } from '@/components/ui/textarea'
@@ -18,9 +19,10 @@ export function ChatSystemPromptDrawer({
   onOpenChange,
   onSave,
 }: ChatSystemPromptDrawerProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent aria-label="System prompt">
+      <DrawerContent aria-label={t('mobile.chat-system-prompt.aria')}>
         {open ? (
           <ChatSystemPromptSheet
             value={value}
@@ -42,21 +44,22 @@ function ChatSystemPromptSheet({
   onSave: (value: string) => void
   onClose: () => void
 }): ReactElement {
+  const { t } = useTranslation()
   const [draft, setDraft] = useState(value)
   const [dirty, setDirty] = useState(false)
   const currentDraft = dirty ? draft : value
 
   return (
     <>
-      <DrawerTitle className="px-4 pt-1">System prompt</DrawerTitle>
+      <DrawerTitle className="px-4 pt-1">{t('mobile.chat-system-prompt.title')}</DrawerTitle>
       <div className="flex max-h-[75dvh] flex-col gap-4 overflow-y-auto px-4 pb-8 pt-3">
         <p className="text-sm text-text-muted">
-          Additional instructions sent with every AI chat (up to{' '}
-          {CHAT_SYSTEM_PROMPT_MAX_LENGTH.toLocaleString()} characters). Reflect’s note-search,
-          citation, and privacy rules still apply.
+          {t('mobile.chat-system-prompt.description', {
+            count: CHAT_SYSTEM_PROMPT_MAX_LENGTH.toLocaleString(),
+          })}
         </p>
         <Textarea
-          aria-label="System prompt instructions"
+          aria-label={t('mobile.chat-system-prompt.instructions')}
           value={currentDraft}
           onChange={(event) => {
             setDirty(true)
@@ -65,7 +68,7 @@ function ChatSystemPromptSheet({
           maxLength={CHAT_SYSTEM_PROMPT_MAX_LENGTH}
           rows={8}
           autoFocus
-          placeholder="Be concise. Challenge my assumptions and ask clarifying questions."
+          placeholder={t('mobile.chat-system-prompt.placeholder')}
           className="min-h-36 resize-y text-sm"
         />
         <div className="flex justify-end gap-2">
@@ -78,7 +81,7 @@ function ChatSystemPromptSheet({
               onClose()
             }}
           >
-            Use default
+            {t('mobile.chat-system-prompt.use-default')}
           </Button>
           <Button
             type="button"
@@ -87,7 +90,7 @@ function ChatSystemPromptSheet({
               onClose()
             }}
           >
-            Save
+            {t('mobile.chat-system-prompt.save')}
           </Button>
         </div>
       </div>

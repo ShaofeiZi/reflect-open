@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { ListFilter } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -11,12 +12,12 @@ import {
 } from '@/components/ui/dropdown-menu'
 import type { TaskFilters, TaskFiltersControl } from '@/lib/tasks/task-filters'
 
-const BUCKET_FILTERS: ReadonlyArray<{ key: keyof TaskFilters; label: string }> = [
-  { key: 'pinned', label: 'Pinned tasks' },
-  { key: 'current', label: 'Current tasks' },
-  { key: 'overdue', label: 'Overdue tasks' },
-  { key: 'upcoming', label: 'Upcoming tasks' },
-  { key: 'other', label: 'Other tasks' },
+const BUCKET_FILTERS: ReadonlyArray<{ key: keyof TaskFilters; labelKey: string }> = [
+  { key: 'pinned', labelKey: 'tasks.filters-menu.label.pinned' },
+  { key: 'current', labelKey: 'tasks.filters-menu.label.current' },
+  { key: 'overdue', labelKey: 'tasks.filters-menu.label.overdue' },
+  { key: 'upcoming', labelKey: 'tasks.filters-menu.label.upcoming' },
+  { key: 'other', labelKey: 'tasks.filters-menu.label.other' },
 ]
 
 interface TaskFiltersMenuProps extends TaskFiltersControl {
@@ -37,24 +38,25 @@ export function TaskFiltersMenu({
   open,
   onOpenChange,
 }: TaskFiltersMenuProps): ReactElement {
+  const { t } = useTranslation()
   return (
     <DropdownMenu open={open} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="window-drag-control text-xs font-normal text-text-muted">
           <ListFilter aria-hidden className="size-3.5" />
-          Task filters
+          {t('tasks.filters-menu.trigger')}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>Tasks</DropdownMenuLabel>
-        {BUCKET_FILTERS.map(({ key, label }) => (
+        <DropdownMenuLabel>{t('tasks.filters-menu.heading')}</DropdownMenuLabel>
+        {BUCKET_FILTERS.map(({ key, labelKey }) => (
           <DropdownMenuCheckboxItem
             key={key}
             checked={filters[key]}
             onCheckedChange={() => toggle(key)}
             onSelect={(event) => event.preventDefault()}
           >
-            {label}
+            {t(labelKey)}
           </DropdownMenuCheckboxItem>
         ))}
         <DropdownMenuSeparator />
@@ -63,7 +65,7 @@ export function TaskFiltersMenu({
           onCheckedChange={() => toggle('archived')}
           onSelect={(event) => event.preventDefault()}
         >
-          Show archived tasks
+          {t('tasks.filters-menu.show-archived')}
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>
