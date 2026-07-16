@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { scrollToSettingsSection } from './section-scrolling'
-import { type SettingsSectionId } from './sections'
+import { settingsSectionTitleKey, type SettingsSectionId } from './sections'
 import { useActiveSettingsSection } from './use-active-settings-section'
 import { useVisibleSettingsSections } from './use-visible-settings-sections'
 
@@ -29,6 +30,7 @@ export function SettingsNavigator({ className }: SettingsNavigatorProps): ReactE
   const itemRefs = useRef(new Map<SettingsSectionId, HTMLButtonElement>())
   const activeId = useActiveSettingsSection(navRef)
   const sections = useVisibleSettingsSections()
+  const { t } = useTranslation()
   const [marker, setMarker] = useState<MarkerPosition | null>(null)
 
   const measure = useCallback((): void => {
@@ -89,7 +91,7 @@ export function SettingsNavigator({ className }: SettingsNavigatorProps): ReactE
                 isActive ? 'text-text' : 'text-text-secondary hover:text-text',
               )}
             >
-              {section.title}
+              {t(settingsSectionTitleKey(section.id))}
             </button>
           )
         })}

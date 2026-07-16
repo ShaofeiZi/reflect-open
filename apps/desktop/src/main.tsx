@@ -4,6 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/lib/query-client'
 import { registerAppCommands } from '@/lib/commands/app-commands'
 import { initializeExceptionTelemetry } from '@/lib/exception-telemetry'
+import { initI18n } from '@/lib/i18n'
 import { installNativeMenu } from '@/lib/native-menu/menu'
 import { installTauriBridge } from '@/lib/tauri-bridge'
 import { PlatformRoot, warmPlatformRoot } from '@/platform-root'
@@ -14,6 +15,7 @@ import { ThemeProvider } from '@/providers/theme-provider'
 import '@/styles/index.css'
 
 const reactRootOptions = initializeExceptionTelemetry()
+initI18n()
 installTauriBridge()
 // Start the platform resolve + surface-chunk fetch (and, on mobile, the
 // iCloud-container resolve) now, ahead of React's first render — the lazy

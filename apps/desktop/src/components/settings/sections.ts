@@ -4,6 +4,7 @@
  * navigator's labels and jump targets can never drift from the page itself.
  */
 export const SETTINGS_SECTIONS = [
+  { id: 'language', title: 'Language' },
   { id: 'appearance', title: 'Appearance' },
   { id: 'editor', title: 'Editor' },
   { id: 'date-time', title: 'Date & time' },
@@ -29,6 +30,16 @@ export type SettingsSectionId = (typeof SETTINGS_SECTIONS)[number]['id']
 /** The heading a section renders — shared by its card and the navigator. */
 export function settingsSectionTitle(id: SettingsSectionId): string {
   return SETTINGS_SECTIONS.find((section) => section.id === id)?.title ?? id
+}
+
+/**
+ * The i18n key for a section's heading (`settings.<id>`). The canonical
+ * English title still lives in {@link SETTINGS_SECTIONS} (asserted by tests
+ * and used as the fallback); renderers translate through this key so the
+ * heading and the navigator track the active language together.
+ */
+export function settingsSectionTitleKey(id: SettingsSectionId): string {
+  return `settings.${id}`
 }
 
 /** The DOM id a section card carries (prefixed to keep document ids unique). */

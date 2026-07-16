@@ -112,14 +112,18 @@ describe('SettingsNavigator', () => {
 
   it('marks the section under the reading line as the page scrolls', () => {
     const scroller = renderNavigatorPage()
+    expect(activeEntry()).toBe('Language')
+
+    // Scroll until the Appearance section (index 1) sits at the jump offset.
+    scrollPageTo(scroller, sectionTop(1) - PAGE_PADDING_PX)
     expect(activeEntry()).toBe('Appearance')
 
-    // Scroll until the Editor section (index 1) sits at the jump offset.
-    scrollPageTo(scroller, sectionTop(1) - PAGE_PADDING_PX)
+    // Editor is now at index 2 (Language leads the page).
+    scrollPageTo(scroller, sectionTop(2) - PAGE_PADDING_PX)
     expect(activeEntry()).toBe('Editor')
 
     scrollPageTo(scroller, 0)
-    expect(activeEntry()).toBe('Appearance')
+    expect(activeEntry()).toBe('Language')
   })
 
   it('hands the last section the marker at the very bottom of the page', () => {
@@ -138,7 +142,7 @@ describe('SettingsNavigator', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Editor' }))
 
     expect(scrollTo).toHaveBeenCalledWith({
-      top: sectionTop(1) - PAGE_PADDING_PX,
+      top: sectionTop(2) - PAGE_PADDING_PX,
       behavior: 'smooth',
     })
   })

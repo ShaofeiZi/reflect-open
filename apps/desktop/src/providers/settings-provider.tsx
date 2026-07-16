@@ -19,6 +19,7 @@ import {
   type Settings,
 } from '@reflect/core'
 import { startOperation } from '@/lib/operations'
+import { changeLanguage, isSupportedLanguage } from '@/lib/i18n'
 import { setSettingsFlusher } from '@/lib/settings-flush'
 
 /**
@@ -235,6 +236,16 @@ export function SettingsProvider({ children }: SettingsProviderProps): ReactElem
       startOperation('Loading settings').fail(errorMessage(loadError))
     }
   }, [loadError])
+
+  // Keep the interface language in sync with the settings document: the
+  // initial mount defaults to `en` (see `initI18n`), and the resolved `language`
+  // — defaults, the loaded document, or a session override — drives i18next
+  // whenever it changes. Runs only once settled values shift.
+  useEffect(() => {
+    if (isSupportedLanguage(settings.language)) {
+      void changeLanguage(settings.language)
+    }
+  }, [settings.language])
 
   // Persistence trails hydration. Nothing is written before the disk document
   // has been read — a save built from defaults would drop passthrough keys a

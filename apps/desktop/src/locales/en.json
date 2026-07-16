@@ -1,0 +1,45 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "done": "Done",
+    "close": "Close",
+    "delete": "Delete",
+    "rename": "Rename",
+    "add": "Add",
+    "remove": "Remove",
+    "edit": "Edit",
+    "search": "Search",
+    "loading": "Loading…",
+    "retry": "Retry",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "ok": "OK"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageSection": {
+      "legend": "Language",
+      "description": "Choose the interface language. Saved with your settings.",
+      "en": "English",
+      "zh-CN": "简体中文"
+    },
+    "appearance": "Appearance",
+    "editor": "Editor",
+    "date-time": "Date & time",
+    "templates": "Note templates",
+    "all-notes": "All notes",
+    "search": "Search",
+    "ai-providers": "AI providers",
+    "ai-chat": "AI chat",
+    "ai-prompts": "AI prompts",
+    "agents": "Agents",
+    "integrations": "Integrations",
+    "sync": "Sync",
+    "import": "Import",
+    "about": "About",
+    "destructive": "Danger zone"
+  }
+}

@@ -139,6 +139,15 @@ export const themePreferenceSchema = z.enum(['system', 'light', 'dark']).catch('
 export type ThemePreference = z.infer<typeof themePreferenceSchema>
 
 /**
+ * The interface language. `en` (the default) is English; `zh-CN` is Simplified
+ * Chinese. Persisted here so the choice survives relaunch and is applied before
+ * React mounts. An invalid value degrades to `en`.
+ */
+export const languageSchema = z.enum(['en', 'zh-CN']).catch('en')
+
+export type Language = z.infer<typeof languageSchema>
+
+/**
  * How times of day are displayed throughout the app. `12h` (the default)
  * renders `8:22pm`; `24h` renders `20:22`. Display-only — stored timestamps
  * and daily-note keys are unaffected.
@@ -439,6 +448,7 @@ export const settingsSchema = z
     mobileStorage: mobileStorageKindSchema,
     mobileGraphName: mobileGraphNameSchema,
     theme: themePreferenceSchema,
+    language: languageSchema,
     timeFormat: timeFormatSchema,
     dateFormat: dateFormatSchema,
     weekStartDay: weekStartDaySchema,
