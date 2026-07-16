@@ -104,4 +104,14 @@ describe('desktop locales', () => {
     await changeLanguage('zh-CN')
     expect(translate('operations.links.opening')).toBe('正在打开链接')
   })
+
+  it('keeps the document language metadata in sync', async () => {
+    expect(document.documentElement.lang).toBe('en')
+
+    await changeLanguage('zh-CN')
+    expect(document.documentElement.lang).toBe('zh-CN')
+
+    await changeLanguage('fr')
+    expect(document.documentElement.lang).toBe('zh-CN')
+  })
 })

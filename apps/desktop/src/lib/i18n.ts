@@ -23,6 +23,12 @@ export function isSupportedLanguage(value: unknown): boolean {
 
 let initialized = false
 
+function syncDocumentLanguage(language: string): void {
+  if (typeof document !== 'undefined') {
+    document.documentElement.lang = language
+  }
+}
+
 /**
  * Initialize i18next once, synchronously, with bundled resources (no network
  * fetch). Called before React mounts so the first render already has the
@@ -33,6 +39,7 @@ export function initI18n(initialLanguage: string = DEFAULT_LANGUAGE): void {
   if (initialized) {
     return
   }
+  syncDocumentLanguage(initialLanguage)
   void i18n.use(initReactI18next).init({
     resources: RESOURCES,
     lng: initialLanguage,
@@ -50,7 +57,10 @@ export function changeLanguage(language: string): Promise<unknown> {
   if (!isSupportedLanguage(language)) {
     return Promise.resolve()
   }
-  return i18n.changeLanguage(language)
+  return i18n.changeLanguage(language).then((result) => {
+    syncDocumentLanguage(language)
+    return result
+  })
 }
 
 /** The currently active language id. */
