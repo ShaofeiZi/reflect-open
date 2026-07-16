@@ -1,0 +1,58 @@
+{
+  "extensionName": {
+    "message": "Reflect 网页剪藏"
+  },
+  "extensionDescription": {
+    "message": "将正在阅读的网页保存到 Reflect。"
+  },
+  "saveCurrentPageCommand": {
+    "message": "将当前网页保存到 Reflect"
+  },
+  "popupTitle": {
+    "message": "Reflect 网页剪藏"
+  },
+  "uncapturablePage": {
+    "message": "无法剪藏此页面。"
+  },
+  "addNotePlaceholder": {
+    "message": "添加备注（可选）"
+  },
+  "capturePageText": {
+    "message": "剪藏网页正文"
+  },
+  "saving": {
+    "message": "正在保存…"
+  },
+  "saveToReflect": {
+    "message": "保存到 Reflect"
+  },
+  "holdNoHost": {
+    "message": "请安装 Reflect 以完成保存。剪藏内容已保留，并会自动重试。"
+  },
+  "holdNoGraph": {
+    "message": "请打开 Reflect 并先选择一个图谱。剪藏内容已保留，并会自动重试。"
+  },
+  "holdUnavailable": {
+    "message": "无法连接 Reflect。剪藏内容已保留，并会自动重试。"
+  },
+  "captureRejected": {
+    "message": "剪藏内容被拒绝，请报告此问题。"
+  },
+  "captureFailed": {
+    "message": "无法保存剪藏内容，请重试。"
+  },
+  "downloadReflect": {
+    "message": "下载 Reflect"
+  },
+  "oneEarlierCaptureWaiting": {
+    "message": "此前有 1 条剪藏正等待 Reflect。"
+  },
+  "earlierCapturesWaiting": {
+    "message": "此前有 $COUNT$ 条剪藏正等待 Reflect。",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  }
+}

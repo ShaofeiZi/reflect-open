@@ -6,6 +6,7 @@ import {
   type PredefinedMenuItemOptions,
 } from '@tauri-apps/api/menu'
 import { APP_COMMANDS } from '@/lib/commands/app-commands'
+import { onLanguageChanged, translate } from '@/lib/i18n'
 import { isMainWindow } from '@/lib/windows/window-role'
 import { bindingToAccelerator } from './accelerator'
 import { dispatchMenuCommand } from './dispatch'
@@ -39,6 +40,8 @@ export interface AppSubmenuLayout {
 }
 
 let nativeMenuInstalled = false
+let languageListenerInstalled = false
+let menuInstallQueue: Promise<void> = Promise.resolve()
 
 /** Whether this webview has successfully installed the native app menu. */
 export function isNativeMenuInstalled(): boolean {
@@ -64,23 +67,23 @@ function separator(): AppMenuEntry {
 export function appMenuLayout(): AppSubmenuLayout[] {
   return [
     {
-      text: 'Reflect',
+      text: translate('menu.app'),
       entries: [
-        predefined({ About: null }, 'About Reflect'),
+        predefined({ About: null }, translate('menu.about')),
         separator(),
-        command('settings.open', 'Settings…'),
+        command('settings.open', translate('menu.settings')),
         separator(),
         predefined('Services'),
         separator(),
-        predefined('Hide', 'Hide Reflect'),
+        predefined('Hide', translate('menu.hide-app')),
         predefined('HideOthers'),
         predefined('ShowAll'),
         separator(),
-        predefined('Quit', 'Quit Reflect'),
+        predefined('Quit', translate('menu.quit-app')),
       ],
     },
     {
-      text: 'File',
+      text: translate('menu.file'),
       entries: [
         command('note.new'),
         command('note.attachFile'),
@@ -89,7 +92,7 @@ export function appMenuLayout(): AppSubmenuLayout[] {
       ],
     },
     {
-      text: 'Edit',
+      text: translate('menu.edit'),
       entries: [
         predefined('Undo'),
         predefined('Redo'),
@@ -101,7 +104,7 @@ export function appMenuLayout(): AppSubmenuLayout[] {
       ],
     },
     {
-      text: 'View',
+      text: translate('menu.view'),
       entries: [
         command('palette.open'),
         command('nav.today'),
@@ -117,19 +120,19 @@ export function appMenuLayout(): AppSubmenuLayout[] {
       ],
     },
     {
-      text: 'Window',
+      text: translate('menu.window'),
       nsAppRole: 'windows',
       entries: [
         command('note.openInNewWindow'),
         separator(),
         predefined('Minimize'),
-        predefined('Maximize', 'Zoom'),
+        predefined('Maximize', translate('menu.zoom')),
         separator(),
         predefined('BringAllToFront'),
       ],
     },
     {
-      text: 'Help',
+      text: translate('menu.help'),
       nsAppRole: 'help',
       entries: [command('shortcuts.show')],
     },
@@ -144,7 +147,11 @@ function menuItemOptions(commandId: string, text?: string): MenuItemOptions {
   const accelerator = appCommand.keybinding ? bindingToAccelerator(appCommand.keybinding) : undefined
   return {
     id: appCommand.id,
-    text: text ?? appCommand.title,
+    text:
+      text ??
+      (appCommand.titleKey
+        ? translate(appCommand.titleKey, appCommand.titleParams)
+        : appCommand.title),
     ...(accelerator !== undefined ? { accelerator } : {}),
     action: dispatchMenuCommand,
   }
@@ -183,13 +190,10 @@ function isMacosDesktop(): boolean {
  * deliberately exempted there so its key equivalent belongs to this native
  * macOS application menu.
  */
-export async function installNativeMenu(): Promise<void> {
+async function installNativeMenuNow(): Promise<void> {
   // Menu actions use channels owned by the webview that created them. A note
   // window has no command dispatcher, so it must not replace the app-wide
   // menu installed by the main workspace with an inert copy.
-  if (!isMacosDesktop() || !isMainWindow()) {
-    return
-  }
   const layouts = appMenuLayout()
   const submenus = await Promise.all(
     layouts.map((layout) =>
@@ -218,4 +222,20 @@ export async function installNativeMenu(): Promise<void> {
       await submenu.setAsHelpMenuForNSApp()
     }
   }
+}
+
+export function installNativeMenu(): Promise<void> {
+  if (!isMacosDesktop() || !isMainWindow()) {
+    return Promise.resolve()
+  }
+  if (!languageListenerInstalled) {
+    languageListenerInstalled = true
+    onLanguageChanged(() => {
+      void installNativeMenu().catch((cause: unknown) => {
+        console.error('failed to refresh the native menu language', cause)
+      })
+    })
+  }
+  menuInstallQueue = menuInstallQueue.catch(() => {}).then(installNativeMenuNow)
+  return menuInstallQueue
 }

@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ShortcutKeys } from '@/components/shortcut-keys'
 import { formatBindingLabel } from '@/lib/keybindings'
 import type { Shortcut } from '@/lib/shortcuts'
@@ -25,18 +26,22 @@ export function ShortcutList({
   className,
   listClassName,
 }: ShortcutListProps): ReactElement {
+  const { t } = useTranslation()
+
   return (
     <div className={className}>
       <h3 className="text-[11px] font-semibold tracking-[0.08em] text-text-muted uppercase">
         {heading}
       </h3>
       <ul className={cn('mt-1.5', listClassName)}>
-        {shortcuts.map(({ binding, description }) => (
+        {shortcuts.map(({ binding, description, descriptionKey }) => (
           <li
             key={binding}
             className="flex break-inside-avoid items-center justify-between gap-4 py-1.5 text-sm text-text-secondary"
           >
-            <span className="min-w-0 truncate">{description}</span>
+            <span className="min-w-0 truncate">
+              {descriptionKey === undefined ? description : t(descriptionKey)}
+            </span>
             {/* The keycaps are aria-hidden decoration; this carries the binding for AT. */}
             <span className="sr-only">{formatBindingLabel(binding)}</span>
             <ShortcutKeys binding={binding} />

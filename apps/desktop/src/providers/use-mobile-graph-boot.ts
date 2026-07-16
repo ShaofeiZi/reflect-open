@@ -11,6 +11,7 @@ import {
   type MobileStorageInfo,
   type MobileStorageKind,
 } from '@reflect/core'
+import { translate } from '@/lib/i18n'
 import { takeWarmMobileStorage } from '@/lib/mobile-boot-warm'
 import { SETTINGS_QUERY_KEY, useSettings } from '@/providers/settings-provider'
 
@@ -267,9 +268,7 @@ export function useMobileGraphBoot(options: MobileGraphBootOptions): MobileGraph
           // iCloud Drive off). Opening the empty local root instead would
           // silently start a second graph — park on an honest error until
           // iCloud is back.
-          onParked(
-            'Your notes are stored in iCloud Drive, but iCloud isn’t available on this device. Sign in to iCloud in Settings, then reopen Reflect.',
-          )
+          onParked(translate('mobile.app.icloudStoredUnavailable'))
           return
         }
         setMobileStorageKind(kind)
@@ -297,8 +296,8 @@ export function useMobileGraphBoot(options: MobileGraphBootOptions): MobileGraph
       if (root === null) {
         throw new Error(
           kind === 'icloud'
-            ? 'iCloud Drive isn’t available on this device.'
-            : 'No graph folder available.',
+            ? translate('mobile.app.icloudUnavailable')
+            : translate('mobile.app.noGraphFolder'),
         )
       }
       const shouldCreateIcloudRoot =
@@ -314,7 +313,7 @@ export function useMobileGraphBoot(options: MobileGraphBootOptions): MobileGraph
       // of landing on the dead-end open-failed screen.
       const opened = await openRecent(root)
       if (!opened) {
-        throw new Error('Couldn’t open your notes — please try again.')
+        throw new Error(translate('mobile.app.openFailed'))
       }
       setMobileStorageKind(kind)
       setNeedsOnboarding(false)

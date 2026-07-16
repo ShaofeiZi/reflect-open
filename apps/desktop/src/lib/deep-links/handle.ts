@@ -4,6 +4,7 @@ import {
   resolveNoteTarget,
   textCaptureEnvelopeSchema,
 } from '@reflect/core'
+import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
 import { routeForPath, type Route } from '@/routing/route'
 import { parseDeepLink } from '@/lib/deep-links/parse'
@@ -34,7 +35,9 @@ export interface DeepLinkIo {
 export async function handleDeepLink(url: string, io: DeepLinkIo): Promise<void> {
   const link = parseDeepLink(url)
   if (link === null) {
-    startOperation('Opening link').fail(`Unrecognized link: ${truncate(url)}`)
+    startOperation(translate('operations.links.opening')).fail(
+      translate('operations.links.unrecognized', { url: truncate(url) }),
+    )
     return
   }
   switch (link.kind) {
@@ -49,21 +52,25 @@ export async function handleDeepLink(url: string, io: DeepLinkIo): Promise<void>
         if (io.isStale?.() === true) {
           return
         }
-        startOperation('Opening link').fail(errorMessage(cause))
+        startOperation(translate('operations.links.opening')).fail(errorMessage(cause))
         return
       }
       if (io.isStale?.() === true) {
         return // the graph switched mid-resolve; the result answers the wrong graph
       }
       if (path === null) {
-        startOperation('Opening link').fail(`Note not found: ${truncate(link.target)}`)
+        startOperation(translate('operations.links.opening')).fail(
+          translate('operations.links.note-not-found', { target: truncate(link.target) }),
+        )
         return
       }
       io.navigate(routeForPath(path))
       return
     }
     case 'capture': {
-      const label = link.capture === 'task' ? 'Task added to today' : 'Added to today'
+      const label = translate(
+        link.capture === 'task' ? 'operations.links.task-added' : 'operations.links.added',
+      )
       try {
         // The URL parser enforces the same text constraints, so this parse is
         // belt-and-braces — but it is fallible, and a schema tightening must
@@ -78,7 +85,7 @@ export async function handleDeepLink(url: string, io: DeepLinkIo): Promise<void>
         })
         await captureInboxSpool(`${envelope.id}.json`, JSON.stringify(envelope), io.generation)
       } catch (cause) {
-        startOperation('Saving capture').fail(errorMessage(cause))
+        startOperation(translate('operations.links.saving-capture')).fail(errorMessage(cause))
         return
       }
       startOperation(label).done()

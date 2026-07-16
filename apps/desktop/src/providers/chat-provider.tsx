@@ -237,7 +237,10 @@ export function ChatProvider({ graph, children }: ChatProviderProps): ReactEleme
       // conversation it was sent under.
       const sendConversationId = conversationIdRef.current
       const turnCreatedMs = Date.now()
-      const title = conversationTitle(turnsRef.current[0]?.userText ?? trimmed)
+      const title = conversationTitle(
+        turnsRef.current[0]?.userText ?? trimmed,
+        t('chat.new-chat'),
+      )
       const conversationMeta = (): ChatConversation => ({
         id: sendConversationId,
         title,

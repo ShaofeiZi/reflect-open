@@ -129,7 +129,8 @@
       "no-provider-reason": "在设置中添加 OpenAI 或 Gemini 模型以录制语音备忘",
       "unsupported-platform": "此平台不支持录音",
       "mic-denied-macos": "麦克风访问被拒绝。请在系统设置 → 隐私与安全性 → 麦克风中允许。",
-      "mic-denied-other": "麦克风访问被拒绝。请在系统设置中允许 Reflect 访问麦克风。"
+      "mic-denied-other": "麦克风访问被拒绝。请在系统设置中允许 Reflect 访问麦克风。",
+      "mic-denied-mobile": "麦克风访问被拒绝。请在“设置”应用中允许 Reflect 使用麦克风。"
     },
     "chat": {
       "no-api-key": "未找到此服务商的 API 密钥 — 请在设置 → AI 服务商中重新添加。"
@@ -158,7 +159,8 @@
     },
     "appState": {
       "secondaryWindowGraphError": "此窗口无法打开图谱。请关闭它，并从主窗口重新打开。",
-      "loading": "加载中…"
+      "loading": "加载中…",
+      "deleteMainWindowOnly": "只能从主窗口删除图谱。"
     }
   },
   "settings": {
@@ -324,6 +326,7 @@
       "empty": "尚未配置 AI 服务商。添加服务商 API 密钥后即可使用 AI 功能——密钥会保存在系统钥匙串中，调用会直接发往服务商。",
       "addProvider": "添加服务商",
       "apiKey": "API 密钥",
+      "defaultModelFor": "{{provider}} 的默认模型",
       "default": "默认",
       "makeDefault": "设为默认",
       "remove": "移除 {{name}}"
@@ -337,6 +340,7 @@
       "apiKeyRequired": "请输入 API 密钥。",
       "useAsDefault": "设为默认服务商",
       "verifyWarning": "无法连接 {{provider}} 验证密钥。再次提交将以未验证状态保存。",
+      "settingsLoadFailed": "无法加载设置，因此无法保存新的 AI 服务商。API 密钥未被存储。",
       "cancel": "取消",
       "saveAnyway": "仍然保存",
       "addProvider": "添加服务商"
@@ -523,6 +527,12 @@
       "grantAccessInstruction": "授予 Reflect 访问 {{repo}} 的权限，以便备份到这里。",
       "grantAccessOnGithub": "在 GitHub 上授权…",
       "repoSelectionHint": "在 GitHub 上选择“仅选择仓库”——Reflect 只需要这一个仓库。",
+      "errors": {
+        "nameRequired": "请输入仓库名称。",
+        "repoInvalid": "请以 owner/name 或 GitHub URL 的格式输入仓库。",
+        "repoNotFound": "找不到仓库。请检查名称和令牌的仓库访问权限。",
+        "browserOpenFailed": "无法打开浏览器，请自行访问 {{url}}。"
+      },
       "waitingAccess": "正在等待授权…",
       "connecting": "连接中…",
       "signedInAs": "已登录为 {{login}}"
@@ -886,7 +896,11 @@
       "couldnt-open": "无法打开你的笔记",
       "loading": "加载中…",
       "unknown-error": "未知错误",
-      "something-broke": "出错了"
+      "something-broke": "出错了",
+      "icloudStoredUnavailable": "你的笔记存储在 iCloud 云盘中，但此设备当前无法使用 iCloud。请在设置中登录 iCloud，然后重新打开 Reflect。",
+      "icloudUnavailable": "此设备无法使用 iCloud 云盘。",
+      "noGraphFolder": "没有可用的图谱文件夹。",
+      "openFailed": "无法打开你的笔记，请重试。"
     },
     "note-actions": {
       "aria": "笔记操作",
@@ -1077,6 +1091,14 @@
       "open-note": "打开笔记",
       "delete": "删除"
     },
+    "task-row": {
+      "edit": "编辑：{{label}}"
+    },
+    "task-group": {
+      "pinned-prefix": "已置顶：",
+      "add-to": "添加任务到 {{target}}",
+      "today": "今天"
+    },
     "task-filters": {
       "title": "任务筛选",
       "pinned": "置顶笔记",
@@ -1095,7 +1117,13 @@
       "clear": "清除搜索"
     },
     "filters": {
+      "toolbar": "筛选",
       "updated": "更新时间",
+      "updated-today": "今天",
+      "updated-week": "最近 7 天",
+      "updated-month": "最近 30 天",
+      "updated-since": "自 {{date}} 起",
+      "updated-until": "截至 {{date}}",
       "updated-from": "更新时间起",
       "updated-to": "更新时间止",
       "to": "至",
@@ -1131,6 +1159,106 @@
     "note-screen": {
       "new": "新建笔记",
       "edit": "编辑笔记"
+    }
+  },
+  "operations": {
+    "audio-memo": {
+      "saving": "正在保存语音备忘",
+      "transcribing": "正在转写语音备忘"
+    },
+    "tasks": {
+      "reopening": "正在重新打开任务",
+      "completing": "正在完成任务",
+      "updating": "正在更新任务",
+      "note-changed": "笔记已发生变化，请稍后重试。",
+      "note-busy": "目前无法更新此笔记，请稍后重试。",
+      "note-open-add": "此笔记已打开，请直接在笔记中添加任务。",
+      "trashing": "正在将笔记移到废纸篓",
+      "no-graph": "未打开图谱。",
+      "completing-many": "正在完成任务",
+      "reopening-many": "正在重新打开任务",
+      "deleting-many": "正在删除任务",
+      "editing": "正在编辑任务",
+      "scheduling": "正在安排任务",
+      "converting-many": "正在转换任务",
+      "converting": "正在转换任务",
+      "adding": "正在添加任务"
+    },
+    "gist": {
+      "already-running": "已有 Gist 操作正在进行",
+      "wait": "请等待当前 Gist 操作完成。",
+      "publishing": "正在发布 Gist",
+      "copied": "Gist 链接已复制",
+      "copying": "正在复制 Gist 链接",
+      "unpublishing": "正在取消发布 Gist",
+      "invalid-frontmatter-publish": "笔记的 frontmatter 无效，请修复后再发布。",
+      "invalid-frontmatter-unpublish": "笔记的 frontmatter 无效，请修复后再取消发布。",
+      "empty": "笔记为空，没有可发布的内容。",
+      "connect-publish": "请先在设置中连接 GitHub 再发布 Gist。",
+      "connect-unpublish": "请先在设置中连接 GitHub 再取消发布 Gist。"
+    },
+    "search": {
+      "rebuilding-index": "正在重建搜索索引"
+    },
+    "assets": {
+      "describing": "正在识别资源内容",
+      "failed": "无法识别资源内容。",
+      "need-provider": "请在设置中添加 AI 服务商以识别资源内容。",
+      "network": "部分资源无法识别，请检查网络连接后重试。",
+      "large-file": "已添加大文件",
+      "large-file-warning": "“{{name}}”的大小为 {{size}}。Git 会永久保留每个版本；GitHub 拒绝超过 100 MB 的文件。"
+    },
+    "templates": {
+      "inserting": "正在插入模板",
+      "no-open-note": "没有可插入模板的已打开笔记。"
+    },
+    "links": {
+      "copying-deep-link": "正在复制深链接",
+      "deep-link-copied": "深链接已复制",
+      "opening": "正在打开链接",
+      "unrecognized": "无法识别的链接：{{url}}",
+      "note-not-found": "找不到笔记：{{target}}",
+      "saving-capture": "正在保存剪藏",
+      "task-added": "任务已添加到今天",
+      "added": "已添加到今天",
+      "unavailable": "无法打开“{{title}}”，因为匹配的笔记当前不可用。请在该笔记可用于此设备后重试。",
+      "ambiguous": "无法安全选择与“{{title}}”匹配的唯一笔记。请重命名冲突笔记，或等待不可用的笔记恢复后重试。"
+    },
+    "notes": {
+      "creating": "正在创建笔记",
+      "create-unavailable": "无法创建“{{title}}”，因为可能匹配的笔记当前不可用。请在该笔记可用于此设备后重试。",
+      "create-menu": "创建“{{title}}”",
+      "contact": "联系人",
+      "new": "新建",
+      "naming": "正在命名“{{title}}”",
+      "renaming": "正在将“{{from}}”重命名为“{{to}}”",
+      "rename-move-failed": "{{error}} — 笔记仍保留占位文件名；标题及其链接不受影响",
+      "attach-picker": "附加文件",
+      "attaching-file": "正在附加文件",
+      "attachment-note-closed": "笔记已关闭，无法插入文件链接 — {{names}} 仍已复制到 assets/ 文件夹",
+      "attachment-copy-failed": "无法复制：{{details}}",
+      "daily-delete": "无法删除每日笔记。",
+      "contact-title-changed": "笔记标题已不再匹配此联系人。",
+      "contact-update-unavailable": "目前无法更新此笔记，请稍后重试。"
+    },
+    "rename": {
+      "rewrite-and-alias-failed": "{{rewrite}}；旧标题别名也写入失败（{{alias}}）— 指向“{{from}}”的链接可能无法解析",
+      "rewrite-failed": "{{rewrite}} — 链接未被重写，但“{{from}}”已保留为别名，因此仍可解析",
+      "alias-failed": "链接已重写，但无法将“{{from}}”记录为别名：{{alias}}",
+      "move-failed": "文件仍保留旧名称（{{move}}）"
+    },
+    "backup": {
+      "backing-up": "正在备份",
+      "too-large": "文件过大，无法备份（已保留在本地）：{{names}}",
+      "connect-first": "请先连接 GitHub（未存储凭据）"
+    },
+    "capture": {
+      "saving-shared": "正在保存共享剪藏",
+      "saving-link": "正在保存链接剪藏",
+      "enriching-link": "正在完善链接剪藏"
+    },
+    "provider": {
+      "removing": "正在移除 {{name}}"
     }
   },
   "commands": {
@@ -1179,5 +1307,33 @@
     "window": "窗口",
     "help": "帮助"
   },
-  "shortcuts": {}
+  "shortcuts": {
+    "bold": "粗体",
+    "italic": "斜体",
+    "inline-code": "行内代码",
+    "strikethrough": "删除线",
+    "highlight": "高亮",
+    "link": "链接",
+    "insert-wikilink": "插入双向链接",
+    "heading-1": "一级标题",
+    "heading-2": "二级标题",
+    "heading-3": "三级标题",
+    "heading-4": "四级标题",
+    "heading-5": "五级标题",
+    "heading-6": "六级标题",
+    "fold-bullet": "折叠或展开列表项",
+    "follow-link-or-task": "打开光标处的链接，或切换复选任务状态",
+    "cycle-circle-task": "切换圆形复选任务状态",
+    "ordered-list": "有序列表",
+    "bullet-list": "无序列表",
+    "checkbox-list": "复选任务列表",
+    "move-block-up": "向上移动块或列表项",
+    "move-block-down": "向下移动块或列表项",
+    "caret-document-start": "将光标移到文档开头",
+    "caret-document-end": "将光标移到文档结尾",
+    "select-document-start": "选择到文档开头",
+    "select-document-end": "选择到文档结尾",
+    "collapse-selection": "收起选区",
+    "open-ai-menu": "为所选内容打开 AI 菜单"
+  }
 }

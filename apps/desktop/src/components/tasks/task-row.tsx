@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { Circle, CircleCheck } from 'lucide-react'
 import type { OpenTask } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { formatDayLabel } from '@/lib/dates'
 import { taskKey } from '@/lib/tasks/task-identity'
 import { useTaskCheckboxToggle } from '@/lib/tasks/use-task-checkbox-toggle'
@@ -89,12 +90,13 @@ export function TaskRow({
   convertControllerRef,
   onOpen,
 }: TaskRowProps): ReactElement {
+  const { t } = useTranslation()
   const { settings } = useSettings()
   const { toggle, isPending } = useTaskCheckboxToggle(task)
   const checkboxToggleControllerRef = useRef<(() => void) | null>(null)
   const checkboxPending = isPending || taskActionPending
   const done = task.checked
-  const label = task.text || 'Empty task'
+  const label = task.text || t('tasks.row.empty-task')
   const selectFromKeyboard = (event: KeyboardEvent<HTMLDivElement>): void => {
     if (event.key !== 'Enter' && event.key !== ' ') {
       return
@@ -129,7 +131,11 @@ export function TaskRow({
       <button
         type="button"
         data-task-row
-        aria-label={task.checked ? `Reopen: ${label}` : `Complete: ${label}`}
+        aria-label={
+          task.checked
+            ? t('tasks.row.checkbox.aria-reopen', { label })
+            : t('tasks.row.checkbox.aria-complete', { label })
+        }
         disabled={checkboxPending}
         onClick={(event) => {
           event.stopPropagation()

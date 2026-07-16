@@ -8,13 +8,14 @@ import {
 } from '@reflect/core'
 import { reportAmbiguousNoteTitle } from '@/editor/ambiguous-note-feedback'
 import { useNoteLinkNavigation } from '@/hooks/use-note-link-navigation'
+import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
 import { useLinkIntentGuard } from '@/lib/windows/use-link-intent-guard'
 import { routeForPath, type NoteRoute } from '@/routing/route'
 
 function reportUnavailableNoteTitle(title: string): void {
-  startOperation('Opening link').fail(
-    `Couldn’t open “${title}” because a matching note is currently unavailable. Try again when it is available on this device.`,
+  startOperation(translate('operations.links.opening')).fail(
+    translate('operations.links.unavailable', { title }),
   )
 }
 
@@ -84,7 +85,7 @@ export function useWikiLinkNavigation(
             } else if (resolution.kind === 'missing') {
               open({ kind: 'daily', date: normalized.date })
             } else if (resolution.kind === 'ambiguous') {
-              reportAmbiguousNoteTitle('Opening link', normalized.raw)
+              reportAmbiguousNoteTitle('operations.links.opening', normalized.raw)
             } else {
               reportUnavailableNoteTitle(normalized.raw)
             }
@@ -96,7 +97,7 @@ export function useWikiLinkNavigation(
               return
             }
             if (outcome.kind === 'ambiguous') {
-              reportAmbiguousNoteTitle('Opening link', normalized.raw)
+              reportAmbiguousNoteTitle('operations.links.opening', normalized.raw)
             } else if (outcome.kind === 'unavailable') {
               reportUnavailableNoteTitle(normalized.raw)
             } else {
@@ -117,7 +118,7 @@ export function useWikiLinkNavigation(
           }
         } catch (err) {
           console.error('wiki-link resolution failed:', err)
-          startOperation('Opening link').fail(errorMessage(err))
+          startOperation(translate('operations.links.opening')).fail(errorMessage(err))
         }
       })()
     },

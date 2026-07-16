@@ -33,6 +33,7 @@ vi.mock('@tauri-apps/api/menu', () => ({
 vi.mock('@/lib/windows/window-role', () => ({ isMainWindow }))
 
 const { APP_COMMANDS, keybindingFor } = await import('@/lib/commands/app-commands')
+const { changeLanguage } = await import('@/lib/i18n')
 const { setMenuCommandDispatch } = await import('./dispatch')
 const { appMenuLayout, installNativeMenu, isNativeMenuInstalled } = await import('./menu')
 
@@ -101,6 +102,32 @@ describe('appMenuLayout', () => {
       text: undefined,
     })
     expect(keybindingFor('note.openInNewWindow')).toBe('Mod-Shift-o')
+  })
+
+  it('builds submenu and command labels in the active language', async () => {
+    await changeLanguage('zh-CN')
+    try {
+      const layout = appMenuLayout()
+      expect(layout.map((submenu) => submenu.text)).toEqual([
+        'Reflect',
+        '文件',
+        '编辑',
+        '显示',
+        '窗口',
+        '帮助',
+      ])
+      const viewMenu = layout.find((submenu) => submenu.text === '显示')
+      const search = viewMenu?.entries.find(
+        (entry) => entry.kind === 'command' && entry.commandId === 'palette.open',
+      )
+      expect(search).toEqual({
+        kind: 'command',
+        commandId: 'palette.open',
+        text: undefined,
+      })
+    } finally {
+      await changeLanguage('en')
+    }
   })
 })
 

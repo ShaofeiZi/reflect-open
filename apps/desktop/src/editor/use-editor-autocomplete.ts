@@ -18,6 +18,7 @@ import { reportAmbiguousNoteTitle } from '@/editor/ambiguous-note-feedback'
 import { buildAutocompleteEntries } from '@/editor/wiki-autocomplete-entries'
 import { useContactsAuthorization } from '@/hooks/use-contacts-authorization'
 import { formatDayLabel, todayIso } from '@/lib/dates'
+import { translate } from '@/lib/i18n'
 import { createPersonNoteFromContact } from '@/lib/note-contact'
 import { startOperation } from '@/lib/operations'
 import { useGraph } from '@/providers/graph-provider'
@@ -61,10 +62,10 @@ export function useEditorAutocomplete(): EditorAutocomplete {
       if (generation !== null) {
         const outcome = await resolveOrCreateNoteWithTitle(title, generation)
         if (outcome.kind === 'ambiguous') {
-          reportAmbiguousNoteTitle('Creating note', title)
+          reportAmbiguousNoteTitle('operations.notes.creating', title)
         } else if (outcome.kind === 'unavailable') {
-          startOperation('Creating note').fail(
-            `Couldn’t create “${title}” while a potentially matching note is unavailable. Try again when it is available on this device.`,
+          startOperation(translate('operations.notes.creating')).fail(
+            translate('operations.notes.create-unavailable', { title }),
           )
         }
       }
@@ -99,13 +100,13 @@ export function useEditorAutocomplete(): EditorAutocomplete {
         if (entry.kind === 'create') {
           return {
             target: entry.title,
-            label: `Create “${entry.title}”`,
+            label: translate('operations.notes.create-menu', { title: entry.title }),
             // Insert happens in the menu; create the note in the background.
             // Best-effort: a failed create just leaves an unresolved link.
             onSelect: () => {
               void resolveOrCreateFromAutocomplete(entry.title).catch((error: unknown) => {
                 console.error('create-from-autocomplete failed:', error)
-                startOperation('Creating note').fail(errorMessage(error))
+                startOperation(translate('operations.notes.creating')).fail(errorMessage(error))
               })
             },
           }
@@ -115,7 +116,8 @@ export function useEditorAutocomplete(): EditorAutocomplete {
           return {
             target: contact.fullName,
             label: contact.fullName,
-            detail: contact.emails[0] ?? contact.phones[0] ?? 'Contact',
+            detail:
+              contact.emails[0] ?? contact.phones[0] ?? translate('operations.notes.contact'),
             // Like the create row: the menu inserts the link text; the person
             // note is born in the background, prefilled from the contact.
             onSelect: () => {
@@ -141,7 +143,7 @@ export function useEditorAutocomplete(): EditorAutocomplete {
             ? `${alias} → ${title}`
             : date !== null
               ? path === null
-                ? `${date} · new`
+                ? `${date} · ${translate('operations.notes.new')}`
                 : date
               : undefined
         return { target, label, ...(detail !== undefined ? { detail } : {}) }

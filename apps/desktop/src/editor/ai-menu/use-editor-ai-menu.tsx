@@ -8,6 +8,7 @@ import {
   type RefObject,
 } from 'react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import type {
   PendingReplacementResolveHandler,
   SelectionMenuContext,
@@ -83,6 +84,7 @@ export function useEditorAiMenu({
   sessionEpoch,
   editorRef,
 }: EditorAiMenuOptions): EditorAiMenuValue {
+  const { t } = useTranslation()
   const noteRow = useNoteRow(path)
   // The last privacy flag this session resolved, adjusted during render (the
   // note-pane seed pattern). A title-driven rename retargets the same note
@@ -158,7 +160,7 @@ export function useEditorAiMenu({
           ? defaultProvider
           : providers.find((entry) => entry.id === modelOverride.configId) ?? null
       if (base === null) {
-        fail('Add an AI provider in Settings to use AI prompts.')
+        fail(t('editor.add-provider-to-use-prompts'))
         return
       }
       const config = modelOverride === null ? base : { ...base, model: modelOverride.modelId }
@@ -170,7 +172,7 @@ export function useEditorAiMenu({
         selection = cloudSafeSelection({ path, isPrivate }, context.selectedText)
       } catch (cause) {
         if (isPrivateNoteError(cause)) {
-          fail('This note is marked private, so its content is never sent to an AI provider.')
+          fail(t('editor.private-note-blocked'))
           return
         }
         throw cause
@@ -179,7 +181,7 @@ export function useEditorAiMenu({
       const apiKey = await getSecret(aiKeySecretName(config.id)).catch(() => null)
       if (runRef.current !== run) return
       if (apiKey === null) {
-        fail('No API key found for this provider — re-add it in Settings → AI providers.')
+        fail(t('editor.no-api-key'))
         return
       }
 
@@ -203,7 +205,7 @@ export function useEditorAiMenu({
         // and the user decides with Accept/Discard.
       }
     },
-    [providers, defaultProvider, path, isPrivate, editorRef],
+    [providers, defaultProvider, path, isPrivate, editorRef, t],
   )
 
   const runPrompt = useCallback(
@@ -229,7 +231,7 @@ export function useEditorAiMenu({
         return [
           {
             id: 'configure-provider',
-            label: 'Add an AI provider in Settings…',
+            label: t('editor.add-provider-menu-label'),
             onSelect: () => navigate({ kind: 'settings' }),
           },
         ]
@@ -246,14 +248,14 @@ export function useEditorAiMenu({
         items.push({
           id: 'ad-hoc-query',
           label: adHoc,
-          detail: 'Run as a prompt',
+          detail: t('editor.run-as-prompt'),
           onSelect: (context) =>
             runPrompt({ id: 'ad-hoc-query', label: adHoc, body: adHoc, mode: 'replace' }, context),
         })
       }
       return items
     }
-  }, [isPrivate, providers.length, prompts, navigate, runPrompt])
+  }, [isPrivate, providers.length, prompts, navigate, runPrompt, t])
 
   const retry = useCallback(
     (option: ChatModelOption | null): void => {

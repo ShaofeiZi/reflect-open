@@ -13,6 +13,7 @@ import {
 } from '@reflect/core'
 import type { NoteSession } from '@/editor/note-session'
 import { openSession } from '@/editor/open-documents'
+import { translate } from '@/lib/i18n'
 
 /** The marker coordinates ({@link TaskMarker}) plus the note they live in. */
 export interface TaskRef extends TaskMarker {
@@ -106,7 +107,7 @@ function applyTaskChange(
       if (await viaSession(owner, marker)) {
         return
       }
-      throw new NoteBusyError('This note can’t be updated right now — try again in a moment.')
+      throw new NoteBusyError(translate('operations.tasks.note-busy'))
     }
     const source = await readNote(task.notePath)
     await writeNote(task.notePath, viaDisk(source, marker), generation)
@@ -180,7 +181,7 @@ export function continueTaskInContext(
 ): Promise<ContinuedTaskInContext> {
   return serializeByPath(task.notePath, async () => {
     if (openSession(task.notePath) !== null) {
-      throw new NoteBusyError('This note is open — add the task in the note itself.')
+      throw new NoteBusyError(translate('operations.tasks.note-open-add'))
     }
     const source = await readNote(task.notePath)
     const originalTasks = parseNote({ path: task.notePath, source }).tasks
@@ -251,7 +252,7 @@ export function continueTaskInContext(
 export function insertTask(notePath: string, generation: number): Promise<number> {
   return serializeByPath(notePath, async () => {
     if (openSession(notePath) !== null) {
-      throw new NoteBusyError('This note is open — add the task in the note itself.')
+      throw new NoteBusyError(translate('operations.tasks.note-open-add'))
     }
     let source: string
     try {

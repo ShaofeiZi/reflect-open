@@ -15,7 +15,13 @@ function hit(
   return { path, title, snippet, dailyDate }
 }
 const COMMANDS: AppCommand[] = [
-  { id: 'nav.today', title: 'Go to today', keywords: ['daily'], run: () => {} },
+  {
+    id: 'nav.today',
+    title: 'Go to today',
+    titleKey: 'commands.go-to-today',
+    keywords: ['daily'],
+    run: () => {},
+  },
   { id: 'theme.toggle', title: 'Toggle theme', keywords: ['dark'], run: () => {} },
 ]
 
@@ -123,6 +129,16 @@ describe('buildPaletteSections', () => {
   it('commands match on title and keywords once a query exists', () => {
     const result = sections({ query: 'dark', commands: COMMANDS })
     expect(result.commands.map((command) => command.id)).toEqual(['theme.toggle'])
+  })
+
+  it('commands also match their active-locale title', () => {
+    const result = sections({
+      query: '今天',
+      commands: COMMANDS,
+      commandTitle: (command) =>
+        command.id === 'nav.today' ? '前往今天' : command.title,
+    })
+    expect(result.commands.map((command) => command.id)).toEqual(['nav.today'])
   })
 
   it('a > prefix filters to commands only', () => {

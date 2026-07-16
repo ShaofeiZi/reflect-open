@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { type OpenTask } from '@reflect/core'
+import { translate } from '@/lib/i18n'
 import { continueTaskInContext, type ContinuedTaskInContext } from '@/lib/note-task'
 import { relocateRecentlyCompleted } from '@/lib/tasks/recently-completed'
 import { withEditedTask, withoutTasks } from '@/lib/tasks/task-cache'
@@ -46,7 +47,8 @@ export function useTaskContextInsert(): TaskContextInsert {
       cache.patch(patch, patch)
       return snapshot
     },
-    onError: (cause, _variables, context) => cache.rollback(context, 'Adding task', cause),
+    onError: (cause, _variables, context) =>
+      cache.rollback(context, translate('operations.tasks.adding'), cause),
   })
 
   return {

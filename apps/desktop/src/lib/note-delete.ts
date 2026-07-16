@@ -1,5 +1,6 @@
 import { deleteNote, isDaily } from '@reflect/core'
 import { openSession } from '@/editor/open-documents'
+import { translate } from '@/lib/i18n'
 
 /**
  * Delete an open regular note and detach its editor session without flushing.
@@ -18,7 +19,7 @@ import { openSession } from '@/editor/open-documents'
  */
 export async function deleteOpenNote(path: string, generation: number): Promise<void> {
   if (isDaily(path)) {
-    throw new Error('Daily notes cannot be deleted')
+    throw new Error(translate('operations.notes.daily-delete'))
   }
   await deleteNote(path, generation)
   openSession(path)?.discard()

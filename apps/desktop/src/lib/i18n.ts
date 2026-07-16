@@ -1,4 +1,5 @@
 import i18n from 'i18next'
+import type { TOptions } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import en from '@/locales/en.json'
 import zhCN from '@/locales/zh-CN.json'
@@ -55,4 +56,20 @@ export function changeLanguage(language: string): Promise<unknown> {
 /** The currently active language id. */
 export function getLanguage(): string {
   return i18n.language ?? DEFAULT_LANGUAGE
+}
+
+/**
+ * Translate product feedback emitted outside React. Unlike a translated value
+ * captured during module initialization, this resolves the active language at
+ * the moment an action runs, so command and background-operation messages
+ * follow runtime language changes.
+ */
+export function translate(key: string, options?: TOptions): string {
+  return options === undefined ? i18n.t(key) : i18n.t(key, options)
+}
+
+/** Subscribe to runtime language changes; returns the matching cleanup. */
+export function onLanguageChanged(listener: () => void): () => void {
+  i18n.on('languageChanged', listener)
+  return () => i18n.off('languageChanged', listener)
 }

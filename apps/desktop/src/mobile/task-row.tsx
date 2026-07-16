@@ -1,6 +1,7 @@
 import { type ReactElement } from 'react'
 import { Circle, CircleCheck } from 'lucide-react'
 import type { OpenTask } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { TaskText } from '@/components/tasks/task-text'
 import { formatShortDate } from '@/lib/dates'
 import { taskKey } from '@/lib/tasks/task-identity'
@@ -27,9 +28,10 @@ interface MobileTaskRowProps {
  * on touch.
  */
 export function MobileTaskRow({ task, showSource, onEdit }: MobileTaskRowProps): ReactElement {
+  const { t } = useTranslation()
   const { settings } = useSettings()
   const { toggle, isPending } = useTaskCheckboxToggle(task)
-  const label = task.text || 'Empty task'
+  const label = task.text || t('tasks.row.empty-task')
   const edit = (): void => onEdit(task)
 
   return (
@@ -39,7 +41,11 @@ export function MobileTaskRow({ task, showSource, onEdit }: MobileTaskRowProps):
     >
       <button
         type="button"
-        aria-label={task.checked ? `Reopen: ${label}` : `Complete: ${label}`}
+        aria-label={
+          task.checked
+            ? t('tasks.row.checkbox.aria-reopen', { label })
+            : t('tasks.row.checkbox.aria-complete', { label })
+        }
         disabled={isPending}
         onClick={() => {
           hapticImpactLight()
@@ -62,7 +68,7 @@ export function MobileTaskRow({ task, showSource, onEdit }: MobileTaskRowProps):
       <div
         role="button"
         tabIndex={0}
-        aria-label={`Edit: ${label}`}
+        aria-label={t('mobile.task-row.edit', { label })}
         onClick={edit}
         onKeyDown={(event) => {
           if (event.key === 'Enter' || event.key === ' ') {

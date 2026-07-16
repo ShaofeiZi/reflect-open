@@ -10,6 +10,7 @@ import {
 } from '@reflect/core'
 import { createBackgroundReconciler } from '@/lib/background-reconciler'
 import { startOperation } from '@/lib/operations'
+import { translate } from '@/lib/i18n'
 import { providerFetch } from '@/lib/provider-fetch'
 
 /**
@@ -76,7 +77,7 @@ export function createTranscriptionReconciler(
       return
     }
     surfacedStop = stopped.message
-    startOperation('Transcribing audio memo').fail(stopped.message)
+    startOperation(translate('operations.audio-memo.transcribing')).fail(stopped.message)
   }
 
   /** One pass: transcribe pending memos, gated behind a transcription-capable model. */

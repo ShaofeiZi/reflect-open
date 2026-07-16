@@ -30,9 +30,13 @@ export default defineConfig({
   // A stable, human-readable store artifact: `reflect-capture-<version>-chrome.zip`.
   zip: { name: 'reflect-capture' },
   manifest: {
-    name: 'Reflect Capture',
-    description: 'Save the page you are reading into Reflect.',
+    default_locale: 'en',
+    name: '__MSG_extensionName__',
+    description: '__MSG_extensionDescription__',
     homepage_url: 'https://github.com/team-reflect/reflect-open',
+    action: {
+      default_title: '__MSG_extensionName__',
+    },
     // Unpacked dev/CI loads pin the ID; the store rejects `key`, so drop it there.
     ...(isStoreBuild ? {} : { key: PUBLIC_KEY }),
     // `activeTab` (granted by the action click / shortcut) covers the
@@ -48,7 +52,7 @@ export default defineConfig({
     commands: {
       [SAVE_CURRENT_PAGE_COMMAND]: {
         suggested_key: { default: 'Ctrl+Shift+K', mac: 'Command+Shift+K' },
-        description: 'Save the current page to Reflect',
+        description: '__MSG_saveCurrentPageCommand__',
       },
     },
   },

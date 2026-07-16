@@ -1,5 +1,6 @@
 import { embedStatus, errorMessage, rebuildIndex } from '@reflect/core'
 import { startOperation } from '@/lib/operations'
+import { translate } from '@/lib/i18n'
 import { invalidateIndexQueries } from '@/lib/query-client'
 import { backfillEmbeddingsVisibly } from '@/lib/semantic'
 
@@ -33,7 +34,7 @@ export function rebuildIndexVisibly(generation: number): Promise<void> {
 }
 
 async function runRebuild(generation: number): Promise<void> {
-  const operation = startOperation('Rebuilding search index')
+  const operation = startOperation(translate('operations.search.rebuilding-index'))
   const skippedNotes: string[] = []
   try {
     await rebuildIndex({

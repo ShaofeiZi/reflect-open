@@ -36,8 +36,14 @@ export interface PaletteSections {
 
 const NOTE_CAP = 12
 
-function matchesCommand(command: AppCommand, query: string): boolean {
-  const haystack = [command.title, ...(command.keywords ?? [])].join(' ').toLowerCase()
+function matchesCommand(
+  command: AppCommand,
+  query: string,
+  commandTitle: (command: AppCommand) => string,
+): boolean {
+  const haystack = [commandTitle(command), command.title, ...(command.keywords ?? [])]
+    .join(' ')
+    .toLowerCase()
   return query
     .toLowerCase()
     .split(/\s+/)
@@ -55,8 +61,11 @@ export function buildPaletteSections(options: {
   /** True when the data query carried filter tokens (describes `hits`). */
   filtered: boolean
   commands: AppCommand[]
+  /** Active-locale command title, included alongside English fallback search terms. */
+  commandTitle?: (command: AppCommand) => string
 }): PaletteSections {
   const { commands, filtered } = options
+  const commandTitle = options.commandTitle ?? ((command: AppCommand) => command.title)
   const query = options.query.trim()
   // The **live** query decides the palette's mode; the deferred data only
   // fills it. Deciding mode from the deferred value would hold the palette in
@@ -77,7 +86,7 @@ export function buildPaletteSections(options: {
     return {
       commandsOnly: true,
       notes: [],
-      commands: commands.filter((command) => matchesCommand(command, commandQuery)),
+      commands: commands.filter((command) => matchesCommand(command, commandQuery, commandTitle)),
     }
   }
 
@@ -146,6 +155,9 @@ export function buildPaletteSections(options: {
     notes: notes.slice(0, NOTE_CAP),
     // The empty palette is the recall feed (recent notes only — decided);
     // commands appear once the query matches them.
-    commands: query === '' ? [] : commands.filter((command) => matchesCommand(command, query)),
+    commands:
+      query === ''
+        ? []
+        : commands.filter((command) => matchesCommand(command, query, commandTitle)),
   }
 }

@@ -7,6 +7,7 @@ import {
   insertTask,
   toggleTask,
 } from '@/lib/note-task'
+import { translate } from '@/lib/i18n'
 import { editAndToggleError, isEditAndToggleError } from '@/lib/tasks/edit-and-toggle-error'
 import {
   archiveRecentlyCompleted,
@@ -115,7 +116,7 @@ export function useTaskActions(): TaskActions {
     mutationFn: async (tasks: OpenTask[]) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       for (const task of tasks) {
         await toggleTask(task, generation)
@@ -136,7 +137,7 @@ export function useTaskActions(): TaskActions {
     onError: (cause, tasks) => {
       // A batch can fail after earlier writes landed — refetch truth rather than
       // restore a snapshot that would un-do the ones that persisted.
-      cache.reconcile('Completing tasks', cause)
+      cache.reconcile(translate('operations.tasks.completing-many'), cause)
       forgetRecentlyCompleted(root, tasks.map(taskKey))
     },
   })
@@ -145,7 +146,7 @@ export function useTaskActions(): TaskActions {
     mutationFn: async (tasks: OpenTask[]) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       for (const task of tasks) {
         await toggleTask(task, generation) // [x] → [ ]
@@ -162,14 +163,14 @@ export function useTaskActions(): TaskActions {
       forgetRecentlyCompleted(root, tasks.map(taskKey))
       return snapshot
     },
-    onError: (cause) => cache.reconcile('Reopening tasks', cause),
+    onError: (cause) => cache.reconcile(translate('operations.tasks.reopening-many'), cause),
   })
 
   const deleteMutation = useMutation({
     mutationFn: async (tasks: OpenTask[]) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       for (const task of tasks) {
         await deleteTask(task, generation)
@@ -187,7 +188,7 @@ export function useTaskActions(): TaskActions {
       return snapshot
     },
     onError: (cause, tasks) => {
-      cache.reconcile('Deleting tasks', cause)
+      cache.reconcile(translate('operations.tasks.deleting-many'), cause)
       // The delete dropped checked rows from the session's struck set; if it
       // failed they're still `[x]` on disk, so restore them or they'd vanish from
       // the default list (gone from open, struck-set, and the unloaded archived query).
@@ -199,7 +200,7 @@ export function useTaskActions(): TaskActions {
     mutationFn: ({ task, content }: { task: OpenTask; content: string }) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       return editTask(task, content, generation)
     },
@@ -213,14 +214,15 @@ export function useTaskActions(): TaskActions {
       )
       return snapshot
     },
-    onError: (cause, _vars, context) => cache.rollback(context, 'Editing task', cause),
+    onError: (cause, _vars, context) =>
+      cache.rollback(context, translate('operations.tasks.editing'), cause),
   })
 
   const scheduleMutation = useMutation({
     mutationFn: async ({ tasks, isoDate }: { tasks: OpenTask[]; isoDate: string | null }) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       // Sequential, like the other batch writes — tasks can share a note, and the
       // core edit relocates by `raw`, so a same-note batch tolerates offset drift.
@@ -240,14 +242,14 @@ export function useTaskActions(): TaskActions {
       cache.patch(patch, patch)
       return snapshot
     },
-    onError: (cause) => cache.reconcile('Scheduling tasks', cause),
+    onError: (cause) => cache.reconcile(translate('operations.tasks.scheduling'), cause),
   })
 
   const convertMutation = useMutation({
     mutationFn: async (tasks: OpenTask[]) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       // Sequential, like the other batch writes — tasks can share a note, and the
       // core edit relocates by `raw`, so a same-note batch tolerates offset drift.
@@ -268,7 +270,7 @@ export function useTaskActions(): TaskActions {
       return snapshot
     },
     onError: (cause, tasks) => {
-      cache.reconcile('Converting tasks', cause)
+      cache.reconcile(translate('operations.tasks.converting-many'), cause)
       // The convert dropped checked rows from the session's struck set; if it
       // failed they're still `[x]` on disk, so restore them or they'd vanish from
       // the default list (gone from open, struck-set, and the unloaded archived query).
@@ -280,7 +282,7 @@ export function useTaskActions(): TaskActions {
     mutationFn: async ({ task, content }: { task: OpenTask; content: string }) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       // Edit, then strip the marker off the *rewritten* line — sequential, and the
       // convert is given the post-edit `raw` so it locates the line the edit just
@@ -300,25 +302,25 @@ export function useTaskActions(): TaskActions {
       forgetRecentlyCompleted(root, [taskKey(task)])
       return snapshot
     },
-    onError: (cause) => cache.reconcile('Converting task', cause),
+    onError: (cause) => cache.reconcile(translate('operations.tasks.converting'), cause),
   })
 
   const insertMutation = useMutation({
     mutationFn: (target: InsertTaskTarget) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       return insertTask(target.notePath, generation)
     },
-    onError: (cause) => cache.reconcile('Adding task', cause),
+    onError: (cause) => cache.reconcile(translate('operations.tasks.adding'), cause),
   })
 
   const editAndToggleMutation = useMutation({
     mutationFn: async ({ task, content }: { task: OpenTask; content: string }) => {
       const generation = graph?.generation
       if (generation === undefined) {
-        throw new Error('No graph is open.')
+        throw new Error(translate('operations.tasks.no-graph'))
       }
       // Edit, then toggle the *rewritten* line — sequential, and the toggle is
       // given the post-edit `raw` so it locates the line the edit just wrote
@@ -359,7 +361,10 @@ export function useTaskActions(): TaskActions {
       const failure = isEditAndToggleError(cause) ? cause : null
       // Two sequential writes (edit then toggle) — if the toggle fails after the
       // edit lands, refetch rather than roll back over the persisted edit.
-      cache.reconcile(task.checked ? 'Reopening task' : 'Completing task', failure?.cause ?? cause)
+      cache.reconcile(
+        translate(task.checked ? 'operations.tasks.reopening' : 'operations.tasks.completing'),
+        failure?.cause ?? cause,
+      )
       if (task.checked && context?.wasRecentlyCompleted) {
         markRecentlyCompleted(root, [failure?.phase === 'toggle' ? context.edited : task])
       } else if (!task.checked) {

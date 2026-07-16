@@ -1,5 +1,6 @@
 import { useDeferredValue, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import {
   hasBridge,
   parseSearchQuery,
@@ -32,6 +33,7 @@ export interface PaletteResults {
 }
 
 export function usePaletteResults(open: boolean, query: string): PaletteResults {
+  const { t } = useTranslation()
   const { graph } = useGraph()
   // Hybrid needs both halves of the opt-in: the setting on *and* the model
   // ready. The setting gate makes disabling immediate — the model stays loaded
@@ -127,8 +129,10 @@ export function usePaletteResults(open: boolean, query: string): PaletteResults 
         hits: hits ?? [],
         filtered: parsed.filtered,
         commands: listCommands(),
+        commandTitle: (command) =>
+          command.titleKey ? t(command.titleKey, command.titleParams ?? {}) : command.title,
       }),
-    [query, trimmed, suggestions, hits, parsed.filtered],
+    [query, trimmed, suggestions, hits, parsed.filtered, t],
   )
 
   return { sections, resultsSettled, searchFailed }

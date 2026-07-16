@@ -4,6 +4,7 @@ import { errorMessage, type SnippetTask } from '@reflect/core'
 import type { TaskClickHandler, TaskClickPayload } from '@meowdown/react'
 import { toggleTask } from '@/lib/note-task'
 import { startOperation } from '@/lib/operations'
+import { translate } from '@/lib/i18n'
 import { useGraph } from '@/providers/graph-provider'
 
 interface SnippetToggleInput {
@@ -52,7 +53,11 @@ export function useSnippetTaskToggle(
     mutationFn: ({ notePath: path, task, generation }: SnippetToggleInput) =>
       toggleTask({ notePath: path, markerOffset: task.markerOffset, raw: task.raw }, generation),
     onError: (cause, { task }) => {
-      startOperation(task.checked ? 'Reopening task' : 'Completing task').fail(errorMessage(cause))
+      startOperation(
+        translate(
+          task.checked ? 'operations.tasks.reopening' : 'operations.tasks.completing',
+        ),
+      ).fail(errorMessage(cause))
     },
   })
   const { mutate, isPending } = mutation
@@ -65,7 +70,9 @@ export function useSnippetTaskToggle(
       }
       const anchor = anchorFor(tasks, payload)
       if (anchor === null) {
-        startOperation('Updating task').fail('The note has changed — try again in a moment.')
+        startOperation(translate('operations.tasks.updating')).fail(
+          translate('operations.tasks.note-changed'),
+        )
         return
       }
       if (!anchor.round) {

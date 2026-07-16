@@ -1,6 +1,7 @@
 import { Fragment, type ReactElement } from 'react'
 import { Plus } from 'lucide-react'
 import { groupTaskContexts, type OpenTask, type TaskGroup } from '@reflect/core'
+import { useTranslation } from 'react-i18next'
 import { TaskBreadcrumbs } from '@/components/tasks/task-breadcrumbs'
 import { addTargetForGroup, taskGroupHeaderStyle } from '@/lib/tasks/task-group-presentation'
 import { taskKey } from '@/lib/tasks/task-identity'
@@ -36,6 +37,7 @@ export function MobileTaskGroup({
   onEdit,
   onOpen,
 }: MobileTaskGroupProps): ReactElement {
+  const { t } = useTranslation()
   const showSource = group.kind !== 'note'
   const { notePath } = group
   const { icon, colorClass } = taskGroupHeaderStyle(group)
@@ -49,7 +51,7 @@ export function MobileTaskGroup({
           {icon}
           {/* The pin icon alone is invisible to screen readers (aria-hidden). */}
           {group.kind === 'note' && group.tasks[0]?.isPinned ? (
-            <span className="sr-only">Pinned:</span>
+            <span className="sr-only">{t('mobile.task-group.pinned-prefix')}</span>
           ) : null}
           {group.kind === 'note' && notePath !== null ? (
             <button
@@ -70,7 +72,9 @@ export function MobileTaskGroup({
         {addTarget !== null ? (
           <button
             type="button"
-            aria-label={`Add a task to ${group.kind === 'current' ? 'today' : group.label}`}
+            aria-label={t('mobile.task-group.add-to', {
+              target: group.kind === 'current' ? t('mobile.task-group.today') : group.label,
+            })}
             onClick={() => onAdd(addTarget)}
             className="-my-1 ml-auto flex size-8 flex-none items-center justify-center text-text-muted"
           >

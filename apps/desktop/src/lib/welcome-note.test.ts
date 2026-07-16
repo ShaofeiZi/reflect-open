@@ -1,6 +1,11 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { parseNote, setBridge, isPinned } from '@reflect/core'
-import { ensureWelcomeNote, WELCOME_NOTE_PATH, WELCOME_SEEDED_META_KEY } from './welcome-note'
+import {
+  ensureWelcomeNote,
+  welcomeNotePath,
+  WELCOME_NOTE_PATH,
+  WELCOME_SEEDED_META_KEY,
+} from './welcome-note'
 
 interface WrittenNote {
   path: string
@@ -64,6 +69,23 @@ describe('ensureWelcomeNote', () => {
     expect(isPinned(frontmatter)).toBe(true)
     expect(frontmatter.id).toMatch(/^[0-9a-z]{26}$/)
     expect(graph.written[0]!.contents).toContain('[[Wiki Links]]')
+  })
+
+  it('seeds a Simplified Chinese guide when that is the interface language', async () => {
+    const graph = installFakeBridge({})
+
+    expect(await ensureWelcomeNote({ ...GENERATIONS, language: 'zh-CN' })).toBe(true)
+    expect(graph.written).toHaveLength(1)
+    expect(graph.written[0]!.path).toBe(welcomeNotePath('zh-CN'))
+    expect(graph.written[0]!.path).toBe('notes/reflect-使用指南.md')
+
+    const { title } = parseNote({
+      path: graph.written[0]!.path,
+      source: graph.written[0]!.contents,
+    })
+    expect(title).toBe('Reflect 使用指南')
+    expect(graph.written[0]!.contents).toContain('[[双向链接]]')
+    expect(graph.written[0]!.contents).not.toContain('How to use Reflect')
   })
 
   it('marks a graph with existing notes without writing into it', async () => {

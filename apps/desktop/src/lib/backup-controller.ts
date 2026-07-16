@@ -28,6 +28,7 @@ import {
 import { setBackupFlusher } from '@/lib/backup-flush'
 import { invalidateGithubAuth } from '@/lib/github-auth-state'
 import { startOperation } from '@/lib/operations'
+import { translate } from '@/lib/i18n'
 import { isMobileSurface } from '@/lib/platform-surface'
 import { providerFetch } from '@/lib/provider-fetch'
 import { throttledInvalidateIndexQueries } from '@/lib/query-client'
@@ -332,7 +333,9 @@ export function createBackupController(options: BackupControllerOptions): Backup
         onLargeFilesSkipped: (files) => {
           // Surface the guardrail loudly: these files are NOT in the backup.
           const names = files.map((file) => file.path).join(', ')
-          startOperation('Backing up').fail(`Too large to back up (kept local): ${names}`)
+          startOperation(translate('operations.backup.backing-up')).fail(
+            translate('operations.backup.too-large', { names }),
+          )
         },
         onRemoteChanges,
       })
@@ -385,7 +388,7 @@ export function createBackupController(options: BackupControllerOptions): Backup
   async function requireToken(): Promise<string> {
     const token = await getGithubToken(providerFetch)
     if (token === null) {
-      throw new ReflectError('auth', 'Connect GitHub first (no credential stored)')
+      throw new ReflectError('auth', translate('operations.backup.connect-first'))
     }
     return token
   }

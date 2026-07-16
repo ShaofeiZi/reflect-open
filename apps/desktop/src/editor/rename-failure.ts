@@ -1,3 +1,5 @@
+import { translate } from '@/lib/i18n'
+
 /**
  * Failure reporting for one settled rename (Plan 07b/17). The three phases
  * fail independently, and the report says what *held*: a failed rewrite with
@@ -26,17 +28,29 @@ export function composeRenameFailure(
   const parts: string[] = []
   if (failures.rewrite !== null && failures.alias !== null) {
     parts.push(
-      `${failures.rewrite}; the old-title alias also failed (${failures.alias}) — links to "${from}" may no longer resolve`,
+      translate('operations.rename.rewrite-and-alias-failed', {
+        rewrite: failures.rewrite,
+        alias: failures.alias,
+        from,
+      }),
     )
   } else if (failures.rewrite !== null) {
     parts.push(
-      `${failures.rewrite} — links were not rewritten, but "${from}" was kept as an alias so they still resolve`,
+      translate('operations.rename.rewrite-failed', {
+        rewrite: failures.rewrite,
+        from,
+      }),
     )
   } else if (failures.alias !== null) {
-    parts.push(`links were rewritten, but recording "${from}" as an alias failed: ${failures.alias}`)
+    parts.push(
+      translate('operations.rename.alias-failed', {
+        alias: failures.alias,
+        from,
+      }),
+    )
   }
   if (failures.move !== null) {
-    parts.push(`the file keeps its old name (${failures.move})`)
+    parts.push(translate('operations.rename.move-failed', { move: failures.move }))
   }
   return parts.length > 0 ? parts.join('; ') : null
 }

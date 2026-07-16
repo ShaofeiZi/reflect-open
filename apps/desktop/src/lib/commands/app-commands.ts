@@ -8,6 +8,7 @@ import {
   untitledNotePath,
 } from '@reflect/core'
 import { attachFilesToNote } from '@/lib/attach-files'
+import { translate } from '@/lib/i18n'
 import { runCopyDeepLink } from '@/lib/note-deep-link'
 import { runGistPublish } from '@/lib/note-gist'
 import { toggleNotePinned } from '@/lib/note-pin'
@@ -185,7 +186,9 @@ const APP_COMMANDS: AppCommand[] = [
       } catch (cause) {
         // runCommand has no error channel of its own — an unreported failure
         // here would be a silent ⌘O. Surface it like other background work.
-        startOperation(wasPinned ? 'Unpinning note' : 'Pinning note').fail(errorMessage(cause))
+        startOperation(
+          translate(wasPinned ? 'commands.unpinning-note' : 'commands.pinning-note'),
+        ).fail(errorMessage(cause))
       }
     },
   },
@@ -212,7 +215,9 @@ const APP_COMMANDS: AppCommand[] = [
         wasPrivate = (await getNote(path))?.isPrivate ?? false
         await toggleNotePrivate(path, generation)
       } catch (cause) {
-        startOperation(wasPrivate ? 'Unlocking note' : 'Locking note').fail(errorMessage(cause))
+        startOperation(
+          translate(wasPrivate ? 'commands.unlocking-note' : 'commands.locking-note'),
+        ).fail(errorMessage(cause))
       }
     },
   },

@@ -10,6 +10,7 @@ import { isIsoDate } from '@/lib/dates'
 import { dailyDeepLink, noteDeepLink } from '@/lib/deep-links/format'
 import { commitNoteFrontmatter, readNoteSource } from '@/lib/note-frontmatter'
 import { startOperation } from '@/lib/operations'
+import { translate } from '@/lib/i18n'
 
 /**
  * "Copy deep link" (the v1 `alt+mod+l` port): the clipboard gets the most
@@ -59,13 +60,13 @@ export async function runCopyDeepLink(path: string, generation: number): Promise
   try {
     url = await deepLinkForNote(path, generation)
   } catch (cause) {
-    startOperation('Copying deep link').fail(errorMessage(cause))
+    startOperation(translate('operations.links.copying-deep-link')).fail(errorMessage(cause))
     return
   }
   try {
     await navigator.clipboard.writeText(url)
-    startOperation('Deep link copied').done()
+    startOperation(translate('operations.links.deep-link-copied')).done()
   } catch (cause) {
-    startOperation('Copying deep link').fail(errorMessage(cause))
+    startOperation(translate('operations.links.copying-deep-link')).fail(errorMessage(cause))
   }
 }

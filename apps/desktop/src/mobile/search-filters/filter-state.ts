@@ -5,7 +5,7 @@ import {
   type ParsedSearchQuery,
 } from '@reflect/core'
 import { formatLocalizedDate } from '@/lib/dates'
-import { getLanguage } from '@/lib/i18n'
+import { translate } from '@/lib/i18n'
 
 /**
  * The All tab's badge-filter model (Plan 19, V1 parity): AND-composed filters
@@ -181,14 +181,13 @@ export const UPDATED_PRESETS: readonly { preset: UpdatedPreset; labelKey: string
 ]
 
 function updatedPresetLabel(preset: UpdatedPreset): string {
-  const zh = getLanguage() === 'zh-CN'
   switch (preset) {
     case 'today':
-      return zh ? '今天' : 'Today'
+      return translate('mobile.filters.updated-today')
     case 'week':
-      return zh ? '最近 7 天' : 'Last 7 days'
+      return translate('mobile.filters.updated-week')
     case 'month':
-      return zh ? '最近 30 天' : 'Last 30 days'
+      return translate('mobile.filters.updated-month')
   }
 }
 
@@ -222,14 +221,13 @@ export function updatedRangeFilter(fromIso: string, toIso: string): UpdatedFilte
     return null
   }
   const dayLabel = (iso: string): string => formatLocalizedDate(isoDayStartMs(iso), 'MMM d')
-  const zh = getLanguage() === 'zh-CN'
   const label =
     from !== null && to !== null
       ? `${dayLabel(from)} – ${dayLabel(to)}`
       : from !== null
-        ? (zh ? `${dayLabel(from)} 以来` : `Since ${dayLabel(from)}`)
+        ? translate('mobile.filters.updated-since', { date: dayLabel(from) })
         : // The empty-both case returned above, so `to` is set here.
-          (zh ? `截至 ${dayLabel(to!)}` : `Until ${dayLabel(to!)}`)
+          translate('mobile.filters.updated-until', { date: dayLabel(to!) })
   return {
     label,
     afterMs: from === null ? null : isoDayStartMs(from),

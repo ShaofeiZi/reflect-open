@@ -14,6 +14,7 @@ import {
   type ContactMatch,
 } from '@reflect/core'
 import { openSession } from '@/editor/open-documents'
+import { translate } from '@/lib/i18n'
 import { commitNoteFrontmatter, readNoteSource } from '@/lib/note-frontmatter'
 
 /**
@@ -59,7 +60,7 @@ export async function addContactToNote(
 ): Promise<void> {
   const source = await sourceIfStillMatching(path, contact)
   if (source === null) {
-    throw new Error('The note title no longer matches this contact.')
+    throw new Error(translate('operations.notes.contact-title-changed'))
   }
   const body = splitFrontmatter(source).body
   // The same content gate the card renders through: a body that already
@@ -74,7 +75,7 @@ export async function addContactToNote(
   const owner = openSession(path)
   if (owner !== null) {
     if (!(await owner.commitBodyAppend(details))) {
-      throw new Error('This note can’t be updated right now — try again in a moment.')
+      throw new Error(translate('operations.notes.contact-update-unavailable'))
     }
     return
   }

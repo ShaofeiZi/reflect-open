@@ -1,3 +1,4 @@
+import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
 
 /**
@@ -6,8 +7,8 @@ import { startOperation } from '@/lib/operations'
  * or fallback key, or an unavailable collision prevents proving uniqueness.
  * Neither navigation nor creation may guess in those states.
  */
-export function reportAmbiguousNoteTitle(operationLabel: string, title: string): void {
-  startOperation(operationLabel).fail(
-    `Couldn’t safely choose one note matching “${title}”. Rename conflicting notes or wait for unavailable notes to become available, then try again.`,
+export function reportAmbiguousNoteTitle(operationLabelKey: string, title: string): void {
+  startOperation(translate(operationLabelKey)).fail(
+    translate('operations.links.ambiguous', { title }),
   )
 }

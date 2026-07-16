@@ -25,14 +25,20 @@ type SaveState =
 
 const RELEASES_URL = 'https://github.com/team-reflect/reflect-open/releases/latest'
 
+function message(key: Parameters<typeof browser.i18n.getMessage>[0], substitutions?: string): string {
+  return substitutions === undefined
+    ? browser.i18n.getMessage(key)
+    : browser.i18n.getMessage(key, substitutions)
+}
+
 function holdMessage(result: FlushResult): string {
   switch (result.holdReason) {
     case 'no-host':
-      return 'Install Reflect to finish saving — the capture is kept and retries automatically.'
+      return message('holdNoHost')
     case 'no-graph':
-      return 'Open Reflect and pick a graph first — the capture is kept and retries automatically.'
+      return message('holdNoGraph')
     default:
-      return 'Reflect could not be reached — the capture is kept and retries automatically.'
+      return message('holdUnavailable')
   }
 }
 
@@ -102,10 +108,11 @@ export function CapturePopup(): ReactElement {
         setSave({ phase: 'held', result: outcome.result })
         setHeldCount(outcome.result.held)
       } else {
-        setSave({ phase: 'failed', message: 'The capture was rejected — please report this.' })
+        setSave({ phase: 'failed', message: message('captureRejected') })
       }
     } catch (cause) {
-      setSave({ phase: 'failed', message: cause instanceof Error ? cause.message : String(cause) })
+      console.error('capture save failed:', cause)
+      setSave({ phase: 'failed', message: message('captureFailed') })
     }
   }
 
@@ -113,7 +120,7 @@ export function CapturePopup(): ReactElement {
     return <div className="h-24" />
   }
   if (captured.status === 'uncapturable') {
-    return <p className="p-4 text-sm text-text-muted">This page can’t be captured.</p>
+    return <p className="p-4 text-sm text-text-muted">{message('uncapturablePage')}</p>
   }
 
   const { page } = captured
@@ -151,7 +158,7 @@ export function CapturePopup(): ReactElement {
         type="text"
         value={note}
         onChange={(event) => setNote(event.target.value)}
-        placeholder="Add a note (optional)"
+        placeholder={message('addNotePlaceholder')}
         autoFocus
         disabled={busy}
         className="rounded-md border border-border bg-input-bg px-2 py-1.5 text-sm text-text outline-none placeholder:text-text-muted focus:ring-2 focus:ring-focus-ring"
@@ -164,21 +171,21 @@ export function CapturePopup(): ReactElement {
           disabled={busy}
           className="size-3.5 rounded border-border text-accent focus:ring-focus-ring"
         />
-        Capture page text
+        {message('capturePageText')}
       </label>
       <button
         type="submit"
         disabled={busy}
         className="rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-text-on-brand hover:bg-accent-hover disabled:opacity-60"
       >
-        {save.phase === 'saving' ? 'Saving…' : 'Save to Reflect'}
+        {save.phase === 'saving' ? message('saving') : message('saveToReflect')}
       </button>
       {save.phase === 'held' ? (
         <p className="text-xs text-text-muted">
           {holdMessage(save.result)}{' '}
           {save.result.holdReason === 'no-host' ? (
             <a href={RELEASES_URL} target="_blank" rel="noreferrer" className="text-accent underline">
-              Download Reflect
+              {message('downloadReflect')}
             </a>
           ) : null}
         </p>
@@ -188,7 +195,9 @@ export function CapturePopup(): ReactElement {
       ) : null}
       {save.phase === 'idle' && heldCount > 0 ? (
         <p className="text-xs text-text-muted">
-          {heldCount} earlier {heldCount === 1 ? 'capture' : 'captures'} waiting for Reflect.
+          {heldCount === 1
+            ? message('oneEarlierCaptureWaiting')
+            : message('earlierCapturesWaiting', String(heldCount))}
         </p>
       ) : null}
     </form>

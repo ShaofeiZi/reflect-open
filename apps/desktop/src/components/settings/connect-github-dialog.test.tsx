@@ -97,7 +97,7 @@ describe('ConnectGithubDialog', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
 
-    expect(await screen.findByText('alex')).toBeTruthy()
+    expect(await screen.findByText('Signed in as alex')).toBeTruthy()
   })
 
   it('hands off to github.com/new and connects by polling — no button to click', async () => {

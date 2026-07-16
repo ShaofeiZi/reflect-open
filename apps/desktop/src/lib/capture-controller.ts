@@ -11,6 +11,7 @@ import {
   type ReconcileStop,
 } from '@reflect/core'
 import { createBackgroundReconciler } from '@/lib/background-reconciler'
+import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
 import { providerFetch } from '@/lib/provider-fetch'
 
@@ -91,13 +92,13 @@ export function createCaptureController(options: CaptureControllerOptions): Capt
         // surfaces like a drain stop instead of aborting the pass.
         relayStop = { reason: toAppError(cause).kind, message: errorMessage(cause) }
       }
-      surfaceStop('Saving shared capture', relayStop)
+      surfaceStop(translate('operations.capture.saving-shared'), relayStop)
       if (isStale()) {
         return
       }
     }
     const drained = await drainCaptureInbox({ generation: options.generation, isStale })
-    surfaceStop('Saving link capture', drained.stopped)
+    surfaceStop(translate('operations.capture.saving-link'), drained.stopped)
     if (isStale()) {
       return
     }
@@ -107,7 +108,7 @@ export function createCaptureController(options: CaptureControllerOptions): Capt
       fetchFn: providerFetch,
       isStale,
     })
-    surfaceStop('Enriching link capture', enriched.stopped)
+    surfaceStop(translate('operations.capture.enriching-link'), enriched.stopped)
   }
 
   const loop = createBackgroundReconciler({ pass: reconcile })

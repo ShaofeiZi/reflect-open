@@ -11,6 +11,7 @@ import { placeOldTitleAlias } from './alias-placement'
 import { moveNoteCarryingSession } from './move-note'
 import type { NoteContentOrigin } from './note-session'
 import { composeRenameFailure, type RenamePhaseFailures } from './rename-failure'
+import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
 import { createTitleRenameTracker } from './title-rename'
 import type { TitleRename } from './title-rename'
@@ -109,20 +110,26 @@ export function createRenameCoordinator(options: RenameCoordinatorOptions): Rena
         // A birth: the first authored title on an untitled note. Nothing
         // links to a title that never existed — no rewrite, no alias — but
         // the file sheds its placeholder name for the title's slug.
-        const operation = startOperation(`Naming "${rename.to}"`)
+        const operation = startOperation(
+          translate('operations.notes.naming', { title: rename.to }),
+        )
         try {
           await runMove(rename.to, gen)
           operation.done()
         } catch (cause) {
           console.error('note file move failed:', cause)
           operation.fail(
-            `${errorMessage(cause)} — the note keeps its placeholder filename; the title and its links are unaffected`,
+            translate('operations.notes.rename-move-failed', {
+              error: errorMessage(cause),
+            }),
           )
         }
         return
       }
       const from = rename.from
-      const operation = startOperation(`Renaming "${from}" → "${rename.to}"`)
+      const operation = startOperation(
+        translate('operations.notes.renaming', { from, to: rename.to }),
+      )
       // The phases fail independently and the report says what held — the
       // permutations live in `composeRenameFailure`.
       const failures: RenamePhaseFailures = { rewrite: null, alias: null, move: null }

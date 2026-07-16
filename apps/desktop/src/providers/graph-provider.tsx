@@ -26,11 +26,13 @@ import {
 } from '@reflect/core'
 import { followHealedMove } from '@/editor/move-note'
 import { resetNoteRowOverlays } from '@/hooks/note-row-overlay'
+import { translate } from '@/lib/i18n'
 import { setIndexProgress } from '@/lib/index-progress'
 import { dropIcloudStatusQuery, throttledInvalidateIndexQueries } from '@/lib/query-client'
 import { ensureWelcomeNote } from '@/lib/welcome-note'
 import { closeSecondaryWindows } from '@/lib/windows/close-secondary-windows'
 import { isMainWindow, requireMainWindow } from '@/lib/windows/window-role'
+import { useSettings } from '@/providers/settings-provider'
 import { createGraphIndex } from './graph-index'
 import { useDesktopGraphBoot } from './use-desktop-graph-boot'
 import { useMobileGraphBoot, type MobileGraphBoot } from './use-mobile-graph-boot'
@@ -140,6 +142,11 @@ export function GraphProvider({
   const [indexGeneration, setIndexGeneration] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
   const { t } = useTranslation()
+  const { settings, whenSettingsLoaded } = useSettings()
+  const languageRef = useRef(settings.language)
+  useEffect(() => {
+    languageRef.current = settings.language
+  }, [settings.language])
   // Monotonic open token: only the most recent open may commit `graph`/`status`,
   // so overlapping opens (double-click, StrictMode remount) can't finish out of
   // order and leave us on a graph the user didn't pick last.
@@ -275,7 +282,14 @@ export function GraphProvider({
           // .finally so it always runs after the seed attempt.
           // Best-effort — a failed seed must never block opening.
           if (generation !== null) {
-            ensureWelcomeNote({ fileGeneration: info.generation, indexGeneration: generation })
+            whenSettingsLoaded()
+              .then(() =>
+                ensureWelcomeNote({
+                  fileGeneration: info.generation,
+                  indexGeneration: generation,
+                  language: languageRef.current,
+                }),
+              )
               .catch((err) => {
                 console.error('welcome seed failed:', errorMessage(err))
               })
@@ -311,7 +325,7 @@ export function GraphProvider({
       openChain.current = next
       return next
     },
-    [loadRecents, platform],
+    [loadRecents, platform, whenSettingsLoaded],
   )
 
   // The mobile bootstrap + onboarding slice (Plans 19/21) lives in its own
@@ -437,7 +451,7 @@ export function GraphProvider({
 
   const deleteGraph = useCallback(async (): Promise<void> => {
     if (!isMainWindow()) {
-      throw new Error('Deleting a graph is only available from the main window.')
+      throw new Error(translate('common.appState.deleteMainWindowOnly'))
     }
     if (graph === null) {
       return

@@ -5,6 +5,7 @@ import {
   type ReconcileAssetDescriptionsOutcome,
 } from '@reflect/core'
 import { startOperation } from '@/lib/operations'
+import { translate } from '@/lib/i18n'
 import { providerFetch } from '@/lib/provider-fetch'
 import { invalidateIndexQueries } from '@/lib/query-client'
 
@@ -38,7 +39,7 @@ async function runBackfill(
   generation: number,
   providers: AiProvidersState,
 ): Promise<ReconcileAssetDescriptionsOutcome> {
-  const operation = startOperation('Describing assets')
+  const operation = startOperation(translate('operations.assets.describing'))
   let outcome: ReconcileAssetDescriptionsOutcome
   try {
     outcome = await reconcileAssetDescriptions({
@@ -52,7 +53,7 @@ async function runBackfill(
     // reconcileAssetDescriptions is contracted not to throw, but finalize the
     // operation defensively so an unexpected failure never strands a "running"
     // entry in the operations UI.
-    operation.fail('Failed to describe assets.')
+    operation.fail(translate('operations.assets.failed'))
     throw cause
   }
   // Make the new descriptions searchable: re-index the notes that reference the
@@ -73,9 +74,9 @@ async function runBackfill(
   if (outcome.stopped === null || outcome.stopped.reason === 'stale') {
     operation.done()
   } else if (outcome.stopped.reason === 'config') {
-    operation.warn('Add an AI provider in Settings to describe assets.')
+    operation.warn(translate('operations.assets.need-provider'))
   } else if (outcome.stopped.reason === 'network') {
-    operation.warn('Some assets could not be described — check your connection and try again.')
+    operation.warn(translate('operations.assets.network'))
   } else {
     operation.fail(outcome.stopped.message)
   }

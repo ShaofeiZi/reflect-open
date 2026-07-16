@@ -10,6 +10,7 @@ import {
   type FileMeta,
 } from '@reflect/core'
 import { formatBytes } from '@/lib/format-bytes'
+import { translate } from '@/lib/i18n'
 import { startOperation } from '@/lib/operations'
 
 /**
@@ -191,8 +192,11 @@ export function useAssetPersistence(
         const saved = await createAsset(desiredName, file, generation)
         sizeCache.set(saved, file.size)
         if (file.size > LARGE_FILE_BYTES) {
-          startOperation('Large file added').warn(
-            `“${file.name}” is ${formatBytes(file.size)}. Git keeps every version forever; GitHub rejects files over 100 MB.`,
+          startOperation(translate('operations.assets.large-file')).warn(
+            translate('operations.assets.large-file-warning', {
+              name: file.name,
+              size: formatBytes(file.size),
+            }),
           )
         }
         if (!isStale()) {

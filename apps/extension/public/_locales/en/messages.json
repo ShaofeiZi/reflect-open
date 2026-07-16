@@ -1,0 +1,58 @@
+{
+  "extensionName": {
+    "message": "Reflect Capture"
+  },
+  "extensionDescription": {
+    "message": "Save the page you are reading into Reflect."
+  },
+  "saveCurrentPageCommand": {
+    "message": "Save the current page to Reflect"
+  },
+  "popupTitle": {
+    "message": "Reflect Capture"
+  },
+  "uncapturablePage": {
+    "message": "This page can’t be captured."
+  },
+  "addNotePlaceholder": {
+    "message": "Add a note (optional)"
+  },
+  "capturePageText": {
+    "message": "Capture page text"
+  },
+  "saving": {
+    "message": "Saving…"
+  },
+  "saveToReflect": {
+    "message": "Save to Reflect"
+  },
+  "holdNoHost": {
+    "message": "Install Reflect to finish saving — the capture is kept and retries automatically."
+  },
+  "holdNoGraph": {
+    "message": "Open Reflect and pick a graph first — the capture is kept and retries automatically."
+  },
+  "holdUnavailable": {
+    "message": "Reflect could not be reached — the capture is kept and retries automatically."
+  },
+  "captureRejected": {
+    "message": "The capture was rejected — please report this."
+  },
+  "captureFailed": {
+    "message": "The capture could not be saved. Please try again."
+  },
+  "downloadReflect": {
+    "message": "Download Reflect"
+  },
+  "oneEarlierCaptureWaiting": {
+    "message": "1 earlier capture is waiting for Reflect."
+  },
+  "earlierCapturesWaiting": {
+    "message": "$COUNT$ earlier captures are waiting for Reflect.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  }
+}

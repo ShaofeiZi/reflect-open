@@ -39,7 +39,7 @@ export function AiProviderRow({
 
   const remove = (): void => {
     onRemove(config.id).catch((error: unknown) => {
-      startOperation(`Removing ${name}`).fail(errorMessage(error))
+      startOperation(t('operations.provider.removing', { name })).fail(errorMessage(error))
     })
   }
 
@@ -57,7 +57,9 @@ export function AiProviderRow({
         provider={config.provider}
         models={provider.models}
         onChange={(model) => onSetDefaultModel(config.id, model)}
-        ariaLabel={`Default model for ${providerLabel}`}
+        ariaLabel={t('settings.aiProvidersSection.defaultModelFor', {
+          provider: providerLabel,
+        })}
       />
       <div className="flex shrink-0 items-center gap-2">
         {isDefault ? (

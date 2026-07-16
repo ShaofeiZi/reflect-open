@@ -129,7 +129,8 @@
       "no-provider-reason": "Add an OpenAI or Gemini model in Settings to record audio memos",
       "unsupported-platform": "Audio recording is not supported on this platform",
       "mic-denied-macos": "Microphone access was denied. Allow it in System Settings → Privacy & Security → Microphone.",
-      "mic-denied-other": "Microphone access was denied. Allow microphone access for Reflect in your system settings."
+      "mic-denied-other": "Microphone access was denied. Allow microphone access for Reflect in your system settings.",
+      "mic-denied-mobile": "Microphone access was denied. Allow it for Reflect in the Settings app."
     },
     "chat": {
       "no-api-key": "No API key found for this provider — re-add it in Settings → AI providers."
@@ -158,7 +159,8 @@
     },
     "appState": {
       "secondaryWindowGraphError": "This window couldn’t open the graph. Close it and reopen from the main window.",
-      "loading": "Loading…"
+      "loading": "Loading…",
+      "deleteMainWindowOnly": "Deleting a graph is only available from the main window."
     }
   },
   "settings": {
@@ -324,6 +326,7 @@
       "empty": "No AI providers configured. Add a provider API key to use AI features — keys are stored in your OS keychain and calls go directly to the provider.",
       "addProvider": "Add provider",
       "apiKey": "API key",
+      "defaultModelFor": "Default model for {{provider}}",
       "default": "Default",
       "makeDefault": "Make default",
       "remove": "Remove {{name}}"
@@ -337,6 +340,7 @@
       "apiKeyRequired": "Enter an API key.",
       "useAsDefault": "Use as the default provider",
       "verifyWarning": "Couldn't reach {{provider}} to verify the key. Submit again to save it unverified.",
+      "settingsLoadFailed": "Settings could not be loaded, so new AI providers cannot be saved. The API key was not stored.",
       "cancel": "Cancel",
       "saveAnyway": "Save anyway",
       "addProvider": "Add provider"
@@ -523,6 +527,12 @@
       "grantAccessInstruction": "Give Reflect access to {{repo}} so it can back up here.",
       "grantAccessOnGithub": "Grant access on GitHub…",
       "repoSelectionHint": "On GitHub, choose Only select repositories — Reflect only needs this one.",
+      "errors": {
+        "nameRequired": "Name the repository.",
+        "repoInvalid": "Enter the repository as owner/name or a GitHub URL.",
+        "repoNotFound": "Repository not found. Check the name and your token’s repository access.",
+        "browserOpenFailed": "Couldn’t open the browser — visit {{url}} yourself."
+      },
       "waitingAccess": "Waiting for access…",
       "connecting": "Connecting…",
       "signedInAs": "Signed in as {{login}}"
@@ -886,7 +896,11 @@
       "couldnt-open": "Couldn’t open your notes",
       "loading": "Loading…",
       "unknown-error": "Unknown error",
-      "something-broke": "Something broke"
+      "something-broke": "Something broke",
+      "icloudStoredUnavailable": "Your notes are stored in iCloud Drive, but iCloud isn’t available on this device. Sign in to iCloud in Settings, then reopen Reflect.",
+      "icloudUnavailable": "iCloud Drive isn’t available on this device.",
+      "noGraphFolder": "No graph folder available.",
+      "openFailed": "Couldn’t open your notes — please try again."
     },
     "note-actions": {
       "aria": "Note actions",
@@ -1077,6 +1091,14 @@
       "open-note": "Open note",
       "delete": "Delete"
     },
+    "task-row": {
+      "edit": "Edit: {{label}}"
+    },
+    "task-group": {
+      "pinned-prefix": "Pinned:",
+      "add-to": "Add a task to {{target}}",
+      "today": "today"
+    },
     "task-filters": {
       "title": "Task filters",
       "pinned": "Pinned notes",
@@ -1095,7 +1117,13 @@
       "clear": "Clear search"
     },
     "filters": {
+      "toolbar": "Filters",
       "updated": "Updated",
+      "updated-today": "Today",
+      "updated-week": "Last 7 days",
+      "updated-month": "Last 30 days",
+      "updated-since": "Since {{date}}",
+      "updated-until": "Until {{date}}",
       "updated-from": "Updated from",
       "updated-to": "Updated to",
       "to": "to",
@@ -1131,6 +1159,106 @@
     "note-screen": {
       "new": "New note",
       "edit": "Edit note"
+    }
+  },
+  "operations": {
+    "audio-memo": {
+      "saving": "Saving audio memo",
+      "transcribing": "Transcribing audio memo"
+    },
+    "tasks": {
+      "reopening": "Reopening task",
+      "completing": "Completing task",
+      "updating": "Updating task",
+      "note-changed": "The note has changed — try again in a moment.",
+      "note-busy": "This note can’t be updated right now — try again in a moment.",
+      "note-open-add": "This note is open — add the task in the note itself.",
+      "trashing": "Trashing notes",
+      "no-graph": "No graph is open.",
+      "completing-many": "Completing tasks",
+      "reopening-many": "Reopening tasks",
+      "deleting-many": "Deleting tasks",
+      "editing": "Editing task",
+      "scheduling": "Scheduling tasks",
+      "converting-many": "Converting tasks",
+      "converting": "Converting task",
+      "adding": "Adding task"
+    },
+    "gist": {
+      "already-running": "Gist operation already running",
+      "wait": "Wait for the current gist operation to finish.",
+      "publishing": "Publishing gist",
+      "copied": "Gist link copied",
+      "copying": "Copying the gist link",
+      "unpublishing": "Unpublishing gist",
+      "invalid-frontmatter-publish": "The note has invalid frontmatter — fix it before publishing.",
+      "invalid-frontmatter-unpublish": "The note has invalid frontmatter — fix it before unpublishing.",
+      "empty": "The note is empty — nothing to publish.",
+      "connect-publish": "Connect GitHub in Settings to publish gists.",
+      "connect-unpublish": "Connect GitHub in Settings to unpublish gists."
+    },
+    "search": {
+      "rebuilding-index": "Rebuilding search index"
+    },
+    "assets": {
+      "describing": "Describing assets",
+      "failed": "Failed to describe assets.",
+      "need-provider": "Add an AI provider in Settings to describe assets.",
+      "network": "Some assets could not be described — check your connection and try again.",
+      "large-file": "Large file added",
+      "large-file-warning": "“{{name}}” is {{size}}. Git keeps every version forever; GitHub rejects files over 100 MB."
+    },
+    "templates": {
+      "inserting": "Inserting template",
+      "no-open-note": "No open note to insert into."
+    },
+    "links": {
+      "copying-deep-link": "Copying deep link",
+      "deep-link-copied": "Deep link copied",
+      "opening": "Opening link",
+      "unrecognized": "Unrecognized link: {{url}}",
+      "note-not-found": "Note not found: {{target}}",
+      "saving-capture": "Saving capture",
+      "task-added": "Task added to today",
+      "added": "Added to today",
+      "unavailable": "Couldn’t open “{{title}}” because a matching note is currently unavailable. Try again when it is available on this device.",
+      "ambiguous": "Couldn’t safely choose one note matching “{{title}}”. Rename conflicting notes or wait for unavailable notes to become available, then try again."
+    },
+    "notes": {
+      "creating": "Creating note",
+      "create-unavailable": "Couldn’t create “{{title}}” while a potentially matching note is unavailable. Try again when it is available on this device.",
+      "create-menu": "Create “{{title}}”",
+      "contact": "Contact",
+      "new": "new",
+      "naming": "Naming “{{title}}”",
+      "renaming": "Renaming “{{from}}” → “{{to}}”",
+      "rename-move-failed": "{{error}} — the note keeps its placeholder filename; the title and its links are unaffected",
+      "attach-picker": "Attach files",
+      "attaching-file": "Attaching file",
+      "attachment-note-closed": "the note closed before its links could be inserted — {{names}} were still copied into assets/",
+      "attachment-copy-failed": "could not be copied: {{details}}",
+      "daily-delete": "Daily notes cannot be deleted.",
+      "contact-title-changed": "The note title no longer matches this contact.",
+      "contact-update-unavailable": "This note can’t be updated right now — try again in a moment."
+    },
+    "rename": {
+      "rewrite-and-alias-failed": "{{rewrite}}; the old-title alias also failed ({{alias}}) — links to \"{{from}}\" may no longer resolve",
+      "rewrite-failed": "{{rewrite}} — links were not rewritten, but \"{{from}}\" was kept as an alias so they still resolve",
+      "alias-failed": "links were rewritten, but recording \"{{from}}\" as an alias failed: {{alias}}",
+      "move-failed": "the file keeps its old name ({{move}})"
+    },
+    "backup": {
+      "backing-up": "Backing up",
+      "too-large": "Too large to back up (kept local): {{names}}",
+      "connect-first": "Connect GitHub first (no credential stored)"
+    },
+    "capture": {
+      "saving-shared": "Saving shared capture",
+      "saving-link": "Saving link capture",
+      "enriching-link": "Enriching link capture"
+    },
+    "provider": {
+      "removing": "Removing {{name}}"
     }
   },
   "commands": {
@@ -1179,5 +1307,33 @@
     "window": "Window",
     "help": "Help"
   },
-  "shortcuts": {}
+  "shortcuts": {
+    "bold": "Bold",
+    "italic": "Italic",
+    "inline-code": "Inline code",
+    "strikethrough": "Strikethrough",
+    "highlight": "Highlight",
+    "link": "Link",
+    "insert-wikilink": "Insert a wikilink",
+    "heading-1": "Heading 1",
+    "heading-2": "Heading 2",
+    "heading-3": "Heading 3",
+    "heading-4": "Heading 4",
+    "heading-5": "Heading 5",
+    "heading-6": "Heading 6",
+    "fold-bullet": "Fold or unfold a bullet",
+    "follow-link-or-task": "Follow the link under the caret, or cycle a checkbox task",
+    "cycle-circle-task": "Cycle a circle checkbox task",
+    "ordered-list": "Ordered list",
+    "bullet-list": "Bullet list",
+    "checkbox-list": "Checkbox task list",
+    "move-block-up": "Move the block or list item up",
+    "move-block-down": "Move the block or list item down",
+    "caret-document-start": "Move the caret to the document start",
+    "caret-document-end": "Move the caret to the document end",
+    "select-document-start": "Select to the document start",
+    "select-document-end": "Select to the document end",
+    "collapse-selection": "Collapse the selection",
+    "open-ai-menu": "Open the AI menu on the selection"
+  }
 }

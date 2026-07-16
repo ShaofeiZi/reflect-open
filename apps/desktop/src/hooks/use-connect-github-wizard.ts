@@ -10,6 +10,7 @@ import {
 import { useAsyncAction } from '@/hooks/use-async-action'
 import { usePoll } from '@/hooks/use-poll'
 import { parseRepoInput } from '@/lib/github-repos'
+import { translate } from '@/lib/i18n'
 import { useSync } from '@/providers/sync-provider'
 
 export type ConnectWizardStep = 'repo' | 'auth' | 'finish'
@@ -163,8 +164,8 @@ export function useConnectGithubWizard({
       if (ref === null) {
         action.setError(
           mode === 'existing'
-            ? 'Enter the repository as owner/name or a GitHub URL.'
-            : 'Name the repository.',
+            ? translate('settings.githubConnect.errors.repoInvalid')
+            : translate('settings.githubConnect.errors.nameRequired'),
         )
         setStep('repo')
         return
@@ -188,9 +189,7 @@ export function useConnectGithubWizard({
         if (kind === 'app') {
           setShowGrantAccess(true)
         } else {
-          action.setError(
-            'Repository not found. Check the name and your token’s repository access.',
-          )
+          action.setError(translate('settings.githubConnect.errors.repoNotFound'))
         }
         return
       }
@@ -208,11 +207,11 @@ export function useConnectGithubWizard({
   function continueFromRepo(): void {
     action.setError(null)
     if (mode === 'create' && repoName.trim().length === 0) {
-      action.setError('Name the repository.')
+      action.setError(translate('settings.githubConnect.errors.nameRequired'))
       return
     }
     if (mode === 'existing' && parseRepoInput(existingRepo) === null) {
-      action.setError('Enter the repository as owner/name or a GitHub URL.')
+      action.setError(translate('settings.githubConnect.errors.repoInvalid'))
       return
     }
     setStep('auth')
@@ -245,7 +244,7 @@ export function useConnectGithubWizard({
   /** Open in the browser; an opener failure surfaces the URL to visit by hand. */
   function openExternal(url: string): void {
     void openUrl(url).catch(() => {
-      action.setError(`Couldn’t open the browser — visit ${url} yourself.`)
+      action.setError(translate('settings.githubConnect.errors.browserOpenFailed', { url }))
     })
   }
 

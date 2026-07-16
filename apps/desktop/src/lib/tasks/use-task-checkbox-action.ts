@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { type OpenTask } from '@reflect/core'
+import { translate } from '@/lib/i18n'
 import { toggleTask } from '@/lib/note-task'
 import {
   forgetRecentlyCompleted,
@@ -60,7 +61,11 @@ export function useTaskCheckboxAction(): TaskCheckboxAction {
       return { snapshot, wasRecentlyCompleted }
     },
     onError: (cause, { task }, context) => {
-      cache.rollback(context?.snapshot, task.checked ? 'Reopening task' : 'Completing task', cause)
+      cache.rollback(
+        context?.snapshot,
+        translate(task.checked ? 'operations.tasks.reopening' : 'operations.tasks.completing'),
+        cause,
+      )
       if (task.checked && context?.wasRecentlyCompleted) {
         markRecentlyCompleted(root, [task])
       } else if (!task.checked) {

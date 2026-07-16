@@ -8,6 +8,7 @@ import {
 } from '@reflect/core'
 import { useMainWindowEffect } from '@/hooks/use-main-window-effect'
 import { startOperation } from '@/lib/operations'
+import { translate } from '@/lib/i18n'
 import {
   createTranscriptionReconciler,
   type TranscriptionReconciler,
@@ -213,7 +214,7 @@ export function useAudioMemoPipeline(
           if (!errorSurfaceVisibleRef.current()) {
             // The error UI is off screen — the failure must still surface
             // somewhere.
-            startOperation('Saving audio memo').fail(outcome.message)
+            startOperation(translate('operations.audio-memo.saving')).fail(outcome.message)
           }
         }
       }

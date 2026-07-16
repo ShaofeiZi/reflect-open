@@ -11,6 +11,7 @@ import {
   type AiProviderId,
   type AppError,
 } from '@reflect/core'
+import { translate } from '@/lib/i18n'
 import { useSettings } from '@/providers/settings-provider'
 
 /**
@@ -72,8 +73,7 @@ export function useAiProviders(): UseAiProvidersValue {
       if ((await whenSettingsLoaded()) === 'failed') {
         const error: AppError = {
           kind: 'io',
-          message:
-            'Settings could not be loaded, so new AI providers cannot be saved. The API key was not stored.',
+          message: translate('settings.addAiProviderDialog.settingsLoadFailed'),
         }
         throw error
       }
