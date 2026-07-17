@@ -47,7 +47,7 @@ interface CalendarStripProps {
  */
 export function CalendarStrip({ date, today, resetSeq, onSelect }: CalendarStripProps): ReactElement {
   const { settings } = useSettings()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { navigate } = useRouter()
   const { emblaRef, weekWindow, displayedWeekStart, showWeekOf } = useWeekStrip(
     date,
@@ -159,6 +159,7 @@ export function CalendarStrip({ date, today, resetSeq, onSelect }: CalendarStrip
                 weekStart={weekStart}
                 selectedDay={contains(date) ? date : null}
                 todayDay={contains(today) ? today : null}
+                language={i18n.resolvedLanguage === 'zh-CN' ? 'zh-CN' : 'en'}
                 onSelect={onSelect}
               />
             )

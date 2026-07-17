@@ -1,4 +1,5 @@
 import { memo, type ReactElement } from 'react'
+import type { Language } from '@reflect/core'
 import { addDaysIso, formatLocalizedDate, parseIsoDate } from '@/lib/dates'
 import { cn } from '@/lib/utils'
 import { hapticImpactLight } from '@/mobile/haptics'
@@ -10,6 +11,8 @@ interface WeekRowProps {
   selectedDay: string | null
   /** Today when it falls in this week, else `null`. */
   todayDay: string | null
+  /** Active interface language; part of the memo contract for localized labels. */
+  language: Language
   /** Select a day — drives the carousel and the route. */
   onSelect: (date: string) => void
 }
@@ -26,6 +29,7 @@ function WeekRowComponent({
   weekStart,
   selectedDay,
   todayDay,
+  language,
   onSelect,
 }: WeekRowProps): ReactElement {
   const days = Array.from({ length: 7 }, (_, index) => addDaysIso(weekStart, index))
@@ -60,7 +64,7 @@ function WeekRowComponent({
           <button
             key={day}
             type="button"
-            aria-label={formatLocalizedDate(parseIsoDate(day), 'EEEE, MMMM do')}
+            aria-label={formatLocalizedDate(parseIsoDate(day), 'EEEE, MMMM do', language)}
             aria-current={selected ? 'date' : undefined}
             onClick={() => {
               hapticImpactLight()
@@ -69,7 +73,7 @@ function WeekRowComponent({
             className="relative flex flex-1 flex-col items-center gap-0.5 py-1"
           >
             <span className="text-[11px] font-medium text-text-muted">
-              {formatLocalizedDate(parseIsoDate(day), 'EEEEE')}
+              {formatLocalizedDate(parseIsoDate(day), 'EEEEE', language)}
             </span>
             <span
               className={cn(
@@ -79,7 +83,7 @@ function WeekRowComponent({
                 !selected && !isToday && 'text-text',
               )}
             >
-              {formatLocalizedDate(parseIsoDate(day), 'd')}
+              {formatLocalizedDate(parseIsoDate(day), 'd', language)}
             </span>
             {/* Today dot (V1) — a fixed-height slot so cells stay aligned;
                 shown only when today isn't the selected (circled) day. */}

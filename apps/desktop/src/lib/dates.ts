@@ -1,6 +1,6 @@
 import { format, formatDistanceToNow, isSameDay, isSameWeek, parse, type Locale } from 'date-fns'
 import { enUS, zhCN } from 'date-fns/locale'
-import type { DateFormat, TimeFormat } from '@reflect/core'
+import type { DateFormat, Language, TimeFormat } from '@reflect/core'
 import { getLanguage } from '@/lib/i18n'
 
 /**
@@ -16,13 +16,17 @@ export { addDaysIso, isIsoDate } from '@reflect/utils'
 
 const ISO_DATE_FORMAT = 'yyyy-MM-dd'
 
-function currentDateLocale(): Locale {
-  return getLanguage() === 'zh-CN' ? zhCN : enUS
+function currentDateLocale(language?: Language): Locale {
+  return (language ?? getLanguage()) === 'zh-CN' ? zhCN : enUS
 }
 
 /** Format a display date in the active interface language. */
-export function formatLocalizedDate(date: Date | number, formatString: string): string {
-  return format(date, formatString, { locale: currentDateLocale() })
+export function formatLocalizedDate(
+  date: Date | number,
+  formatString: string,
+  language?: Language,
+): string {
+  return format(date, formatString, { locale: currentDateLocale(language) })
 }
 
 /** Relative date label in the active interface language. */
