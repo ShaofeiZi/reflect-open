@@ -11,6 +11,21 @@ import {
 
 const SOURCE_ROOT = resolve(import.meta.dirname, '..')
 
+const INTENTIONALLY_SHARED_VALUES = new Set([
+  'menu.app',
+  'mobile.graph-chooser.icloud-title',
+  'mobile.settings-screen.ai',
+  'mobile.settings-screen.github',
+  'mobile.settings-screen.language-en',
+  'mobile.settings-screen.language-zh-CN',
+  'settings.aboutSection.appName',
+  'settings.importSection.reflectV1.legend',
+  'settings.languageSection.en',
+  'settings.languageSection.zh-CN',
+  'settings.modelCombobox.emptyKey',
+  'settings.updateSection.downloadingPercent',
+])
+
 function leafKeys(value: object, prefix = ''): string[] {
   return Object.entries(value).flatMap(([key, child]) => {
     const path = prefix === '' ? key : `${prefix}.${key}`
@@ -95,6 +110,16 @@ describe('desktop locales', () => {
     for (const [key, value] of Object.entries(english)) {
       expect(interpolationNames(chinese[key]!), key).toEqual(interpolationNames(value))
     }
+  })
+
+  it('only shares reviewed language-neutral values with English', () => {
+    const english = flattenedResources(RESOURCES.en.translation)
+    const chinese = flattenedResources(RESOURCES['zh-CN'].translation)
+    const shared = Object.keys(english)
+      .filter((key) => english[key] === chinese[key])
+      .sort()
+
+    expect(shared).toEqual([...INTENTIONALLY_SHARED_VALUES].sort())
   })
 
   it('uses Simplified Chinese punctuation in Chinese copy', () => {

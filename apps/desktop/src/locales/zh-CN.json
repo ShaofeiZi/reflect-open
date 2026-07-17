@@ -315,7 +315,7 @@
     "importSection": {
       "reflectV1": {
         "legend": "Reflect V1",
-        "description": "选择 Reflect V1 导出的 .zip 文件。其中的笔记和附件会被添加到当前图谱；已有内容不会被替换。"
+        "description": "选择 Reflect V1 导出的 ZIP 文件。其中的笔记和附件会被添加到当前图谱；已有内容不会被替换。"
       },
       "dialogTitle": "导入 Reflect V1 导出文件",
       "zipArchives": "ZIP 压缩包",
@@ -405,7 +405,7 @@
       "delete": "删除 {{title}}",
       "newTemplate": "新建模板",
       "renameTitle": "重命名模板",
-      "renameDescription": "重命名模板——包括标题和文件 slug。",
+      "renameDescription": "重命名模板——包括标题和文件名标识。",
       "templateName": "模板名称",
       "cancel": "取消",
       "renameButton": "重命名",
@@ -424,7 +424,7 @@
     "backupSection": {
       "genericLegend": "备份",
       "githubLegend": "GitHub 同步",
-      "genericDescription": "此图谱会备份到自己的 git 远端。停止输入几秒后会自动备份。",
+      "genericDescription": "此图谱会备份到自己的 Git 远端。停止输入几秒后会自动备份。",
       "githubDescription": "将此图谱备份到 GitHub 仓库。停止输入几秒后会自动备份。",
       "status": {
         "idle": "已备份",
@@ -524,7 +524,7 @@
       "createOnGithub": "在 GitHub 上创建…",
       "waitingRepo": "正在等待仓库…",
       "grantAppBefore": "如果没有连接成功，请",
-      "grantAppLink": "授予 Reflect app 访问权限",
+      "grantAppLink": "授予 Reflect 应用访问权限",
       "grantAppAfter": "，仅限此仓库。",
       "tokenAccessHint": "如果没有连接成功，请将它加入令牌的仓库访问范围。",
       "grantAccessInstruction": "授予 Reflect 访问 {{repo}} 的权限，以便备份到这里。",
@@ -1223,8 +1223,8 @@
       "copied": "Gist 链接已复制",
       "copying": "正在复制 Gist 链接",
       "unpublishing": "正在取消发布 Gist",
-      "invalid-frontmatter-publish": "笔记的 frontmatter 无效，请修复后再发布。",
-      "invalid-frontmatter-unpublish": "笔记的 frontmatter 无效，请修复后再取消发布。",
+      "invalid-frontmatter-publish": "笔记的文档头信息（frontmatter）无效，请修复后再发布。",
+      "invalid-frontmatter-unpublish": "笔记的文档头信息（frontmatter）无效，请修复后再取消发布。",
       "empty": "笔记为空，没有可发布的内容。",
       "connect-publish": "请先在设置中连接 GitHub 再发布 Gist。",
       "connect-unpublish": "请先在设置中连接 GitHub 再取消发布 Gist。"
