@@ -97,6 +97,23 @@ describe('desktop locales', () => {
     }
   })
 
+  it('uses Simplified Chinese punctuation in Chinese copy', () => {
+    const chinese = flattenedResources(RESOURCES['zh-CN'].translation)
+
+    for (const [key, value] of Object.entries(chinese)) {
+      if (!/[\u3400-\u9fff]/u.test(value)) {
+        continue
+      }
+      expect(value, `${key} uses an ASCII comma`).not.toContain(',')
+      expect(value, `${key} uses three periods instead of an ellipsis`).not.toContain('...')
+      expect(value, `${key} uses an ASCII colon before interpolation`).not.toMatch(/:\s*\{\{/u)
+      expect(value, `${key} uses ASCII parentheses around Chinese copy`).not.toMatch(
+        /[\u3400-\u9fff]\s*\(|\)[\u3400-\u9fff]/u,
+      )
+      expect(value, `${key} uses a spaced Western dash`).not.toContain(' — ')
+    }
+  })
+
   it('switches non-React product feedback at runtime', async () => {
     initI18n()
 

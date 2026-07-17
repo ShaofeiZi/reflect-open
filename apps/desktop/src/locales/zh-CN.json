@@ -34,12 +34,12 @@
       "collapse-references": "收起来自 {{title}} 的引用",
       "expand-references": "展开来自 {{title}} 的引用",
       "couldnt-load": "无法加载反向链接。",
-      "incoming-singular": "反向链接 ({{count}})",
-      "incoming-plural": "反向链接 ({{count}})"
+      "incoming-singular": "反向链接（{{count}}）",
+      "incoming-plural": "反向链接（{{count}}）"
     },
     "conflict": {
       "empty-side": "这一侧为空",
-      "banner-text": "此笔记在磁盘上已被修改,而你还有未保存的编辑。",
+      "banner-text": "此笔记在磁盘上已被修改，而你还有未保存的编辑。",
       "keep-mine": "保留我的",
       "load-theirs": "加载对方版本",
       "two-devices": "此笔记同时在两台设备上被编辑。",
@@ -50,7 +50,7 @@
       "keep-other-device": "保留另一台设备的版本",
       "keep-all": "全部保留",
       "keep-both": "两者都保留",
-      "couldnt-resolve": "无法解决冲突:{{error}}"
+      "couldnt-resolve": "无法解决冲突：{{error}}"
     },
     "chooser": {
       "welcome": "欢迎使用 Reflect",
@@ -78,14 +78,14 @@
     },
     "note": {
       "loading": "正在加载笔记…",
-      "couldnt-open": "无法打开 {{path}}: {{error}}",
-      "save-failed": "保存失败:{{error}}。你的编辑已保留在编辑器中,下次保存成功时会写入。",
-      "couldnt-save-image": "无法保存粘贴的图片:{{message}}。它未被添加到笔记中。",
-      "couldnt-save-file": "无法保存文件:{{message}}。它未被添加到笔记中。",
+      "couldnt-open": "无法打开 {{path}}：{{error}}",
+      "save-failed": "保存失败：{{error}}。你的编辑已保留在编辑器中，下次保存成功时会写入。",
+      "couldnt-save-image": "无法保存粘贴的图片：{{message}}。它未被添加到笔记中。",
+      "couldnt-save-file": "无法保存文件：{{message}}。它未被添加到笔记中。",
       "untitled": "无标题"
     },
     "protected": {
-      "notice": "此笔记包含编辑器尚无法精确还原的 Markdown(例如任务列表),因此以只读方式打开以保护你的文件。请暂时在其他工具中编辑。"
+      "notice": "此笔记包含编辑器尚无法精确还原的 Markdown（例如任务列表），因此以只读方式打开以保护你的文件。请暂时在其他工具中编辑。"
     },
     "contact": {
       "ignore": "忽略",
@@ -115,8 +115,8 @@
       "attachment-singular": "个附件",
       "attachment-plural": "个附件",
       "downloaded": "已下载",
-      "attachment-failed-singular": "1 个附件无法下载,仍链接到 Reflect V1。",
-      "attachment-failed-plural": "{{count}} 个附件无法下载,仍链接到 Reflect V1。",
+      "attachment-failed-singular": "1 个附件无法下载，仍链接到 Reflect V1。",
+      "attachment-failed-plural": "{{count}} 个附件无法下载，仍链接到 Reflect V1。",
       "reading-export": "正在读取导出文件…",
       "downloading-attachments": "正在下载附件… {{done}} / {{total}}",
       "adding-notes": "正在添加笔记… {{done}} / {{total}}",
@@ -133,7 +133,7 @@
       "mic-denied-mobile": "麦克风访问被拒绝。请在“设置”应用中允许 Reflect 使用麦克风。"
     },
     "chat": {
-      "no-api-key": "未找到此服务商的 API 密钥 — 请在设置 → AI 服务商中重新添加。"
+      "no-api-key": "未找到此服务商的 API 密钥——请在设置 → AI 服务商中重新添加。"
     },
     "graph": {
       "choose-folder": "选择图谱文件夹"
@@ -272,7 +272,7 @@
       },
       "timeFormat": {
         "legend": "时间格式",
-        "description": "Reflect 各处显示时间的方式，例如 8:22pm 或 20:22。",
+        "description": "Reflect 各处显示时间的方式，例如 8:22下午 或 20:22。",
         "aria": "时间格式",
         "12h": "12 小时制",
         "24h": "24 小时制"
@@ -309,7 +309,7 @@
       "modelProgress": {
         "preparing": "正在准备模型…",
         "aria": "语义搜索模型下载",
-        "downloading": "正在下载模型 — {{downloaded}} / {{total}}"
+        "downloading": "正在下载模型——{{downloaded}} / {{total}}"
       }
     },
     "importSection": {
@@ -318,9 +318,9 @@
         "description": "选择 Reflect V1 导出的 .zip 文件。其中的笔记和附件会被添加到当前图谱；已有内容不会被替换。"
       },
       "dialogTitle": "导入 Reflect V1 导出文件",
-      "zipArchives": "Zip 压缩包",
-      "importing": "正在导入...",
-      "importZip": "导入 zip..."
+      "zipArchives": "ZIP 压缩包",
+      "importing": "正在导入…",
+      "importZip": "导入 ZIP…"
     },
     "aiProvidersSection": {
       "empty": "尚未配置 AI 服务商。添加服务商 API 密钥后即可使用 AI 功能——密钥会保存在系统钥匙串中，调用会直接发往服务商。",
@@ -429,16 +429,16 @@
       "status": {
         "idle": "已备份",
         "syncing": "备份中…",
-        "offline": "当前离线 — 更改已保存在本地，重新联网后会继续备份",
-        "authFailed": "备份失败 — 请重新连接 GitHub",
-        "unsupportedHttps": "备份失败 — 请将此远端改为 SSH：git remote set-url origin git@<host>:<owner>/<repo>.git",
+        "offline": "当前离线——更改已保存在本地，重新联网后会继续备份",
+        "authFailed": "备份失败——请重新连接 GitHub",
+        "unsupportedHttps": "备份失败——请将此远端改为 SSH：git remote set-url origin git@<host>:<owner>/<repo>.git",
         "failed": "备份失败：{{message}}"
       },
       "checking": "正在检查备份状态…",
       "connect": "连接 GitHub…",
       "noteNeedsReview": "1 篇笔记需要检查",
       "notesNeedReview": "{{count}} 篇笔记需要检查",
-      "openToKeep": "— 打开{{target}}以保留你想要的版本：",
+      "openToKeep": "——打开{{target}}以保留你想要的版本：",
       "targetIt": "它",
       "targetOne": "其中一篇",
       "backUpNow": "立即备份",
@@ -447,13 +447,13 @@
       "openRepo": "打开 GitHub 仓库",
       "account": "GitHub 账号",
       "accountDescription": "在此设备上退出登录；已连接的图谱会停止备份。",
-      "signOutTitle": "从此设备移除 GitHub token",
+      "signOutTitle": "从此设备移除 GitHub 令牌",
       "signOut": "退出 GitHub…",
       "signOutConfirmTitle": "退出 GitHub？",
-      "signOutConfirmDescription": "这会从此设备移除 GitHub token。所有 GitHub 备份图谱都会停止备份，直到你重新登录。",
+      "signOutConfirmDescription": "这会从此设备移除 GitHub 令牌。所有 GitHub 备份图谱都会停止备份，直到你重新登录。",
       "cancel": "取消",
       "signOutButton": "退出登录",
-      "browserOpenFailed": "无法打开浏览器 — 请自行访问 {{url}}。",
+      "browserOpenFailed": "无法打开浏览器——请自行访问 {{url}}。",
       "conflictedNotesAria": "需要检查的笔记"
     },
     "destructiveSection": {
@@ -526,7 +526,7 @@
       "grantAppBefore": "如果没有连接成功，请",
       "grantAppLink": "授予 Reflect app 访问权限",
       "grantAppAfter": "，仅限此仓库。",
-      "tokenAccessHint": "如果没有连接成功，请将它加入 token 的仓库访问范围。",
+      "tokenAccessHint": "如果没有连接成功，请将它加入令牌的仓库访问范围。",
       "grantAccessInstruction": "授予 Reflect 访问 {{repo}} 的权限，以便备份到这里。",
       "grantAccessOnGithub": "在 GitHub 上授权…",
       "repoSelectionHint": "在 GitHub 上选择“仅选择仓库”——Reflect 只需要这一个仓库。",
@@ -543,15 +543,13 @@
     "githubAuth": {
       "signIn": "使用 GitHub 登录",
       "usePat": "改用个人访问令牌",
-      "patInstructionsPrefix": "粘贴一个 fine-grained personal access token，需要对",
-      "contents": "Contents",
-      "patInstructionsSuffix": "有读写权限（GitHub → Settings → Developer settings → Fine-grained tokens）。它会保存在系统钥匙串中，绝不会写入你的图谱。",
+      "patInstructions": "粘贴一个细粒度个人访问令牌，并为 {{repo}}授予“内容（Contents）”读写权限（可在 GitHub → Settings → Developer settings → Fine-grained tokens 中设置）。令牌会保存在系统钥匙串中，绝不会写入你的图谱。",
       "theRepo": "{{repoName}} 仓库",
       "yourBackupRepo": "你的备份仓库",
       "patLabel": "个人访问令牌",
-      "pasteTokenFirst": "请先粘贴 token。",
+      "pasteTokenFirst": "请先粘贴令牌。",
       "checking": "检查中…",
-      "saveToken": "保存 token",
+      "saveToken": "保存令牌",
       "signInInstead": "改用 GitHub 登录",
       "codeCopied": "代码已复制——请粘贴到 GitHub 页面：",
       "codePrompt": "GitHub 会要求输入这个一次性代码：",
@@ -562,7 +560,7 @@
       "signInAuthFailed": "GitHub 登录被拒绝或代码已过期，请重试。",
       "signInNetworkFailed": "无法连接 GitHub，请检查网络连接后重试。",
       "signInFailed": "GitHub 登录失败：{{message}}",
-      "rejected": "GitHub 拒绝了该 token——请检查后重试。"
+      "rejected": "GitHub 拒绝了该令牌——请检查后重试。"
     },
     "icloudSection": {
       "legend": "iCloud 云盘",
@@ -580,7 +578,7 @@
       "manyNeedReview": "{{count}} 篇笔记需要检查",
       "oneFork": "1 个同步分叉",
       "manyForks": "{{count}} 个同步分叉",
-      "checking": "正在检查已下载的笔记...",
+      "checking": "正在检查已下载的笔记…",
       "move": "将图谱移到 iCloud…",
       "moveTitle": "将此图谱移到 iCloud 云盘？",
       "moveDescription": "你的笔记会复制到 iCloud 云盘，并在那里重新打开图谱。当前文件夹会原样保留在磁盘上，作为恢复副本。",
@@ -594,7 +592,7 @@
     "syncForkNotice": {
       "one": "1 篇笔记在两台设备上被分别重命名，现在以独立文件存在",
       "many": "{{count}} 篇笔记在两台设备上被分别重命名，现在以独立文件存在",
-      "suffix": "— 请手动合并，然后删除不需要的副本："
+      "suffix": "——请手动合并，然后删除不需要的副本："
     },
     "sectionsAria": "设置分区"
   },
@@ -605,13 +603,13 @@
     "all-notes": "全部笔记",
     "tasks": "任务",
     "chat": "对话",
-    "search-placeholder": "搜索任何内容...",
+    "search-placeholder": "搜索任何内容…",
     "pinned-notes": "置顶笔记",
     "unpin-note": "取消置顶笔记",
     "opening-note-menu": "打开笔记菜单",
     "backing-up": "备份中",
     "backup-waiting": "备份等待连接",
-    "backup-failed": "备份失败 — 请查看设置",
+    "backup-failed": "备份失败——请查看设置",
     "indexing": "索引中",
     "switch-graph": "切换图谱",
     "graph-color": "图谱颜色",
@@ -630,7 +628,7 @@
     "select-note": "选择笔记",
     "screen-aria-label": "全部笔记",
     "title": "笔记",
-    "trash-selection-aria-label": "移到废纸篓 ({{count}})",
+    "trash-selection-aria-label": "移到废纸篓（{{count}}）",
     "trash": "移到废纸篓",
     "column": {
       "subject": "主题",
@@ -645,8 +643,8 @@
     "trash-dialog": {
       "title-one": "将 {{count}} 条笔记移到废纸篓？",
       "title-other": "将 {{count}} 条笔记移到废纸篓？",
-      "description-one": "它会移到系统废纸篓,你可以在那里恢复它。",
-      "description-other": "它们会移到系统废纸篓,你可以在那里恢复它们。"
+      "description-one": "它会移到系统废纸篓，你可以在那里恢复它。",
+      "description-other": "它们会移到系统废纸篓，你可以在那里恢复它们。"
     },
     "cancel": "取消",
     "custom": {
@@ -692,8 +690,8 @@
   },
   "palette": {
     "title": "命令面板",
-    "placeholder": "搜索笔记,或输入 > 查看命令…",
-    "search-unavailable": "搜索不可用 — 索引未响应。",
+    "placeholder": "搜索笔记，或输入 > 查看命令…",
+    "search-unavailable": "搜索不可用——索引未响应。",
     "no-results": "无结果",
     "recent": {
       "heading": "最近"
@@ -743,8 +741,8 @@
     "publishing": "正在发布…",
     "unpublish-link": "取消发布链接",
     "share-private-link": "通过私密链接分享",
-    "unpublish-tooltip": "删除此笔记的私密 GitHub gist",
-    "publish-tooltip": "创建一个私密 GitHub gist 并复制其私密链接",
+    "unpublish-tooltip": "删除此笔记的私密 GitHub Gist",
+    "publish-tooltip": "创建一个私密 GitHub Gist 并复制其私密链接",
     "trashing-note": "正在将笔记移到废纸篓",
     "trash-note": "移到废纸篓",
     "trash-confirm-title": "将此笔记移到废纸篓？",
@@ -754,8 +752,8 @@
     "copying-published-url": "正在复制已发布链接",
     "copy-published-url": "复制已发布链接",
     "copied": "已复制",
-    "update-published-gist": "更新已发布 gist",
-    "update-gist-latest": "用最新笔记更新 gist",
+    "update-published-gist": "更新已发布 Gist",
+    "update-gist-latest": "用最新笔记更新 Gist",
     "similar-notes": "相似笔记"
   },
   "audioMemo": {
@@ -812,7 +810,7 @@
       },
       "convert": {
         "aria-label": "转换为列表项 {{count}}",
-        "title": "移除复选框，保留该行为普通列表项 — 从任务列表移除",
+        "title": "移除复选框，保留该行为普通列表项——从任务列表移除",
         "button": "转换为列表项"
       },
       "archive": {
@@ -851,7 +849,7 @@
     "replace-selection": "替换所选内容",
     "add-provider-to-use-prompts": "在设置中添加 AI 服务商以使用 AI 提示词。",
     "private-note-blocked": "此笔记已标记为私密，其内容不会发送给任何 AI 服务商。",
-    "no-api-key": "未找到该服务商的 API 密钥 — 请在设置 → AI 服务商中重新添加。",
+    "no-api-key": "未找到该服务商的 API 密钥——请在设置 → AI 服务商中重新添加。",
     "add-provider-menu-label": "在设置中添加 AI 服务商…",
     "run-as-prompt": "作为提示词运行",
     "image-preview-title": "图片预览",
@@ -1268,18 +1266,18 @@
       "new": "新建",
       "naming": "正在命名“{{title}}”",
       "renaming": "正在将“{{from}}”重命名为“{{to}}”",
-      "rename-move-failed": "{{error}} — 笔记仍保留占位文件名；标题及其链接不受影响",
+      "rename-move-failed": "{{error}}——笔记仍保留占位文件名；标题及其链接不受影响",
       "attach-picker": "附加文件",
       "attaching-file": "正在附加文件",
-      "attachment-note-closed": "笔记已关闭，无法插入文件链接 — {{names}} 仍已复制到 assets/ 文件夹",
+      "attachment-note-closed": "笔记已关闭，无法插入文件链接——{{names}} 仍已复制到 assets/ 文件夹",
       "attachment-copy-failed": "无法复制：{{details}}",
       "daily-delete": "无法删除每日笔记。",
       "contact-title-changed": "笔记标题已不再匹配此联系人。",
       "contact-update-unavailable": "目前无法更新此笔记，请稍后重试。"
     },
     "rename": {
-      "rewrite-and-alias-failed": "{{rewrite}}；旧标题别名也写入失败（{{alias}}）— 指向“{{from}}”的链接可能无法解析",
-      "rewrite-failed": "{{rewrite}} — 链接未被重写，但“{{from}}”已保留为别名，因此仍可解析",
+      "rewrite-and-alias-failed": "{{rewrite}}；旧标题别名也写入失败（{{alias}}）——指向“{{from}}”的链接可能无法解析",
+      "rewrite-failed": "{{rewrite}}——链接未被重写，但“{{from}}”已保留为别名，因此仍可解析",
       "alias-failed": "链接已重写，但无法将“{{from}}”记录为别名：{{alias}}",
       "move-failed": "文件仍保留旧名称（{{move}}）"
     },

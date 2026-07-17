@@ -543,9 +543,7 @@
     "githubAuth": {
       "signIn": "Sign in with GitHub",
       "usePat": "Use a personal access token instead",
-      "patInstructionsPrefix": "Paste a fine-grained personal access token with",
-      "contents": "Contents",
-      "patInstructionsSuffix": "read/write access. It is stored in your OS keychain, never in your graph.",
+      "patInstructions": "Paste a fine-grained personal access token with Contents read/write access to {{repo}}. It is stored in your OS keychain, never in your graph.",
       "theRepo": "the {{repoName}} repository",
       "yourBackupRepo": "your backup repository",
       "patLabel": "Personal access token",

@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { runDeviceFlow, setBridge } from '@reflect/core'
 import { fetch as tauriFetch } from '@tauri-apps/plugin-http'
 import { openUrl } from '@tauri-apps/plugin-opener'
+import { changeLanguage, DEFAULT_LANGUAGE } from '@/lib/i18n'
 import { GithubAuthStep } from './github-auth-step'
 
 // The Reflect GitHub App is registered, so the device flow leads and the PAT
@@ -25,9 +26,11 @@ const mockFlow = vi.mocked(runDeviceFlow)
 /** Switch the step from the device-flow lead to PAT entry. */
 async function switchToPat(): Promise<void> {
   fireEvent.click(
-    await screen.findByRole('button', { name: /use a personal access token instead/i }),
+    await screen.findByRole('button', {
+      name: /use a personal access token instead|改用个人访问令牌/i,
+    }),
   )
-  await screen.findByLabelText('Personal access token')
+  await screen.findByLabelText(/personal access token|个人访问令牌/i)
 }
 
 /** Render with no stored credential and a flow that stays at the code view. */
@@ -46,8 +49,9 @@ function stubClipboard(writeText: (text: string) => Promise<void>): void {
   Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
 }
 
-afterEach(() => {
+afterEach(async () => {
   cleanup()
+  await changeLanguage(DEFAULT_LANGUAGE)
   setBridge(null)
   httpFetch.mockReset()
   openedUrls.mockClear() // clear calls, keep the resolving implementation
@@ -166,7 +170,24 @@ describe('GithubAuthStep', () => {
     render(<GithubAuthStep onAuthed={vi.fn()} repoName="my-notes-backup" />)
     await switchToPat()
 
-    expect(await screen.findByText('the my-notes-backup repository')).toBeTruthy()
+    expect(
+      await screen.findByText(
+        'Paste a fine-grained personal access token with Contents read/write access to the my-notes-backup repository. It is stored in your OS keychain, never in your graph.',
+      ),
+    ).toBeTruthy()
+  })
+
+  it('renders the token instructions as a natural Simplified Chinese sentence', async () => {
+    await changeLanguage('zh-CN')
+    fakeKeychain()
+    render(<GithubAuthStep onAuthed={vi.fn()} repoName="my-notes-backup" />)
+    await switchToPat()
+
+    expect(
+      await screen.findByText(
+        '粘贴一个细粒度个人访问令牌，并为 my-notes-backup 仓库授予“内容（Contents）”读写权限（可在 GitHub → Settings → Developer settings → Fine-grained tokens 中设置）。令牌会保存在系统钥匙串中，绝不会写入你的图谱。',
+      ),
+    ).toBeTruthy()
   })
 
   it('reports auth exactly once when the mount probe races a fresh sign-in', async () => {

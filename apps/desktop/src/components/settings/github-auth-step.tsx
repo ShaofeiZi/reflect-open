@@ -175,14 +175,12 @@ export function GithubAuthStep({ onAuthed, repoName }: GithubAuthStepProps): Rea
         ) : (
           <>
             <p className="text-xs text-text-muted">
-              {t('settings.githubAuth.patInstructionsPrefix')}{' '}
-              <strong>{t('settings.githubAuth.contents')}</strong>{' '}
-              {repoName !== undefined ? (
-                <strong>{t('settings.githubAuth.theRepo', { repoName })}</strong>
-              ) : (
-                t('settings.githubAuth.yourBackupRepo')
-              )}{' '}
-              {t('settings.githubAuth.patInstructionsSuffix')}
+              {t('settings.githubAuth.patInstructions', {
+                repo:
+                  repoName !== undefined
+                    ? t('settings.githubAuth.theRepo', { repoName })
+                    : t('settings.githubAuth.yourBackupRepo'),
+              })}
             </p>
             <label className="flex flex-col gap-1">
               <span className={FIELD_LABEL_CLASS}>{t('settings.githubAuth.patLabel')}</span>
