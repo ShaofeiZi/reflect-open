@@ -4,7 +4,9 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom/vitest'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { openUrl } from '@tauri-apps/plugin-opener'
+import type { EditorMessages } from '@meowdown/react'
 import { dispatchDeepLink } from '@/lib/deep-links/intake'
+import { changeLanguage, DEFAULT_LANGUAGE } from '@/lib/i18n'
 import { NoteEditor } from './note-editor'
 import { setPlatformSurface } from '@/lib/platform-surface'
 
@@ -15,6 +17,7 @@ interface CapturedEditorProps {
   spellCheck?: boolean
   blockHandle?: boolean
   timeFormat?: '12' | '24'
+  messages?: EditorMessages
   children?: ReactNode
   resolveImageUrl?: (src: string) => string | undefined
   onImageClick?: (payload: { src: string; alt: string; event: MouseEvent | TouchEvent }) => void
@@ -154,10 +157,11 @@ beforeEach(() => {
   })
 })
 
-afterEach(() => {
+afterEach(async () => {
   cleanup()
   setPlatformSurface({ touchEditor: false, mobileApp: false })
   vi.clearAllMocks()
+  await changeLanguage(DEFAULT_LANGUAGE)
 })
 
 describe('NoteEditor markdown syntax mode', () => {
@@ -169,6 +173,22 @@ describe('NoteEditor markdown syntax mode', () => {
   it('passes an explicit markdown syntax mode to meowdown', () => {
     render(<NoteEditor initialContent="" markMode="show" />)
     expect(captured.props?.mode).toBe('show')
+  })
+})
+
+describe('NoteEditor built-in copy', () => {
+  it('passes localized messages to meowdown and updates them at runtime', async () => {
+    render(<NoteEditor initialContent="" />)
+    expect(captured.props?.messages?.slashMenu.heading1).toBe('Heading 1')
+
+    await act(async () => {
+      await changeLanguage('zh-CN')
+    })
+
+    await waitFor(() => {
+      expect(captured.props?.messages?.slashMenu.heading1).toBe('一级标题')
+      expect(captured.props?.messages?.link.copy).toBe('复制链接')
+    })
   })
 })
 

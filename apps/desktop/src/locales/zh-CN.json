@@ -855,7 +855,91 @@
     "image-preview-title": "图片预览",
     "close": "关闭",
     "open": "打开",
-    "close-image-preview": "关闭图片预览"
+    "close-image-preview": "关闭图片预览",
+    "meowdown": {
+      "copy": {
+        "copied": "已复制"
+      },
+      "code-block": {
+        "plain-text": "纯文本",
+        "plain-text-language": "纯文本",
+        "search-language": "搜索或输入语言",
+        "no-languages": "未找到语言。",
+        "custom-language": "使用“{{language}}”",
+        "copy-code": "复制代码",
+        "math-language": "数学"
+      },
+      "link": {
+        "copy": "复制链接",
+        "edit": "编辑链接",
+        "remove": "移除链接",
+        "paste": "粘贴链接…",
+        "title-optional": "标题（可选）",
+        "save": "保存"
+      },
+      "slash-menu": {
+        "text": "正文",
+        "heading-1": "一级标题",
+        "heading-2": "二级标题",
+        "heading-3": "三级标题",
+        "heading-4": "四级标题",
+        "blockquote": "引用",
+        "bullet-list": "无序列表",
+        "ordered-list": "有序列表",
+        "task-list": "任务列表",
+        "checkbox-list": "复选框列表",
+        "code-block": "代码块",
+        "math": "数学公式",
+        "table": "表格",
+        "now": "当前时间",
+        "attach-file": "附加文件",
+        "no-results": "无结果"
+      },
+      "tag-menu": {
+        "loading": "加载中…",
+        "no-tags": "未找到标签"
+      },
+      "wikilink-menu": {
+        "loading": "加载中…",
+        "no-notes": "未找到笔记"
+      },
+      "table": {
+        "align-left": "左对齐",
+        "align-center": "居中对齐",
+        "align-right": "右对齐",
+        "insert-left": "在左侧插入",
+        "insert-right": "在右侧插入",
+        "clear-contents": "清除内容",
+        "delete-column": "删除列",
+        "delete-table": "删除表格",
+        "insert-above": "在上方插入",
+        "insert-below": "在下方插入",
+        "delete-row": "删除行"
+      },
+      "selection-menu": {
+        "commands": "所选内容命令",
+        "filter-commands": "筛选命令…",
+        "loading": "加载中…",
+        "no-commands": "没有可用命令"
+      },
+      "pending-replacement": {
+        "waiting-for-text": "正在等待文本…",
+        "discard": "放弃",
+        "replace-selection": "替换所选内容",
+        "insert-below": "在下方插入"
+      },
+      "mermaid": {
+        "invalid-output": "SVG 输出无效。",
+        "render-error": "无法渲染图表：{{message}}"
+      },
+      "math": {
+        "render-error": "无法渲染公式：{{message}}"
+      },
+      "embed": {
+        "tweet": "推文",
+        "youtube-video": "YouTube 视频"
+      }
+    }
   },
   "mobile": {
     "add-ai-provider": {

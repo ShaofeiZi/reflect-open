@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
+import ts from 'typescript'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
   changeLanguage,
@@ -76,6 +77,46 @@ function staticTranslationKeys(): string[] {
   ].sort()
 }
 
+function meowdownSurfaceCoverage(): { surfaces: string[]; missingMessages: string[] } {
+  const surfaces: string[] = []
+  const missingMessages: string[] = []
+
+  for (const path of sourceFiles(SOURCE_ROOT)) {
+    const source = readFileSync(path, 'utf8')
+    const sourceFile = ts.createSourceFile(
+      path,
+      source,
+      ts.ScriptTarget.Latest,
+      true,
+      path.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS,
+    )
+
+    function visit(node: ts.Node): void {
+      if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+        const component = node.tagName.getText(sourceFile)
+        if (component === 'MeowdownEditor' || component === 'MarkdownView') {
+          const location = `${path.slice(SOURCE_ROOT.length + 1)}:${sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1}`
+          surfaces.push(location)
+          const localized = node.attributes.properties.some(
+            (attribute) =>
+              ts.isJsxAttribute(attribute) &&
+              ts.isIdentifier(attribute.name) &&
+              attribute.name.text === 'messages',
+          )
+          if (!localized) {
+            missingMessages.push(location)
+          }
+        }
+      }
+      ts.forEachChild(node, visit)
+    }
+
+    visit(sourceFile)
+  }
+
+  return { surfaces: surfaces.sort(), missingMessages: missingMessages.sort() }
+}
+
 function interpolationNames(value: string): string[] {
   return [...value.matchAll(/\{\{\s*([^},\s]+)[^}]*\}\}/g)]
     .map((match) => match[1]!)
@@ -101,6 +142,13 @@ describe('desktop locales', () => {
       expect(english[key], `English ${key}`).toBeDefined()
       expect(chinese[key], `Simplified Chinese ${key}`).toBeDefined()
     }
+  })
+
+  it('localizes every direct Meowdown editor and preview surface', () => {
+    const coverage = meowdownSurfaceCoverage()
+
+    expect(coverage.surfaces).not.toHaveLength(0)
+    expect(coverage.missingMessages).toEqual([])
   })
 
   it('keeps interpolation variables identical between locales', () => {

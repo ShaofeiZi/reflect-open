@@ -5,6 +5,10 @@ settings:
   dedupePeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@meowdown/core@0.55.0': 7463eadbdb7fa5a4198ae73bf2819e968218750816b0fe5d477038af0600a35a
+  '@meowdown/react@0.55.0': 6085dd7427f6eb9345c64d27b28cbcfd3232e9b5f10a357c9ad8a393bd388638
+
 importers:
 
   .:
@@ -37,11 +41,11 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2(react@19.2.7)
       '@meowdown/core':
-        specifier: ^0.50.0
-        version: 0.50.0(@shikijs/types@4.3.1)(@types/hast@3.0.4)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)
+        specifier: ^0.55.0
+        version: 0.55.0(patch_hash=7463eadbdb7fa5a4198ae73bf2819e968218750816b0fe5d477038af0600a35a)(@lezer/common@1.5.2)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)
       '@meowdown/react':
-        specifier: ^0.50.0
-        version: 0.50.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(@types/react@19.2.17)(date-fns@4.4.0)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)(react-dom@19.2.7)(react@19.2.7)
+        specifier: ^0.55.0
+        version: 0.55.0(patch_hash=6085dd7427f6eb9345c64d27b28cbcfd3232e9b5f10a357c9ad8a393bd388638)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(@types/react@19.2.17)(date-fns@4.4.0)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)(react-dom@19.2.7)(react@19.2.7)
       '@reflect/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -1096,11 +1100,14 @@ packages:
   '@marijn/find-cluster-break@1.0.3':
     resolution: {integrity: sha512-FY+MKLBoTsLNJF/eLWaOsXGdz6uh3Iu1axjPf6TUq92IYumcTcXWHoS747JARLkcdlJ/Waiaxc5wQfFO8jC6NA==}
 
-  '@meowdown/core@0.50.0':
-    resolution: {integrity: sha512-RifZi5gwe05DZNe6CRv+M4KDBJ/RqsubMsNEbdilJ8sLb0BoA4m54RemAuxjs7Vx51x2hzUUJUxIPTYxXfqhEg==}
+  '@meowdown/core@0.55.0':
+    resolution: {integrity: sha512-XFPzLm2XXHcXnxyIZHpXrotsAPmELyImYLKtJWKj6OSGwI6YdhUGj0WGqjHLweK3732jDPxU6WH/kbq+q7scNg==}
 
-  '@meowdown/react@0.50.0':
-    resolution: {integrity: sha512-nUGAQaLUFXpTy8htBhDSh3/q0/5TxU73kUMTJ+mNTa1ZwXSAPtI2Xg88IV2jNzdxKP9uhqWpuZ6UkSoTRmuRhg==}
+  '@meowdown/markdown@0.55.0':
+    resolution: {integrity: sha512-nz2VCjlnLwj26txFKOcOEEdyIaFc9i85NYF/L2XP7E03RwcozzSBo50jk38A1Bl3kXGuTYhVALCdeY1en9hapQ==}
+
+  '@meowdown/react@0.55.0':
+    resolution: {integrity: sha512-gVCkyij30sfgcd938cuKK61a/w8Yw30n3Ogvt0zeUjlpNqQKw1YFTdi8wNzrBj/2C1ljzUImDq/L0ie0UaElrQ==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -3145,6 +3152,9 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  beautiful-mermaid@1.1.3:
+    resolution: {integrity: sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==}
+
   before-after-hook@2.2.3:
     resolution: {integrity: sha512-NzUnlZexiaH/46WDhANlyR2bXRopNg4F/zuSA3OpZnllCUgRaOF2znDioDWrmbNVsuZk6l9pMquQB38cfBZwkQ==}
 
@@ -3662,6 +3672,9 @@ packages:
   electron-to-chromium@1.5.387:
     resolution: {integrity: sha512-TaxwufTFDufvPEoXdhwVrA3UdFWBeWGkYoJ1K8ldF1xe6gKfth6iRNS5lTQ5JPNOHdGQm8PT1QYKUqFLCiUefQ==}
 
+  elkjs@0.11.1:
+    resolution: {integrity: sha512-zxxR9k+rx5ktMwT/FwyLdPCrq7xN6e4VGGHH8hA01vVYKjTFik7nHOxBnAYtrgYUB1RpAiLvA1/U2YraWxyKKg==}
+
   embla-carousel-react@8.6.0:
     resolution: {integrity: sha512-0/PjqU7geVmo6F734pmPqpyHqiM99olvyecY7zdweCw+6tKEXnrE90pBiBbMMU8s5tICemzpQ3hi5EpxzGW+JA==}
     peerDependencies:
@@ -4048,6 +4061,9 @@ packages:
 
   github-from-package@0.0.0:
     resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
+
+  github-slugger@2.0.0:
+    resolution: {integrity: sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==}
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -7668,14 +7684,13 @@ snapshots:
 
   '@marijn/find-cluster-break@1.0.3': {}
 
-  '@meowdown/core@0.50.0(@shikijs/types@4.3.1)(@types/hast@3.0.4)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)':
+  '@meowdown/core@0.55.0(patch_hash=7463eadbdb7fa5a4198ae73bf2819e968218750816b0fe5d477038af0600a35a)(@lezer/common@1.5.2)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)':
     dependencies:
       '@codemirror/language': 6.12.4
       '@codemirror/language-data': 6.5.2
       '@floating-ui/dom': 1.8.0
-      '@lezer/common': 1.5.2
       '@lezer/highlight': 1.2.3
-      '@lezer/markdown': 1.7.1
+      '@meowdown/markdown': 0.55.0
       '@ocavue/utils': 1.7.0
       '@prosekit/core': 0.13.0-beta.6(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)
       '@prosekit/extensions': 0.18.0-beta.16(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)
@@ -7690,6 +7705,7 @@ snapshots:
       remark-stringify: 11.0.0
       unified: 11.0.5
     transitivePeerDependencies:
+      - '@lezer/common'
       - '@shikijs/types'
       - '@types/hast'
       - highlight.js
@@ -7706,15 +7722,22 @@ snapshots:
       - y-prosemirror
       - yjs
 
-  '@meowdown/react@0.50.0(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(@types/react@19.2.17)(date-fns@4.4.0)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)(react-dom@19.2.7)(react@19.2.7)':
+  '@meowdown/markdown@0.55.0':
+    dependencies:
+      '@lezer/common': 1.5.2
+      '@lezer/markdown': 1.7.1
+
+  '@meowdown/react@0.55.0(patch_hash=6085dd7427f6eb9345c64d27b28cbcfd3232e9b5f10a357c9ad8a393bd388638)(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(@types/react@19.2.17)(date-fns@4.4.0)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)(react-dom@19.2.7)(react@19.2.7)':
     dependencies:
       '@base-ui/react': 1.6.0(@types/react@19.2.17)(date-fns@4.4.0)(react-dom@19.2.7)(react@19.2.7)
-      '@meowdown/core': 0.50.0(@shikijs/types@4.3.1)(@types/hast@3.0.4)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)
+      '@meowdown/core': 0.55.0(patch_hash=7463eadbdb7fa5a4198ae73bf2819e968218750816b0fe5d477038af0600a35a)(@lezer/common@1.5.2)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)
       '@ocavue/utils': 1.7.0
       '@prosekit/core': 0.13.0-beta.6(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)
       '@prosekit/pm': 0.1.19-beta.3
       '@prosekit/react': 0.8.0-beta.21(@lezer/common@1.5.2)(@lezer/highlight@1.2.3)(@shikijs/types@4.3.1)(@types/hast@3.0.4)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-transform@1.12.0)(prosemirror-view@1.42.1)(react-dom@19.2.7)(react@19.2.7)
+      beautiful-mermaid: 1.1.3
       clsx: 2.1.1
+      github-slugger: 2.0.0
       lucide-react: 1.24.0(react@19.2.7)
       react-property: 2.0.2
     optionalDependencies:
@@ -9718,6 +9741,11 @@ snapshots:
 
   baseline-browser-mapping@2.10.42: {}
 
+  beautiful-mermaid@1.1.3:
+    dependencies:
+      elkjs: 0.11.1
+      entities: 7.0.1
+
   before-after-hook@2.2.3: {}
 
   better-sqlite3@12.11.1:
@@ -10221,6 +10249,8 @@ snapshots:
 
   electron-to-chromium@1.5.387: {}
 
+  elkjs@0.11.1: {}
+
   embla-carousel-react@8.6.0(react@19.2.7):
     dependencies:
       embla-carousel: 8.6.0
@@ -10655,6 +10685,8 @@ snapshots:
   giget@3.2.0: {}
 
   github-from-package@0.0.0: {}
+
+  github-slugger@2.0.0: {}
 
   glob-parent@5.1.2:
     dependencies:

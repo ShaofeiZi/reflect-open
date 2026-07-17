@@ -855,7 +855,91 @@
     "image-preview-title": "Image preview",
     "close": "Close",
     "open": "Open",
-    "close-image-preview": "Close image preview"
+    "close-image-preview": "Close image preview",
+    "meowdown": {
+      "copy": {
+        "copied": "Copied"
+      },
+      "code-block": {
+        "plain-text": "Plain Text",
+        "plain-text-language": "Plain text",
+        "search-language": "Search or type a language",
+        "no-languages": "No languages found.",
+        "custom-language": "Use \"{{language}}\"",
+        "copy-code": "Copy code",
+        "math-language": "Math"
+      },
+      "link": {
+        "copy": "Copy link",
+        "edit": "Edit link",
+        "remove": "Remove link",
+        "paste": "Paste link...",
+        "title-optional": "Title (optional)",
+        "save": "Save"
+      },
+      "slash-menu": {
+        "text": "Text",
+        "heading-1": "Heading 1",
+        "heading-2": "Heading 2",
+        "heading-3": "Heading 3",
+        "heading-4": "Heading 4",
+        "blockquote": "Blockquote",
+        "bullet-list": "Bullet list",
+        "ordered-list": "Ordered list",
+        "task-list": "Task list",
+        "checkbox-list": "Checkbox list",
+        "code-block": "Code block",
+        "math": "Math",
+        "table": "Table",
+        "now": "Now",
+        "attach-file": "Attach file",
+        "no-results": "No results"
+      },
+      "tag-menu": {
+        "loading": "Loading...",
+        "no-tags": "No tags found"
+      },
+      "wikilink-menu": {
+        "loading": "Loading...",
+        "no-notes": "No notes found"
+      },
+      "table": {
+        "align-left": "Align Left",
+        "align-center": "Align Center",
+        "align-right": "Align Right",
+        "insert-left": "Insert Left",
+        "insert-right": "Insert Right",
+        "clear-contents": "Clear Contents",
+        "delete-column": "Delete Column",
+        "delete-table": "Delete Table",
+        "insert-above": "Insert Above",
+        "insert-below": "Insert Below",
+        "delete-row": "Delete Row"
+      },
+      "selection-menu": {
+        "commands": "Selection commands",
+        "filter-commands": "Filter commands...",
+        "loading": "Loading...",
+        "no-commands": "No commands"
+      },
+      "pending-replacement": {
+        "waiting-for-text": "Waiting for text...",
+        "discard": "Discard",
+        "replace-selection": "Replace selection",
+        "insert-below": "Insert below"
+      },
+      "mermaid": {
+        "invalid-output": "Invalid SVG output.",
+        "render-error": "Couldn’t render diagram: {{message}}"
+      },
+      "math": {
+        "render-error": "Couldn’t render formula: {{message}}"
+      },
+      "embed": {
+        "tweet": "Tweet",
+        "youtube-video": "YouTube video"
+      }
+    }
   },
   "mobile": {
     "add-ai-provider": {

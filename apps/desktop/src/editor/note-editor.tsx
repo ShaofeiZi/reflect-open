@@ -42,6 +42,7 @@ import { useLightboxTransition } from '@/editor/use-lightbox-transition'
 import { isDeepLinkUrl } from '@/lib/deep-links/parse'
 import { useFollowDeepLink } from '@/lib/deep-links/use-follow-deep-link'
 import { cn } from '@/lib/utils'
+import { useEditorMessages } from './use-editor-messages'
 
 type WikilinkHoverRenderer = (hit: WikilinkHoverHit) => ReactNode | Promise<ReactNode>
 
@@ -232,6 +233,7 @@ export function NoteEditor({
   className,
   handleRef,
 }: NoteEditorProps): ReactElement {
+  const editorMessages = useEditorMessages()
   const innerRef = useRef<EditorHandle>(null)
   const followDeepLink = useFollowDeepLink()
 
@@ -397,6 +399,7 @@ export function NoteEditor({
         handleRef={innerRef}
         mode={markMode}
         initialMarkdown={initialContent}
+        messages={editorMessages}
         // On the touch surface spellcheck is pinned off regardless of the
         // setting: iOS derives the keyboard's smart-quotes/smart-dashes traits
         // from it at focus time, and smart punctuation corrupts markdown

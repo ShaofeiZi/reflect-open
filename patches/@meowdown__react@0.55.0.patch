@@ -1,0 +1,1265 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 70222bb2f69d4e861dd90f72606732c52a16982c..ad325bbb64e97fd7b2815c62e484ae718c19275c 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -5,6 +5,94 @@ import { useEditor, useExtension, useKeymap } from "@prosekit/react";
+ //#region src/utils/date-format.d.ts
+ type TimeFormat = '12' | '24';
+ //#endregion
++//#region src/components/editor-messages.d.ts
++/** User-facing copy rendered by Meowdown's built-in editor and preview controls. */
++interface EditorMessages {
++  copy: {
++    copied: string;
++  };
++  codeBlock: {
++    plainText: string;
++    searchLanguage: string;
++    noLanguages: string;
++    languageLabel: (label: string, value: string) => string;
++    customLanguage: (language: string) => string;
++    copyCode: string;
++  };
++  link: {
++    copy: string;
++    edit: string;
++    remove: string;
++    paste: string;
++    titleOptional: string;
++    save: string;
++  };
++  slashMenu: {
++    text: string;
++    heading1: string;
++    heading2: string;
++    heading3: string;
++    heading4: string;
++    blockquote: string;
++    bulletList: string;
++    orderedList: string;
++    taskList: string;
++    checkboxList: string;
++    codeBlock: string;
++    math: string;
++    table: string;
++    now: string;
++    attachFile: string;
++    noResults: string;
++  };
++  tagMenu: {
++    loading: string;
++    noTags: string;
++  };
++  wikilinkMenu: {
++    loading: string;
++    noNotes: string;
++  };
++  table: {
++    alignLeft: string;
++    alignCenter: string;
++    alignRight: string;
++    insertLeft: string;
++    insertRight: string;
++    clearContents: string;
++    deleteColumn: string;
++    deleteTable: string;
++    insertAbove: string;
++    insertBelow: string;
++    deleteRow: string;
++  };
++  selectionMenu: {
++    commands: string;
++    filterCommands: string;
++    loading: string;
++    noCommands: string;
++  };
++  pendingReplacement: {
++    waitingForText: string;
++    discard: string;
++    replaceSelection: string;
++    insertBelow: string;
++  };
++  mermaid: {
++    invalidOutput: string;
++    renderError: (message: string) => string;
++  };
++  math: {
++    renderError: (message: string) => string;
++  };
++  embed: {
++    tweet: string;
++    youtubeVideo: string;
++  };
++}
++/** Default English copy, used when a host does not provide localized messages. */
++declare const DEFAULT_EDITOR_MESSAGES: EditorMessages;
++//#endregion
+ //#region src/components/types.d.ts
+ /** A selection to restore: an exact JSON selection, or a document edge. */
+ type SelectionHint = SelectionJSON$1 | 'start' | 'end';
+@@ -389,6 +477,11 @@ interface EditorProps {
+    * for "15:45". Defaults to '12'.
+    */
+   timeFormat?: TimeFormat;
++  /**
++   * Complete user-facing copy for Meowdown's built-in controls. Omit to use
++   * the exported English `DEFAULT_EDITOR_MESSAGES`.
++   */
++  messages?: EditorMessages;
+   /** Class on the editable root (the contenteditable). */
+   editorClassName?: string;
+   /** Class on the outer `.meowdown` wrapper div. */
+@@ -398,7 +491,7 @@ interface EditorProps {
+   /** Nodes rendered inside the editor's ProseKit context. */
+   children?: ReactNode;
+ }
+-declare function MeowdownEditor({ mode, initialMarkdown, onDocChange, onSlashMenuSearch, onTagSearch, onWikilinkSearch, onSelectionMenuSearch, selectionMenuAffordance, pendingReplacementActions, onPendingReplacementResolve, onWikilinkClick, onLinkClick, onLinkCopy, onTagClick, onExitBoundary, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onFileClick, onFilePaste, onFileSaveError, onImageClick, embedPaste, linkPaste, bulletAfterHeading, substitution, frontmatter, blockHandle, caretGlide, placeholder, readOnly, spellCheck, timeFormat, editorClassName, wrapperClassName, handleRef, children }: EditorProps): import("react").JSX.Element;
++declare function MeowdownEditor({ mode, initialMarkdown, onDocChange, onSlashMenuSearch, onTagSearch, onWikilinkSearch, onSelectionMenuSearch, selectionMenuAffordance, pendingReplacementActions, onPendingReplacementResolve, onWikilinkClick, onLinkClick, onLinkCopy, onTagClick, onExitBoundary, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onFileClick, onFilePaste, onFileSaveError, onImageClick, embedPaste, linkPaste, bulletAfterHeading, substitution, frontmatter, blockHandle, caretGlide, placeholder, readOnly, spellCheck, timeFormat, messages, editorClassName, wrapperClassName, handleRef, children }: EditorProps): import("react").JSX.Element;
+ //#endregion
+ //#region src/components/markdown-view.d.ts
+ /** Payload for {@link TaskClickHandler}. */
+@@ -465,6 +558,11 @@ interface MarkdownViewProps {
+   onFileClick?: FileClickHandler;
+   /** Called when a rendered task checkbox is clicked. Pass a stable function. */
+   onTaskClick?: TaskClickHandler;
++  /**
++   * Complete user-facing copy for built-in preview controls and errors. Omit
++   * to use the exported English `DEFAULT_EDITOR_MESSAGES`.
++   */
++  messages?: EditorMessages;
+   /** Extra class on the content root (alongside `ProseMirror meowdown-content`). */
+   className?: string;
+ }
+@@ -479,7 +577,7 @@ interface MarkdownViewProps {
+  * Callbacks (`onWikilinkClick`, etc.) and resolvers should be stable; pass them via
+  * `useCallback` to avoid re-rendering the whole tree.
+  */
+-declare function MarkdownView({ markdown, markMode, frontmatter, interactive, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onWikilinkClick, onLinkClick, onImageClick, onFileClick, onTaskClick, className }: MarkdownViewProps): ReactElement;
++declare function MarkdownView({ markdown, markMode, frontmatter, interactive, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onWikilinkClick, onLinkClick, onImageClick, onFileClick, onTaskClick, messages, className }: MarkdownViewProps): ReactElement;
+ //#endregion
+ //#region src/components/wikilink-hover-card.d.ts
+ /** Props for {@link WikilinkHoverCard}. */
+@@ -501,4 +599,4 @@ interface WikilinkHoverCardProps {
+  */
+ declare function WikilinkHoverCard({ children, className }: WikilinkHoverCardProps): ReactNode;
+ //#endregion
+-export { type EditorHandle, type EditorMode, type EditorProps, type EditorStateSnapshot, MarkdownView, type MarkdownViewProps, MeowdownEditor, type PendingReplacementResolveHandler, type SelectionHint, type SelectionJSON, type SelectionMenuContext, type SelectionMenuItem, type SelectionMenuSearchHandler, type SlashMenuItem, type SlashMenuSearchHandler, type TagItem, type TagSearchHandler, type TaskClickHandler, type TaskClickPayload, type TimeFormat, WikilinkHoverCard, type WikilinkHoverCardProps, type WikilinkItem, type WikilinkSearchHandler, useEditor, useExtension, useKeymap };
+\ No newline at end of file
++export { DEFAULT_EDITOR_MESSAGES, type EditorHandle, type EditorMessages, type EditorMode, type EditorProps, type EditorStateSnapshot, MarkdownView, type MarkdownViewProps, MeowdownEditor, type PendingReplacementResolveHandler, type SelectionHint, type SelectionJSON, type SelectionMenuContext, type SelectionMenuItem, type SelectionMenuSearchHandler, type SlashMenuItem, type SlashMenuSearchHandler, type TagItem, type TagSearchHandler, type TaskClickHandler, type TaskClickPayload, type TimeFormat, WikilinkHoverCard, type WikilinkHoverCardProps, type WikilinkItem, type WikilinkSearchHandler, useEditor, useExtension, useKeymap };
+\ No newline at end of file
+diff --git a/dist/index.js b/dist/index.js
+index a0ce4bafc79131d385a2818701088e271a814460..d6e3dd625cd9f469d0a44c54b0207ec7f7438aa3 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1,5 +1,6 @@
+ import { clsx } from "clsx/lite";
+-import { Fragment, cloneElement, createElement, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from "react";
++import { Fragment, cloneElement, createContext, createElement, use, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from "react";
++import { Fragment as Fragment$1, jsx, jsxs } from "react/jsx-runtime";
+ import { buildFileMarkdown, codeBlockLanguages, defaultResolveImageUrl, defineBulletAfterHeading, defineCodeBlockPreviewPlugin, defineEditorExtension, defineEmbedPaste, defineExitBoundaryHandler, defineFileClickHandler, defineFilePaste, defineFileView, defineFollowLinkHandler, defineImage, defineImageClickHandler, defineLinkClickHandler, defineLinkEditKeymap, defineLinkHoverHandler, defineLinkPaste, definePendingReplacementHandler, definePlaceholder, defineReadonly, defineSpellCheckPlugin, defineSubstitution, defineTagClickHandler, defineWikilinkClickHandler, defineWikilinkHoverHandler, defineWikilinkTrigger, docToMarkdown, formatFileSize, getCodeTokens, getFileKind, getMarkBuilders, getPendingReplacement, getSelectedText, getTableColumnAlign, getTextblockDisplayText, getVirtualElementFromRange, inlineTextToMarkChunks, isCodeBlockPreviewHiddenDecoration, isNodeOfType, isSelectionInTableCell, listenForTweetHeight, loadKaTeX, markdownToDoc, matchEmbed, renderMathInto } from "@meowdown/core";
+ import { clamp } from "@ocavue/utils";
+ import { canUseRegexLookbehind, createEditor, defineDocChangeHandler, defineUpdateHandler, isTextSelection, union } from "@prosekit/core";
+@@ -8,7 +9,6 @@ import { ProseKit, defineReactNodeView, useEditor, useEditor as useEditor$1, use
+ import GithubSlugger from "github-slugger";
+ import { Combobox } from "@base-ui/react/combobox";
+ import { CheckIcon, ChevronsUpDownIcon, CopyIcon, GripHorizontalIcon, GripVerticalIcon, PencilIcon, SparklesIcon, UnlinkIcon } from "lucide-react";
+-import { Fragment as Fragment$1, jsx, jsxs } from "react/jsx-runtime";
+ import { BlockHandleDraggable, BlockHandlePopup, BlockHandlePositioner, BlockHandleRoot } from "@prosekit/react/block-handle";
+ import { DropIndicator } from "@prosekit/react/drop-indicator";
+ import { Popover } from "@base-ui/react/popover";
+@@ -19,6 +19,99 @@ import { Mark } from "@prosekit/pm/model";
+ import { BOOLEAN, OVERLOADED_BOOLEAN, getPropertyInfo, possibleStandardNames } from "react-property";
+ import { PreviewCard } from "@base-ui/react/preview-card";
+ 
++//#region src/components/editor-messages.tsx
++/** Default English copy, used when a host does not provide localized messages. */
++const DEFAULT_EDITOR_MESSAGES = {
++	copy: { copied: "Copied" },
++	codeBlock: {
++		plainText: "Plain Text",
++		searchLanguage: "Search or type a language",
++		noLanguages: "No languages found.",
++		languageLabel: (label) => label,
++		customLanguage: (language) => `Use "${language}"`,
++		copyCode: "Copy code"
++	},
++	link: {
++		copy: "Copy link",
++		edit: "Edit link",
++		remove: "Remove link",
++		paste: "Paste link...",
++		titleOptional: "Title (optional)",
++		save: "Save"
++	},
++	slashMenu: {
++		text: "Text",
++		heading1: "Heading 1",
++		heading2: "Heading 2",
++		heading3: "Heading 3",
++		heading4: "Heading 4",
++		blockquote: "Blockquote",
++		bulletList: "Bullet list",
++		orderedList: "Ordered list",
++		taskList: "Task list",
++		checkboxList: "Checkbox list",
++		codeBlock: "Code block",
++		math: "Math",
++		table: "Table",
++		now: "Now",
++		attachFile: "Attach file",
++		noResults: "No results"
++	},
++	tagMenu: {
++		loading: "Loading...",
++		noTags: "No tags found"
++	},
++	wikilinkMenu: {
++		loading: "Loading...",
++		noNotes: "No notes found"
++	},
++	table: {
++		alignLeft: "Align Left",
++		alignCenter: "Align Center",
++		alignRight: "Align Right",
++		insertLeft: "Insert Left",
++		insertRight: "Insert Right",
++		clearContents: "Clear Contents",
++		deleteColumn: "Delete Column",
++		deleteTable: "Delete Table",
++		insertAbove: "Insert Above",
++		insertBelow: "Insert Below",
++		deleteRow: "Delete Row"
++	},
++	selectionMenu: {
++		commands: "Selection commands",
++		filterCommands: "Filter commands...",
++		loading: "Loading...",
++		noCommands: "No commands"
++	},
++	pendingReplacement: {
++		waitingForText: "Waiting for text...",
++		discard: "Discard",
++		replaceSelection: "Replace selection",
++		insertBelow: "Insert below"
++	},
++	mermaid: {
++		invalidOutput: "Invalid SVG output.",
++		renderError: (message) => `Couldn’t render diagram: ${message}`
++	},
++	math: { renderError: (message) => `Couldn’t render formula: ${message}` },
++	embed: {
++		tweet: "Tweet",
++		youtubeVideo: "YouTube video"
++	}
++};
++const EditorMessagesContext = createContext(DEFAULT_EDITOR_MESSAGES);
++function EditorMessagesProvider({ messages, children }) {
++	return /* @__PURE__ */ jsx(EditorMessagesContext, {
++		value: messages ?? DEFAULT_EDITOR_MESSAGES,
++		children
++	});
++}
++function useEditorMessages() {
++	return use(EditorMessagesContext);
++}
++
++//#endregion
+ //#region src/hooks/use-beautiful-mermaid.ts
+ let beautifulMermaidPromise;
+ function loadBeautifulMermaid() {
+@@ -67,22 +160,22 @@ function useKaTeX(enabled) {
+ //#endregion
+ //#region src/components/code-block-view.module.css
+ var code_block_view_module_default = {
+-	"CopyButton": "meow_CopyButton_D3j_9q",
+-	"Empty": "meow_Empty_D3j_9q",
+-	"Item": "meow_Item_D3j_9q",
+-	"ItemIndicator": "meow_ItemIndicator_D3j_9q",
+-	"ItemText": "meow_ItemText_D3j_9q",
+-	"List": "meow_List_D3j_9q",
+-	"MermaidPreview": "meow_MermaidPreview_D3j_9q",
+-	"Popup": "meow_Popup_D3j_9q",
+-	"Positioner": "meow_Positioner_D3j_9q",
+-	"Preview": "meow_Preview_D3j_9q",
+-	"Root": "meow_Root_D3j_9q",
+-	"Search": "meow_Search_D3j_9q",
+-	"SearchRow": "meow_SearchRow_D3j_9q",
+-	"Toolbar": "meow_Toolbar_D3j_9q",
+-	"Trigger": "meow_Trigger_D3j_9q",
+-	"TriggerIcon": "meow_TriggerIcon_D3j_9q"
++	"CopyButton": "meow_CopyButton_N_k2da",
++	"Empty": "meow_Empty_N_k2da",
++	"Item": "meow_Item_N_k2da",
++	"ItemIndicator": "meow_ItemIndicator_N_k2da",
++	"ItemText": "meow_ItemText_N_k2da",
++	"List": "meow_List_N_k2da",
++	"MermaidPreview": "meow_MermaidPreview_N_k2da",
++	"Popup": "meow_Popup_N_k2da",
++	"Positioner": "meow_Positioner_N_k2da",
++	"Preview": "meow_Preview_N_k2da",
++	"Root": "meow_Root_N_k2da",
++	"Search": "meow_Search_N_k2da",
++	"SearchRow": "meow_SearchRow_N_k2da",
++	"Toolbar": "meow_Toolbar_N_k2da",
++	"Trigger": "meow_Trigger_N_k2da",
++	"TriggerIcon": "meow_TriggerIcon_N_k2da"
+ };
+ 
+ //#endregion
+@@ -93,6 +186,7 @@ const COPIED_RESET_MS = 1500;
+ * toolbar and the link popover.
+ */
+ function CopyButton({ getText, label, onCopy, className, ...rest }) {
++	const messages = useEditorMessages();
+ 	const [copied, setCopied] = useState(false);
+ 	const resetTimerRef = useRef(void 0);
+ 	const copy = async () => {
+@@ -110,8 +204,8 @@ function CopyButton({ getText, label, onCopy, className, ...rest }) {
+ 		type: "button",
+ 		className,
+ 		"data-copied": copied ? "" : void 0,
+-		"aria-label": copied ? "Copied" : label,
+-		title: copied ? "Copied" : label,
++		"aria-label": copied ? messages.copy.copied : label,
++		title: copied ? messages.copy.copied : label,
+ 		onMouseDown: (event) => event.preventDefault(),
+ 		onClick: copy,
+ 		...rest,
+@@ -128,15 +222,17 @@ function CopyButton({ getText, label, onCopy, className, ...rest }) {
+ */
+ function MathRender(props) {
+ 	const { katex, formula, displayMode, className, onMouseDown } = props;
++	const messages = useEditorMessages();
+ 	const ref = useRef(null);
+ 	useLayoutEffect(() => {
+ 		const element = ref.current;
+ 		if (!element || !katex) return;
+-		renderMathInto(katex, element, formula, displayMode);
++		renderMathInto(katex, element, formula, displayMode, messages.math.renderError);
+ 	}, [
+ 		katex,
+ 		formula,
+-		displayMode
++		displayMode,
++		messages
+ 	]);
+ 	return /* @__PURE__ */ jsx("span", {
+ 		ref,
+@@ -160,20 +256,26 @@ const MERMAID_OPTIONS = {
+ 	transparent: true,
+ 	interactive: false
+ };
+-function renderMermaid(renderer, source) {
++function renderMermaid(renderer, source, messages) {
+ 	try {
+ 		const svg = renderer(source, MERMAID_OPTIONS);
+ 		const document = new DOMParser().parseFromString(svg, "image/svg+xml");
+ 		const element = document.documentElement;
+-		if (document.querySelector("parsererror") || element.localName !== "svg" || element.namespaceURI !== "http://www.w3.org/2000/svg") return { error: "Invalid SVG output." };
++		if (document.querySelector("parsererror") || element.localName !== "svg" || element.namespaceURI !== "http://www.w3.org/2000/svg") return { error: messages.invalidOutput };
+ 		return { element };
+ 	} catch (error) {
+-		return { error: error instanceof Error ? error.message : String(error) };
++		const detail = error instanceof Error ? error.message : String(error);
++		return { error: messages.renderError(detail) };
+ 	}
+ }
+ function MermaidRender(props) {
+ 	const { renderer, source, className, onMouseDown } = props;
+-	const output = useMemo(() => renderMermaid(renderer, source), [renderer, source]);
++	const messages = useEditorMessages();
++	const output = useMemo(() => renderMermaid(renderer, source, messages.mermaid), [
++		renderer,
++		source,
++		messages
++	]);
+ 	const ref = useRef(null);
+ 	useLayoutEffect(() => {
+ 		const host = ref.current;
+@@ -200,6 +302,7 @@ function MermaidRender(props) {
+ //#endregion
+ //#region src/components/code-block-view.tsx
+ function CodeBlockView(props) {
++	const messages = useEditorMessages();
+ 	const language = props.node.attrs.language || "";
+ 	const isMath = language === "math";
+ 	const isMermaid = language === "mermaid";
+@@ -219,23 +322,33 @@ function CodeBlockView(props) {
+ 		view.dispatch(view.state.tr.setSelection(selection));
+ 		view.focus();
+ 	};
++	const localizedLanguages = useMemo(() => {
++		return codeBlockLanguages.map((item) => ({
++			...item,
++			label: messages.codeBlock.languageLabel(item.label, item.value)
++		}));
++	}, [messages]);
+ 	const selected = useMemo(() => {
+-		return codeBlockLanguages.find((item) => item.value === language) ?? {
++		return localizedLanguages.find((item) => item.value === language) ?? {
+ 			value: language,
+ 			label: language
+ 		};
+-	}, [language]);
++	}, [language, localizedLanguages]);
+ 	const [query, setQuery] = useState("");
+ 	const [comboboxOpen, setComboboxOpen] = useState(false);
+ 	const itemsForView = useMemo(() => {
+ 		const value = query.trim();
+-		if (!value) return codeBlockLanguages;
++		if (!value) return localizedLanguages;
+ 		const lowercased = value.toLowerCase();
+-		return codeBlockLanguages.some((item) => item.value.toLowerCase() === lowercased || item.label.toLowerCase() === lowercased) ? codeBlockLanguages : [...codeBlockLanguages, {
++		return localizedLanguages.some((item) => item.value.toLowerCase() === lowercased || item.label.toLowerCase() === lowercased) ? localizedLanguages : [...localizedLanguages, {
+ 			value,
+-			label: `Use "${value}"`
++			label: messages.codeBlock.customLanguage(value)
+ 		}];
+-	}, [query]);
++	}, [
++		query,
++		messages,
++		localizedLanguages
++	]);
+ 	const setLanguage = (item) => {
+ 		props.setAttrs({ language: item?.value ?? "" });
+ 	};
+@@ -263,7 +376,7 @@ function CodeBlockView(props) {
+ 					children: [/* @__PURE__ */ jsxs(Combobox.Trigger, {
+ 						className: code_block_view_module_default.Trigger,
+ 						"data-testid": "code-block-language",
+-						children: [/* @__PURE__ */ jsx(Combobox.Value, { placeholder: "Plain Text" }), /* @__PURE__ */ jsx(Combobox.Icon, {
++						children: [/* @__PURE__ */ jsx(Combobox.Value, { placeholder: messages.codeBlock.plainText }), /* @__PURE__ */ jsx(Combobox.Icon, {
+ 							className: code_block_view_module_default.TriggerIcon,
+ 							children: /* @__PURE__ */ jsx(ChevronsUpDownIcon, {})
+ 						})]
+@@ -277,13 +390,13 @@ function CodeBlockView(props) {
+ 									className: code_block_view_module_default.SearchRow,
+ 									children: /* @__PURE__ */ jsx(Combobox.Input, {
+ 										className: code_block_view_module_default.Search,
+-										placeholder: "Search or type a language",
++										placeholder: messages.codeBlock.searchLanguage,
+ 										"data-testid": "code-block-language-search"
+ 									})
+ 								}),
+ 								/* @__PURE__ */ jsx(Combobox.Empty, {
+ 									className: code_block_view_module_default.Empty,
+-									children: "No languages found."
++									children: messages.codeBlock.noLanguages
+ 								}),
+ 								/* @__PURE__ */ jsx(Combobox.List, {
+ 									className: code_block_view_module_default.List,
+@@ -304,7 +417,7 @@ function CodeBlockView(props) {
+ 					}) })]
+ 				}), /* @__PURE__ */ jsx(CopyButton, {
+ 					getText: () => props.node.textContent,
+-					label: "Copy code",
++					label: messages.codeBlock.copyCode,
+ 					className: code_block_view_module_default.CopyButton,
+ 					"data-testid": "code-block-copy"
+ 				})]
+@@ -345,9 +458,9 @@ function defineCodeBlockView() {
+ //#endregion
+ //#region src/components/block-handle.module.css
+ var block_handle_module_default = {
+-	"Draggable": "meow_Draggable_EvUpOG",
+-	"Popup": "meow_Popup_EvUpOG",
+-	"Positioner": "meow_Positioner_EvUpOG"
++	"Draggable": "meow_Draggable_-htgYq",
++	"Popup": "meow_Popup_-htgYq",
++	"Positioner": "meow_Positioner_-htgYq"
+ };
+ 
+ //#endregion
+@@ -369,7 +482,7 @@ function BlockHandle() {
+ 
+ //#endregion
+ //#region src/components/drop-indicator.module.css
+-var drop_indicator_module_default = { "DropIndicator": "meow_DropIndicator_urNIwW" };
++var drop_indicator_module_default = { "DropIndicator": "meow_DropIndicator_FdUGoW" };
+ 
+ //#endregion
+ //#region src/components/drop-indicator.tsx
+@@ -382,7 +495,7 @@ function DropIndicator$1() {
+ 
+ //#endregion
+ //#region src/components/editor-extensions.tsx
+-function EditorExtensions({ markMode, onDocChange, onWikilinkClick, onLinkClick, onTagClick, onExitBoundary, resolveImageUrl, resolveFileInfo, onFileClick, onFilePaste, onFileSaveError, onImageClick, embedPaste, linkPaste, bulletAfterHeading, substitution, placeholder, readOnly, wikilinkEnabled, spellCheck }) {
++function EditorExtensions({ markMode, onDocChange, onWikilinkClick, onLinkClick, onTagClick, onExitBoundary, resolveImageUrl, resolveEmbedTitle, resolveFileInfo, onFileClick, onFilePaste, onFileSaveError, onImageClick, embedPaste, linkPaste, bulletAfterHeading, substitution, placeholder, readOnly, wikilinkEnabled, spellCheck }) {
+ 	const editor = useEditor$1();
+ 	useEffect(() => {
+ 		editor.commands.setMarkMode(markMode);
+@@ -419,8 +532,11 @@ function EditorExtensions({ markMode, onDocChange, onWikilinkClick, onLinkClick,
+ 		return onExitBoundary ? defineExitBoundaryHandler(onExitBoundary) : null;
+ 	}, [onExitBoundary]));
+ 	useExtension$1(useMemo(() => {
+-		return defineImage({ resolveImageUrl });
+-	}, [resolveImageUrl]));
++		return defineImage({
++			resolveImageUrl,
++			resolveEmbedTitle
++		});
++	}, [resolveImageUrl, resolveEmbedTitle]));
+ 	useExtension$1(useMemo(() => {
+ 		return defineFileView({ resolveFileInfo });
+ 	}, [resolveFileInfo]));
+@@ -493,14 +609,14 @@ function useDelayedFlag(value, openDelay = OPEN_DELAY$1, closeDelay = CLOSE_DELA
+ //#endregion
+ //#region src/components/link-menu.module.css
+ var link_menu_module_default = {
+-	"Button": "meow_Button_IjcqKG",
+-	"Form": "meow_Form_IjcqKG",
+-	"Input": "meow_Input_IjcqKG",
+-	"Popup": "meow_Popup_IjcqKG",
+-	"Positioner": "meow_Positioner_IjcqKG",
+-	"Row": "meow_Row_IjcqKG",
+-	"SrOnly": "meow_SrOnly_IjcqKG",
+-	"Url": "meow_Url_IjcqKG"
++	"Button": "meow_Button_GeKwma",
++	"Form": "meow_Form_GeKwma",
++	"Input": "meow_Input_GeKwma",
++	"Popup": "meow_Popup_GeKwma",
++	"Positioner": "meow_Positioner_GeKwma",
++	"Row": "meow_Row_GeKwma",
++	"SrOnly": "meow_SrOnly_GeKwma",
++	"Url": "meow_Url_GeKwma"
+ };
+ 
+ //#endregion
+@@ -538,6 +654,7 @@ function LinkPopover({ anchor, onClose, onPopupHover, children }) {
+ }
+ /** The hover preview: the url plus copy, edit, and remove actions. */
+ function LinkInfoContent({ href, onLinkClick, onLinkCopy, onEdit, onRemove }) {
++	const messages = useEditorMessages();
+ 	return /* @__PURE__ */ jsxs("div", {
+ 		className: link_menu_module_default.Row,
+ 		"data-testid": "link-popover-read",
+@@ -560,23 +677,23 @@ function LinkInfoContent({ href, onLinkClick, onLinkCopy, onEdit, onRemove }) {
+ 			}),
+ 			/* @__PURE__ */ jsx(CopyButton, {
+ 				getText: () => href,
+-				label: "Copy link",
++				label: messages.link.copy,
+ 				className: link_menu_module_default.Button,
+ 				onCopy: () => onLinkCopy?.({ href })
+ 			}),
+ 			/* @__PURE__ */ jsx("button", {
+ 				type: "button",
+ 				className: link_menu_module_default.Button,
+-				title: "Edit link",
+-				"aria-label": "Edit link",
++				title: messages.link.edit,
++				"aria-label": messages.link.edit,
+ 				onClick: onEdit,
+ 				children: /* @__PURE__ */ jsx(PencilIcon, {})
+ 			}),
+ 			/* @__PURE__ */ jsx("button", {
+ 				type: "button",
+ 				className: link_menu_module_default.Button,
+-				title: "Remove link",
+-				"aria-label": "Remove link",
++				title: messages.link.remove,
++				"aria-label": messages.link.remove,
+ 				onClick: onRemove,
+ 				children: /* @__PURE__ */ jsx(UnlinkIcon, {})
+ 			})
+@@ -585,6 +702,7 @@ function LinkInfoContent({ href, onLinkClick, onLinkCopy, onEdit, onRemove }) {
+ }
+ /** The url and title form, opened by `Mod-k` or the preview's edit button. */
+ function LinkEditContent({ link, onSubmit }) {
++	const messages = useEditorMessages();
+ 	const hrefInputRef = useRef(null);
+ 	const titleInputRef = useRef(null);
+ 	const href = link ? link.href : "";
+@@ -604,20 +722,20 @@ function LinkEditContent({ link, onSubmit }) {
+ 				ref: hrefInputRef,
+ 				className: link_menu_module_default.Input,
+ 				defaultValue: href,
+-				placeholder: "Paste link...",
++				placeholder: messages.link.paste,
+ 				"data-testid": "link-popover-input"
+ 			}),
+ 			/* @__PURE__ */ jsx("input", {
+ 				ref: titleInputRef,
+ 				className: link_menu_module_default.Input,
+ 				defaultValue: title,
+-				placeholder: "Title (optional)"
++				placeholder: messages.link.titleOptional
+ 			}),
+ 			/* @__PURE__ */ jsx("button", {
+ 				type: "submit",
+ 				className: link_menu_module_default.SrOnly,
+ 				"data-testid": "link-popover-submit",
+-				children: "Save"
++				children: messages.link.save
+ 			})
+ 		]
+ 	});
+@@ -731,14 +849,14 @@ function LinkMenu({ onLinkClick, onLinkCopy }) {
+ //#endregion
+ //#region src/components/pending-replacement-preview.module.css
+ var pending_replacement_preview_module_default = {
+-	"AcceptButton": "meow_AcceptButton_DPJ5ia",
+-	"Button": "meow_Button_DPJ5ia",
+-	"Footer": "meow_Footer_DPJ5ia",
+-	"Popup": "meow_Popup_DPJ5ia",
+-	"Positioner": "meow_Positioner_DPJ5ia",
+-	"Spacer": "meow_Spacer_DPJ5ia",
+-	"Text": "meow_Text_DPJ5ia",
+-	"Waiting": "meow_Waiting_DPJ5ia"
++	"AcceptButton": "meow_AcceptButton_qXTJUW",
++	"Button": "meow_Button_qXTJUW",
++	"Footer": "meow_Footer_qXTJUW",
++	"Popup": "meow_Popup_qXTJUW",
++	"Positioner": "meow_Positioner_qXTJUW",
++	"Spacer": "meow_Spacer_qXTJUW",
++	"Text": "meow_Text_qXTJUW",
++	"Waiting": "meow_Waiting_qXTJUW"
+ };
+ 
+ //#endregion
+@@ -767,6 +885,7 @@ function closestScrollable(element) {
+ * document is only touched on accept.
+ */
+ function PendingReplacementPreview({ actions, onResolve }) {
++	const messages = useEditorMessages();
+ 	const editor = useEditor$1();
+ 	const [pending, setPending] = useState(null);
+ 	useExtension$1(useMemo(() => {
+@@ -836,7 +955,7 @@ function PendingReplacementPreview({ actions, onResolve }) {
+ 					"data-testid": "pending-replacement-text",
+ 					children: pending.text || /* @__PURE__ */ jsx("span", {
+ 						className: pending_replacement_preview_module_default.Waiting,
+-						children: "Waiting for text..."
++						children: messages.pendingReplacement.waitingForText
+ 					})
+ 				}), /* @__PURE__ */ jsxs("div", {
+ 					className: pending_replacement_preview_module_default.Footer,
+@@ -848,7 +967,7 @@ function PendingReplacementPreview({ actions, onResolve }) {
+ 							className: pending_replacement_preview_module_default.Button,
+ 							"data-testid": "pending-replacement-discard",
+ 							onClick: discard,
+-							children: "Discard"
++							children: messages.pendingReplacement.discard
+ 						}),
+ 						/* @__PURE__ */ jsx("button", {
+ 							type: "button",
+@@ -856,7 +975,7 @@ function PendingReplacementPreview({ actions, onResolve }) {
+ 							"data-testid": "pending-replacement-accept",
+ 							disabled: !pending.text.trim(),
+ 							onClick: accept,
+-							children: pending.mode === "replace" ? "Replace selection" : "Insert below"
++							children: pending.mode === "replace" ? messages.pendingReplacement.replaceSelection : messages.pendingReplacement.insertBelow
+ 						})
+ 					]
+ 				})]
+@@ -868,17 +987,17 @@ function PendingReplacementPreview({ actions, onResolve }) {
+ //#endregion
+ //#region src/components/selection-menu.module.css
+ var selection_menu_module_default = {
+-	"AffordanceButton": "meow_AffordanceButton_2_4Zjq",
+-	"AffordancePopup": "meow_AffordancePopup_2_4Zjq",
+-	"AffordancePositioner": "meow_AffordancePositioner_2_4Zjq",
+-	"Detail": "meow_Detail_2_4Zjq",
+-	"Empty": "meow_Empty_2_4Zjq",
+-	"Input": "meow_Input_2_4Zjq",
+-	"Item": "meow_Item_2_4Zjq",
+-	"Label": "meow_Label_2_4Zjq",
+-	"List": "meow_List_2_4Zjq",
+-	"Popup": "meow_Popup_2_4Zjq",
+-	"Positioner": "meow_Positioner_2_4Zjq"
++	"AffordanceButton": "meow_AffordanceButton_eUl9EG",
++	"AffordancePopup": "meow_AffordancePopup_eUl9EG",
++	"AffordancePositioner": "meow_AffordancePositioner_eUl9EG",
++	"Detail": "meow_Detail_eUl9EG",
++	"Empty": "meow_Empty_eUl9EG",
++	"Input": "meow_Input_eUl9EG",
++	"Item": "meow_Item_eUl9EG",
++	"Label": "meow_Label_eUl9EG",
++	"List": "meow_List_eUl9EG",
++	"Popup": "meow_Popup_eUl9EG",
++	"Positioner": "meow_Positioner_eUl9EG"
+ };
+ 
+ //#endregion
+@@ -890,6 +1009,7 @@ var selection_menu_module_default = {
+ * floating button that appears on a non-empty selection.
+ */
+ function SelectionMenu({ onSelectionMenuSearch, context, onOpen, onClose, affordance = true }) {
++	const messages = useEditorMessages();
+ 	const editor = useEditor$1();
+ 	const [selection, setSelection] = useState();
+ 	useExtension$1(useMemo(() => {
+@@ -968,8 +1088,8 @@ function SelectionMenu({ onSelectionMenuSearch, context, onOpen, onClose, afford
+ 				children: /* @__PURE__ */ jsx("button", {
+ 					type: "button",
+ 					className: selection_menu_module_default.AffordanceButton,
+-					title: "Selection commands",
+-					"aria-label": "Selection commands",
++					title: messages.selectionMenu.commands,
++					"aria-label": messages.selectionMenu.commands,
+ 					onPointerDown: (event) => event.preventDefault(),
+ 					onClick: onOpen,
+ 					children: /* @__PURE__ */ jsx(SparklesIcon, {})
+@@ -982,6 +1102,7 @@ function SelectionMenu({ onSelectionMenuSearch, context, onOpen, onClose, afford
+ /** The menu content. Mounted only while the menu is open, so its filter state
+ *  resets naturally on close. */
+ function SelectionMenuPopup({ onSelectionMenuSearch, context, onClose }) {
++	const messages = useEditorMessages();
+ 	const [query, setQuery] = useState("");
+ 	const [items, setItems] = useState([]);
+ 	const [loading, setLoading] = useState(false);
+@@ -1025,7 +1146,7 @@ function SelectionMenuPopup({ onSelectionMenuSearch, context, onClose }) {
+ 		autoFocus: true,
+ 		className: selection_menu_module_default.Input,
+ 		value: query,
+-		placeholder: "Filter commands...",
++		placeholder: messages.selectionMenu.filterCommands,
+ 		"data-testid": "selection-menu-input",
+ 		onChange: (event) => setQuery(event.target.value),
+ 		onKeyDown: onInputKeyDown
+@@ -1049,7 +1170,7 @@ function SelectionMenuPopup({ onSelectionMenuSearch, context, onClose }) {
+ 			}) : null]
+ 		}, item.id)), items.length === 0 ? /* @__PURE__ */ jsx("div", {
+ 			className: selection_menu_module_default.Empty,
+-			children: loading ? "Loading..." : "No commands"
++			children: loading ? messages.selectionMenu.loading : messages.selectionMenu.noCommands
+ 		}) : null]
+ 	})] });
+ }
+@@ -1074,11 +1195,11 @@ function formatTime24(date) {
+ //#endregion
+ //#region src/components/autocomplete-menu.module.css
+ var autocomplete_menu_module_default = {
+-	"Detail": "meow_Detail_Dqll0G",
+-	"Item": "meow_Item_Dqll0G",
+-	"Label": "meow_Label_Dqll0G",
+-	"Popup": "meow_Popup_Dqll0G",
+-	"Positioner": "meow_Positioner_Dqll0G"
++	"Detail": "meow_Detail__IYXjG",
++	"Item": "meow_Item__IYXjG",
++	"Label": "meow_Label__IYXjG",
++	"Popup": "meow_Popup__IYXjG",
++	"Positioner": "meow_Positioner__IYXjG"
+ };
+ 
+ //#endregion
+@@ -1109,6 +1230,7 @@ function selectionInTableCell(editor) {
+ 	return isSelectionInTableCell(editor.state);
+ }
+ function SlashMenu({ timeFormat = "12", onSlashMenuSearch, onFilePaste, onFileSaveError }) {
++	const messages = useEditorMessages();
+ 	const editor = useEditor$1();
+ 	const fileInputRef = useRef(null);
+ 	const inTableCell = useEditorDerivedValue(selectionInTableCell);
+@@ -1178,68 +1300,68 @@ function SlashMenu({ timeFormat = "12", onSlashMenuSearch, onFilePaste, onFileSa
+ 				children: [
+ 					!inTableCell && /* @__PURE__ */ jsxs(Fragment$1, { children: [
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Text",
++							label: messages.slashMenu.text,
+ 							keywords: ["paragraph", "plain"],
+ 							onSelect: () => editor.commands.turnIntoText()
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Heading 1",
++							label: messages.slashMenu.heading1,
+ 							kbd: "#",
+ 							onSelect: () => editor.commands.setHeading({ level: 1 })
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Heading 2",
++							label: messages.slashMenu.heading2,
+ 							kbd: "##",
+ 							onSelect: () => editor.commands.setHeading({ level: 2 })
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Heading 3",
++							label: messages.slashMenu.heading3,
+ 							kbd: "###",
+ 							onSelect: () => editor.commands.setHeading({ level: 3 })
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Heading 4",
++							label: messages.slashMenu.heading4,
+ 							kbd: "####",
+ 							onSelect: () => editor.commands.setHeading({ level: 4 })
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Blockquote",
++							label: messages.slashMenu.blockquote,
+ 							kbd: ">",
+ 							onSelect: () => editor.commands.setBlockquote()
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Bullet list",
++							label: messages.slashMenu.bulletList,
+ 							kbd: "-",
+ 							onSelect: () => editor.commands.wrapInList({ kind: "bullet" })
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Ordered list",
++							label: messages.slashMenu.orderedList,
+ 							kbd: "1.",
+ 							onSelect: () => editor.commands.wrapInList({ kind: "ordered" })
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Task list",
++							label: messages.slashMenu.taskList,
+ 							kbd: "+ [ ] ",
+ 							onSelect: () => editor.commands.wrapInCircleTask()
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Checkbox list",
++							label: messages.slashMenu.checkboxList,
+ 							kbd: "- [ ] ",
+ 							onSelect: () => editor.commands.wrapInSquareTask()
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Code block",
++							label: messages.slashMenu.codeBlock,
+ 							kbd: "```",
+ 							onSelect: () => editor.commands.setCodeBlock()
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Math",
++							label: messages.slashMenu.math,
+ 							keywords: ["latex"],
+ 							kbd: "```math",
+ 							onSelect: () => editor.commands.insertMarkdown("```math\n```")
+ 						}),
+ 						/* @__PURE__ */ jsx(SlashMenuItem, {
+-							label: "Table",
++							label: messages.slashMenu.table,
+ 							onSelect: () => editor.commands.insertTable({
+ 								row: 3,
+ 								col: 3,
+@@ -1248,11 +1370,11 @@ function SlashMenu({ timeFormat = "12", onSlashMenuSearch, onFilePaste, onFileSa
+ 						})
+ 					] }),
+ 					/* @__PURE__ */ jsx(SlashMenuItem, {
+-						label: "Now",
++						label: messages.slashMenu.now,
+ 						onSelect: () => editor.commands.insertText({ text: formatNowTime(timeFormat) })
+ 					}),
+ 					onFilePaste ? /* @__PURE__ */ jsx(SlashMenuItem, {
+-						label: "Attach file",
++						label: messages.slashMenu.attachFile,
+ 						keywords: [
+ 							"attachment",
+ 							"file",
+@@ -1268,7 +1390,7 @@ function SlashMenu({ timeFormat = "12", onSlashMenuSearch, onFilePaste, onFileSa
+ 					}, item.id ?? item.label)),
+ 					/* @__PURE__ */ jsx(AutocompleteEmpty, {
+ 						className: autocomplete_menu_module_default.Item,
+-						children: "No results"
++						children: messages.slashMenu.noResults
+ 					})
+ 				]
+ 			})
+@@ -1279,13 +1401,13 @@ function SlashMenu({ timeFormat = "12", onSlashMenuSearch, onFilePaste, onFileSa
+ //#endregion
+ //#region src/components/table-handle.module.css
+ var table_handle_module_default = {
+-	"ColumnPopup": "meow_ColumnPopup_hpZLgq",
+-	"MenuItem": "meow_MenuItem_hpZLgq",
+-	"MenuPopup": "meow_MenuPopup_hpZLgq",
+-	"MenuPositioner": "meow_MenuPositioner_hpZLgq",
+-	"Positioner": "meow_Positioner_hpZLgq",
+-	"RowPopup": "meow_RowPopup_hpZLgq",
+-	"Trigger": "meow_Trigger_hpZLgq"
++	"ColumnPopup": "meow_ColumnPopup_Mmmmfa",
++	"MenuItem": "meow_MenuItem_Mmmmfa",
++	"MenuPopup": "meow_MenuPopup_Mmmmfa",
++	"MenuPositioner": "meow_MenuPositioner_Mmmmfa",
++	"Positioner": "meow_Positioner_Mmmmfa",
++	"RowPopup": "meow_RowPopup_Mmmmfa",
++	"Trigger": "meow_Trigger_Mmmmfa"
+ };
+ 
+ //#endregion
+@@ -1333,22 +1455,24 @@ function getTableHandleState(editor) {
+ 		}
+ 	};
+ }
+-const COLUMN_ALIGN_LABELS = {
+-	left: "Align Left",
+-	center: "Align Center",
+-	right: "Align Right"
+-};
+ function ColumnAlignMenuItem({ align, columnAlign, onSelect }) {
++	const messages = useEditorMessages();
+ 	const active = columnAlign === align;
++	const label = {
++		left: messages.table.alignLeft,
++		center: messages.table.alignCenter,
++		right: messages.table.alignRight
++	}[align];
+ 	return /* @__PURE__ */ jsxs(MenuItem, {
+ 		className: table_handle_module_default.MenuItem,
+ 		"data-testid": `table-align-${align}`,
+ 		"data-active": active ? "" : void 0,
+ 		onSelect,
+-		children: [/* @__PURE__ */ jsx("span", { children: COLUMN_ALIGN_LABELS[align] }), active && /* @__PURE__ */ jsx(CheckIcon, {})]
++		children: [/* @__PURE__ */ jsx("span", { children: label }), active && /* @__PURE__ */ jsx(CheckIcon, {})]
+ 	});
+ }
+ function TableHandle() {
++	const messages = useEditorMessages();
+ 	const state = useEditorDerivedValue(getTableHandleState);
+ 	return /* @__PURE__ */ jsxs(TableHandleRoot, { children: [
+ 		/* @__PURE__ */ jsx(TableHandleDragPreview, {}),
+@@ -1371,13 +1495,13 @@ function TableHandle() {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-testid": "table-insert-left",
+ 								onSelect: state.addTableColumnBefore.command,
+-								children: /* @__PURE__ */ jsx("span", { children: "Insert Left" })
++								children: /* @__PURE__ */ jsx("span", { children: messages.table.insertLeft })
+ 							}),
+ 							state.addTableColumnAfter.canExec && /* @__PURE__ */ jsx(MenuItem, {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-testid": "table-insert-right",
+ 								onSelect: state.addTableColumnAfter.command,
+-								children: /* @__PURE__ */ jsx("span", { children: "Insert Right" })
++								children: /* @__PURE__ */ jsx("span", { children: messages.table.insertRight })
+ 							}),
+ 							state.setTableColumnAlign.canExec && /* @__PURE__ */ jsxs(Fragment$1, { children: [
+ 								/* @__PURE__ */ jsx(ColumnAlignMenuItem, {
+@@ -1400,20 +1524,20 @@ function TableHandle() {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-testid": "table-clear-column",
+ 								onSelect: state.deleteCellSelection.command,
+-								children: [/* @__PURE__ */ jsx("span", { children: "Clear Contents" }), /* @__PURE__ */ jsx("kbd", { children: "Del" })]
++								children: [/* @__PURE__ */ jsx("span", { children: messages.table.clearContents }), /* @__PURE__ */ jsx("kbd", { children: "Del" })]
+ 							}),
+ 							state.deleteTableColumn.canExec && /* @__PURE__ */ jsx(MenuItem, {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-testid": "table-delete-column",
+ 								onSelect: state.deleteTableColumn.command,
+-								children: /* @__PURE__ */ jsx("span", { children: "Delete Column" })
++								children: /* @__PURE__ */ jsx("span", { children: messages.table.deleteColumn })
+ 							}),
+ 							state.deleteTable.canExec && /* @__PURE__ */ jsx(MenuItem, {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-danger": "",
+ 								"data-testid": "table-delete-table-column",
+ 								onSelect: state.deleteTable.command,
+-								children: /* @__PURE__ */ jsx("span", { children: "Delete Table" })
++								children: /* @__PURE__ */ jsx("span", { children: messages.table.deleteTable })
+ 							})
+ 						]
+ 					})
+@@ -1439,32 +1563,32 @@ function TableHandle() {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-testid": "table-insert-above",
+ 								onSelect: state.addTableRowAbove.command,
+-								children: /* @__PURE__ */ jsx("span", { children: "Insert Above" })
++								children: /* @__PURE__ */ jsx("span", { children: messages.table.insertAbove })
+ 							}),
+ 							state.addTableRowBelow.canExec && /* @__PURE__ */ jsx(MenuItem, {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-testid": "table-insert-below",
+ 								onSelect: state.addTableRowBelow.command,
+-								children: /* @__PURE__ */ jsx("span", { children: "Insert Below" })
++								children: /* @__PURE__ */ jsx("span", { children: messages.table.insertBelow })
+ 							}),
+ 							state.deleteCellSelection.canExec && /* @__PURE__ */ jsxs(MenuItem, {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-testid": "table-clear-row",
+ 								onSelect: state.deleteCellSelection.command,
+-								children: [/* @__PURE__ */ jsx("span", { children: "Clear Contents" }), /* @__PURE__ */ jsx("kbd", { children: "Del" })]
++								children: [/* @__PURE__ */ jsx("span", { children: messages.table.clearContents }), /* @__PURE__ */ jsx("kbd", { children: "Del" })]
+ 							}),
+ 							state.deleteTableRow.canExec && /* @__PURE__ */ jsx(MenuItem, {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-testid": "table-delete-row",
+ 								onSelect: state.deleteTableRow.command,
+-								children: /* @__PURE__ */ jsx("span", { children: "Delete Row" })
++								children: /* @__PURE__ */ jsx("span", { children: messages.table.deleteRow })
+ 							}),
+ 							state.deleteTable.canExec && /* @__PURE__ */ jsx(MenuItem, {
+ 								className: table_handle_module_default.MenuItem,
+ 								"data-danger": "",
+ 								"data-testid": "table-delete-table-row",
+ 								onSelect: state.deleteTable.command,
+-								children: /* @__PURE__ */ jsx("span", { children: "Delete Table" })
++								children: /* @__PURE__ */ jsx("span", { children: messages.table.deleteTable })
+ 							})
+ 						]
+ 					})
+@@ -1484,6 +1608,7 @@ function returnsTrue() {
+ //#region src/components/tag-menu.tsx
+ const regex$1 = new RegExp((canUseRegexLookbehind() ? String.raw`(?<!\S)` : "") + String.raw`#[\da-z]+$`, "iu");
+ function TagMenu({ onTagSearch }) {
++	const messages = useEditorMessages();
+ 	const editor = useEditor$1();
+ 	const [open, setOpen] = useState(false);
+ 	const [query, setQuery] = useState("");
+@@ -1536,7 +1661,7 @@ function TagMenu({ onTagSearch }) {
+ 					}) : null]
+ 				}, item.tag)), /* @__PURE__ */ jsx(AutocompleteEmpty, {
+ 					className: autocomplete_menu_module_default.Item,
+-					children: loading ? "Loading..." : "No tags found"
++					children: loading ? messages.tagMenu.loading : messages.tagMenu.noTags
+ 				})]
+ 			})
+ 		})
+@@ -1550,6 +1675,7 @@ function queryFromRegexMatch(match) {
+ 	return match[0].replace(/^(?:\[\[|@)/, "").trim();
+ }
+ function WikilinkMenu({ onWikilinkSearch }) {
++	const messages = useEditorMessages();
+ 	const editor = useEditor$1();
+ 	const [open, setOpen] = useState(false);
+ 	const [query, setQuery] = useState("");
+@@ -1604,7 +1730,7 @@ function WikilinkMenu({ onWikilinkSearch }) {
+ 					}) : null]
+ 				}, item.target)), /* @__PURE__ */ jsx(AutocompleteEmpty, {
+ 					className: autocomplete_menu_module_default.Item,
+-					children: loading ? "Loading..." : "No notes found"
++					children: loading ? messages.wikilinkMenu.loading : messages.wikilinkMenu.noNotes
+ 				})]
+ 			})
+ 		})
+@@ -1669,11 +1795,17 @@ function findHeadingPosition(doc, fragment) {
+ 	return match;
+ }
+ function ProseKitEditor({ markMode = "focus", initialMarkdown, onDocChange, onSlashMenuSearch, onTagSearch, onWikilinkSearch, onSelectionMenuSearch, selectionMenuAffordance = true, pendingReplacementActions, onPendingReplacementResolve, onWikilinkClick, onLinkClick, onLinkCopy, onTagClick, onExitBoundary, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onFileClick, onFilePaste, onFileSaveError, onImageClick, embedPaste, linkPaste, bulletAfterHeading, substitution = true, frontmatter = false, blockHandle = true, placeholder, readOnly, spellCheck, timeFormat, editorClassName, ref, children }) {
++	const messages = useEditorMessages();
++	const messagesRef = useRef(messages);
++	const resolveEmbedTitle = useCallback((embed) => {
++		return embed.kind === "tweet" ? messagesRef.current.embed.tweet : messagesRef.current.embed.youtubeVideo;
++	}, []);
+ 	const [editor] = useState(() => {
+ 		const editor = createEditor({ extension: union(defineEditorExtension({
+ 			resolveFileLink,
+ 			resolveWikiEmbed,
+-			markMode
++			markMode,
++			formatMathError: (message) => messagesRef.current.math.renderError(message)
+ 		}), defineCodeBlockView()) });
+ 		if (initialMarkdown) editor.setContent(markdownToDoc(initialMarkdown, {
+ 			nodes: editor.nodes,
+@@ -1684,6 +1816,31 @@ function ProseKitEditor({ markMode = "focus", initialMarkdown, onDocChange, onSl
+ 	const suppressDocChangeRef = useRef(false);
+ 	const [selectionMenuContext, setSelectionMenuContext] = useState();
+ 	const hasSelectionMenu = !!onSelectionMenuSearch;
++	const refreshMarkdownRendering = useCallback(() => {
++		flushPendingDOMChanges(editor);
++		const markdown = docToMarkdown(editor.state.doc, { frontmatter });
++		const selection = editor.state.selection.toJSON();
++		const doc = markdownToDoc(markdown, {
++			nodes: editor.nodes,
++			frontmatter
++		});
++		const transaction = editor.state.tr.replaceWith(0, editor.state.doc.content.size, doc.content);
++		transaction.setSelection(resolveSelection(transaction.doc, selection));
++		transaction.setMeta("addToHistory", false);
++		suppressDocChangeRef.current = true;
++		try {
++			editor.view.dispatch(transaction);
++		} finally {
++			suppressDocChangeRef.current = false;
++		}
++	}, [editor, frontmatter]);
++	const previousMessagesRef = useRef(messages);
++	useLayoutEffect(() => {
++		messagesRef.current = messages;
++		if (previousMessagesRef.current === messages) return;
++		previousMessagesRef.current = messages;
++		refreshMarkdownRendering();
++	}, [messages, refreshMarkdownRendering]);
+ 	const openSelectionMenu = useCallback(() => {
+ 		const { state } = editor;
+ 		const { from, to, empty } = state.selection;
+@@ -1733,10 +1890,6 @@ function ProseKitEditor({ markMode = "focus", initialMarkdown, onDocChange, onSl
+ 		function setMarkdown(markdown) {
+ 			setState(markdown);
+ 		}
+-		function refreshMarkdownRendering() {
+-			const [markdown, selection] = getState();
+-			replaceState(markdown, selection, false);
+-		}
+ 		function insertMarkdown(markdown) {
+ 			editor.commands.insertMarkdown(markdown);
+ 		}
+@@ -1799,7 +1952,8 @@ function ProseKitEditor({ markMode = "focus", initialMarkdown, onDocChange, onSl
+ 		editor,
+ 		frontmatter,
+ 		hasSelectionMenu,
+-		openSelectionMenu
++		openSelectionMenu,
++		refreshMarkdownRendering
+ 	]);
+ 	const handleDocChange = useMemo(() => {
+ 		if (!onDocChange) return;
+@@ -1823,6 +1977,7 @@ function ProseKitEditor({ markMode = "focus", initialMarkdown, onDocChange, onSl
+ 				onTagClick,
+ 				onExitBoundary,
+ 				resolveImageUrl,
++				resolveEmbedTitle,
+ 				resolveFileInfo,
+ 				onFileClick,
+ 				onFilePaste,
+@@ -1871,7 +2026,7 @@ function ProseKitEditor({ markMode = "focus", initialMarkdown, onDocChange, onSl
+ //#endregion
+ //#region src/components/editor.tsx
+ const CARET_GLIDE_OFF = { "--meowdown-caret-glide": "0ms" };
+-function MeowdownEditor({ mode = "focus", initialMarkdown, onDocChange, onSlashMenuSearch, onTagSearch, onWikilinkSearch, onSelectionMenuSearch, selectionMenuAffordance = true, pendingReplacementActions, onPendingReplacementResolve, onWikilinkClick, onLinkClick, onLinkCopy, onTagClick, onExitBoundary, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onFileClick, onFilePaste, onFileSaveError, onImageClick, embedPaste = true, linkPaste = true, bulletAfterHeading = false, substitution = true, frontmatter = false, blockHandle = true, caretGlide = true, placeholder, readOnly, spellCheck, timeFormat, editorClassName, wrapperClassName, handleRef, children }) {
++function MeowdownEditor({ mode = "focus", initialMarkdown, onDocChange, onSlashMenuSearch, onTagSearch, onWikilinkSearch, onSelectionMenuSearch, selectionMenuAffordance = true, pendingReplacementActions, onPendingReplacementResolve, onWikilinkClick, onLinkClick, onLinkCopy, onTagClick, onExitBoundary, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onFileClick, onFilePaste, onFileSaveError, onImageClick, embedPaste = true, linkPaste = true, bulletAfterHeading = false, substitution = true, frontmatter = false, blockHandle = true, caretGlide = true, placeholder, readOnly, spellCheck, timeFormat, messages, editorClassName, wrapperClassName, handleRef, children }) {
+ 	const childRef = useRef(null);
+ 	useImperativeHandle(handleRef, () => {
+ 		function getMarkdown() {
+@@ -1956,46 +2111,49 @@ function MeowdownEditor({ mode = "focus", initialMarkdown, onDocChange, onSlashM
+ 			}
+ 		};
+ 	}, []);
+-	return /* @__PURE__ */ jsx("div", {
+-		className: clsx("meowdown", wrapperClassName),
+-		style: caretGlide ? void 0 : CARET_GLIDE_OFF,
+-		children: /* @__PURE__ */ jsx(ProseKitEditor, {
+-			ref: childRef,
+-			markMode: mode,
+-			initialMarkdown,
+-			onDocChange,
+-			onSlashMenuSearch,
+-			onTagSearch,
+-			onWikilinkSearch,
+-			onSelectionMenuSearch,
+-			selectionMenuAffordance,
+-			pendingReplacementActions,
+-			onPendingReplacementResolve,
+-			onWikilinkClick,
+-			onLinkClick,
+-			onLinkCopy,
+-			onTagClick,
+-			onExitBoundary,
+-			resolveImageUrl,
+-			resolveFileLink,
+-			resolveWikiEmbed,
+-			resolveFileInfo,
+-			onFileClick,
+-			onFilePaste,
+-			onFileSaveError,
+-			onImageClick,
+-			embedPaste,
+-			linkPaste,
+-			bulletAfterHeading,
+-			substitution,
+-			frontmatter,
+-			blockHandle,
+-			placeholder,
+-			readOnly,
+-			spellCheck,
+-			timeFormat,
+-			editorClassName,
+-			children
++	return /* @__PURE__ */ jsx(EditorMessagesProvider, {
++		messages,
++		children: /* @__PURE__ */ jsx("div", {
++			className: clsx("meowdown", wrapperClassName),
++			style: caretGlide ? void 0 : CARET_GLIDE_OFF,
++			children: /* @__PURE__ */ jsx(ProseKitEditor, {
++				ref: childRef,
++				markMode: mode,
++				initialMarkdown,
++				onDocChange,
++				onSlashMenuSearch,
++				onTagSearch,
++				onWikilinkSearch,
++				onSelectionMenuSearch,
++				selectionMenuAffordance,
++				pendingReplacementActions,
++				onPendingReplacementResolve,
++				onWikilinkClick,
++				onLinkClick,
++				onLinkCopy,
++				onTagClick,
++				onExitBoundary,
++				resolveImageUrl,
++				resolveFileLink,
++				resolveWikiEmbed,
++				resolveFileInfo,
++				onFileClick,
++				onFilePaste,
++				onFileSaveError,
++				onImageClick,
++				embedPaste,
++				linkPaste,
++				bulletAfterHeading,
++				substitution,
++				frontmatter,
++				blockHandle,
++				placeholder,
++				readOnly,
++				spellCheck,
++				timeFormat,
++				editorClassName,
++				children
++			})
+ 		})
+ 	});
+ }
+@@ -2127,6 +2285,7 @@ function WikilinkChip(props) {
+ 	});
+ }
+ function EmbedFrame({ embed }) {
++	const messages = useEditorMessages();
+ 	const iframeRef = useRef(null);
+ 	useEffect(() => {
+ 		if (embed.kind !== "tweet") return;
+@@ -2140,7 +2299,7 @@ function EmbedFrame({ embed }) {
+ 		children: /* @__PURE__ */ jsx("iframe", {
+ 			ref: iframeRef,
+ 			src: embed.src,
+-			title: embed.title,
++			title: embed.kind === "tweet" ? messages.embed.tweet : messages.embed.youtubeVideo,
+ 			className: embed.className,
+ 			"data-testid": embed.testid,
+ 			loading: "lazy",
+@@ -2505,7 +2664,7 @@ function renderBlock(node, context) {
+ * Callbacks (`onWikilinkClick`, etc.) and resolvers should be stable; pass them via
+ * `useCallback` to avoid re-rendering the whole tree.
+ */
+-function MarkdownView({ markdown, markMode = "hide", frontmatter = false, interactive = true, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onWikilinkClick, onLinkClick, onImageClick, onFileClick, onTaskClick, className }) {
++function MarkdownView({ markdown, markMode = "hide", frontmatter = false, interactive = true, resolveImageUrl, resolveFileLink, resolveWikiEmbed, resolveFileInfo, onWikilinkClick, onLinkClick, onImageClick, onFileClick, onTaskClick, messages, className }) {
+ 	const content = useMemo(() => {
+ 		const doc = markdownToDoc(markdown, { frontmatter });
+ 		const context = {
+@@ -2537,19 +2696,22 @@ function MarkdownView({ markdown, markMode = "hide", frontmatter = false, intera
+ 		onFileClick,
+ 		onTaskClick
+ 	]);
+-	return /* @__PURE__ */ jsx("div", {
+-		className: clsx("ProseMirror", "meowdown-content", className),
+-		"data-mark-mode": markMode,
+-		children: content
++	return /* @__PURE__ */ jsx(EditorMessagesProvider, {
++		messages,
++		children: /* @__PURE__ */ jsx("div", {
++			className: clsx("ProseMirror", "meowdown-content", className),
++			"data-mark-mode": markMode,
++			children: content
++		})
+ 	});
+ }
+ 
+ //#endregion
+ //#region src/components/wikilink-hover-card.module.css
+ var wikilink_hover_card_module_default = {
+-	"Popup": "meow_Popup_HMEwgW",
+-	"Positioner": "meow_Positioner_HMEwgW",
+-	"Viewport": "meow_Viewport_HMEwgW"
++	"Popup": "meow_Popup_b-PHjG",
++	"Positioner": "meow_Positioner_b-PHjG",
++	"Viewport": "meow_Viewport_b-PHjG"
+ };
+ 
+ //#endregion
+@@ -2643,4 +2805,4 @@ function WikilinkHoverCard({ children, className }) {
+ }
+ 
+ //#endregion
+-export { MarkdownView, MeowdownEditor, WikilinkHoverCard, useEditor, useExtension, useKeymap };
+\ No newline at end of file
++export { DEFAULT_EDITOR_MESSAGES, MarkdownView, MeowdownEditor, WikilinkHoverCard, useEditor, useExtension, useKeymap };
